@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="okalit.png">
+  <title>Okalit — Documentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              pale: '#e0e4fc',
+              pastel: '#9cadf2',
+              violet: '#a876f2',
+              purple: '#8a4df2',
+              darkbg: '#0a0814',
+              darkcard: '#120f24',
+              lightbg: '#f8fafc'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['Fira Code', 'Courier New', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .code-font { font-family: 'Fira Code', monospace; }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+
+    .bg-dot-grid {
+      background-image: radial-gradient(rgba(138, 77, 242, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Sidebar active link */
+    .nav-link.active {
+      background: rgba(138, 77, 242, 0.1);
+      border-left-color: #8a4df2;
+      color: #a876f2;
+    }
+
+    /* Code blocks */
+    .code-block {
+      background: #0c091e;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .code-block pre {
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-size: 0.8rem;
+      line-height: 1.7;
+    }
+    .code-block-header {
+      background: #080516;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.7rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Prose styling */
+    .doc-prose h2 { margin-top: 3rem; margin-bottom: 1rem; }
+    .doc-prose h3 { margin-top: 2rem; margin-bottom: 0.75rem; }
+    .doc-prose p { margin-bottom: 1rem; }
+    .doc-prose ul { margin-bottom: 1rem; padding-left: 1.25rem; }
+    .doc-prose li { margin-bottom: 0.4rem; }
+    .doc-prose table { width: 100%; margin-bottom: 1.5rem; }
+    .doc-prose th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+    .doc-prose td { padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+    .doc-prose code:not(pre code) { background: rgba(138,77,242,0.1); color: #c4b5fd; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.8em; }
+
+    /* Smooth scroll offset for fixed header */
+    [id] { scroll-margin-top: 80px; }
+
+    /* Mobile sidebar */
+    @media (max-width: 1023px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+      .sidebar.open { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body class="bg-brand-darkbg text-slate-200 antialiased bg-dot-grid">
+
+  <!-- Top Navigation Bar -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-brand-darkbg/80 backdrop-blur-xl border-b border-white/5">
+    <div class="flex items-center justify-between px-4 lg:px-8 h-16">
+      <div class="flex items-center gap-4">
+        <!-- Mobile menu toggle -->
+        <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-white/5 text-slate-400">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-2.5">
+          <img class="w-10 h-10" src="./okalit.png" alt="">
+          <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-brand-violet to-brand-purple bg-clip-text text-transparent">Okalit</span>
+        </a>
+        <span class="hidden sm:inline text-xs text-slate-500 border-l border-white/10 pl-4 ml-2">Documentation</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-[10px] bg-brand-purple/10 text-brand-purple px-2 py-1 rounded font-semibold">v0.1.8</span>
+        <a href="#" class="text-slate-400 hover:text-white transition"><i class="fa-brands fa-github text-lg"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex pt-16">
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar fixed lg:sticky top-16 left-0 w-72 h-[calc(100vh-4rem)] bg-brand-darkbg/95 lg:bg-transparent border-r border-white/5 overflow-y-auto z-40 px-4 py-6 space-y-6 shrink-0">
+
+      <!-- Getting Started -->
+      <div>
+        <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-3">Getting Started</h4>
+        <nav class="space-y-0.5">
+          <a href="#introduction" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Introduction</a>
+          <a href="#installation" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Installation</a>
+          <a href="#cli" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">CLI</a>
+          <a href="#project-structure" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Project Structure</a>
+        </nav>
+      </div>
+
+      <!-- Core -->
+      <div>
+        <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-3">Core</h4>
+        <nav class="space-y-0.5">
+          <a href="#okalit-class" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Okalit Base Class</a>
+          <a href="#define-element" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">@defineElement</a>
+          <a href="#signals" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Signals & Reactivity</a>
+          <a href="#lifecycle" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Lifecycle Hooks</a>
+          <a href="#props" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Props System</a>
+        </nav>
+      </div>
+
+      <!-- Architecture -->
+      <div>
+        <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-3">Architecture</h4>
+        <nav class="space-y-0.5">
+          <a href="#mixins" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Mixins (App, Module, Page)</a>
+          <a href="#router" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Router</a>
+          <a href="#channels" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Channels (State)</a>
+          <a href="#forms" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Forms & Validation</a>
+          <a href="#i18n" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Internationalization</a>
+        </nav>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-3">Services</h4>
+        <nav class="space-y-0.5">
+          <a href="#services-overview" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Overview & DI</a>
+          <a href="#rest-service" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">REST (OkalitService)</a>
+          <a href="#graphql-service" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">GraphQL</a>
+          <a href="#websocket-service" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">WebSocket</a>
+          <a href="#grpc-service" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">gRPC</a>
+        </nav>
+      </div>
+
+      <!-- Performance -->
+      <div>
+        <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-3">Performance</h4>
+        <nav class="space-y-0.5">
+          <a href="#lazy-loading" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Lazy Loading Elements</a>
+          <a href="#utilities" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Utilities</a>
+        </nav>
+      </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 px-6 lg:px-12 xl:px-20 py-10 max-w-4xl">
+      <div class="doc-prose">
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- INTRODUCTION -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="introduction">
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Okalit Framework</h1>
+          <p class="text-lg text-slate-400 mb-8">
+            A progressive Web Components framework built on <strong class="text-slate-200">Lit</strong>, with signal-based reactivity via <strong class="text-slate-200">uhtml</strong>, modern TC39 decorators, and enterprise-grade modular architecture.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <div class="p-4 rounded-xl border border-white/5 bg-brand-darkcard">
+              <div class="text-2xl font-bold text-brand-purple mb-1">&lt; 3KB</div>
+              <div class="text-xs text-slate-400">Core overhead (gzip)</div>
+            </div>
+            <div class="p-4 rounded-xl border border-white/5 bg-brand-darkcard">
+              <div class="text-2xl font-bold text-brand-violet mb-1">0ms</div>
+              <div class="text-xs text-slate-400">Virtual DOM diffing</div>
+            </div>
+            <div class="p-4 rounded-xl border border-white/5 bg-brand-darkcard">
+              <div class="text-2xl font-bold text-indigo-500 mb-1">Native</div>
+              <div class="text-xs text-slate-400">Web Components standard</div>
+            </div>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Key Principles</h3>
+          <ul class="list-disc text-slate-400 text-sm leading-relaxed">
+            <li><strong class="text-slate-200">Signals over VDOM</strong> — Fine-grained reactivity via uhtml signals. Updates target specific DOM nodes, not entire trees.</li>
+            <li><strong class="text-slate-200">Standards-first</strong> — Built on native Custom Elements (Lit). Works in any HTML page, alongside any framework.</li>
+            <li><strong class="text-slate-200">TC39 Decorators</strong> — Clean, declarative component definitions using Stage-3 decorators.</li>
+            <li><strong class="text-slate-200">Enterprise Architecture</strong> — Opinionated App → Module → Page hierarchy with dependency injection, routing, and global state channels.</li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- INSTALLATION -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="installation">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Installation</h2>
+
+          <h3 class="text-lg font-bold text-white">CLI (Recommended)</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300">npx @okalit/cli new my-app
+cd my-app
+npm install
+npm run dev</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Manual Setup</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300">npm install @okalit/core lit uhtml</pre>
+          </div>
+
+          <p class="text-sm text-slate-400">Okalit requires a build tool that supports TC39 decorators (Stage 3). Recommended: <code>rsbuild</code>, <code>vite</code>, or <code>esbuild</code> with the decorators plugin.</p>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- CLI -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="cli">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">CLI</h2>
+          <p class="text-sm text-slate-400">The Okalit CLI scaffolds projects and generates components, modules, pages, services, and guards following the framework's conventions.</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Install globally (optional)</span></div>
+            <pre class="code-font text-slate-300">npm install -g @okalit/cli</pre>
+          </div>
+
+          <!-- ── new ── -->
+          <h3 class="text-lg font-bold text-white">Create a New Project</h3>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300"><span class="text-emerald-400">okalit</span> new my-app</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Or with npx (no global install):</p>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300">npx @okalit/cli new my-app</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-6">The CLI will prompt you interactively. It copies the template, renames the project in <code>package.json</code> and <code>index.html</code>, and outputs the next steps.</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Interactive output</span></div>
+            <pre class="code-font text-slate-300"><span class="text-emerald-400">user@local:~$</span> okalit new my-app
+
+<span class="text-slate-200">[✓] Empty Project:</span> <span class="text-cyan-400">No</span>
+
+<span class="text-blue-400">🚀 Creating project "my-app" using structure-example...</span>
+
+<span class="text-amber-300">✨ Okalit project generated successfully!</span>
+
+<span class="text-amber-400 font-bold">Next steps:</span>
+  <span class="text-cyan-400">cd</span> my-app
+  <span class="text-cyan-400">npm</span> install
+  <span class="text-cyan-400">npm</span> run dev</pre>
+          </div>
+
+          <!-- ── generate ── -->
+          <h3 class="text-lg font-bold text-white">Generate Command</h3>
+          <p class="text-sm text-slate-400 mb-4">Use <code>okalit -g</code> (or <code>okalit --generate</code>) followed by a type flag and the target path to scaffold files.</p>
+
+          <table>
+            <thead><tr><th>Flag</th><th>Alias</th><th>What it generates</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>-c</code></td><td><code>--component</code></td><td>Component (JS + stylesheet)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>-p</code></td><td><code>--page</code></td><td>Page with PageMixin (JS + stylesheet)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>-s</code></td><td><code>--service</code></td><td>REST service (OkalitService)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>--gqservice</code></td><td>—</td><td>GraphQL service (OkalitGraphqlService)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>-m</code></td><td><code>--module</code></td><td>Full module (module + routes + default page)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>--guard</code></td><td>—</td><td>Navigation guard function</td></tr>
+            </tbody>
+          </table>
+
+          <!-- Generate Component -->
+          <h3 class="text-lg font-bold text-white mt-8">Generate a Component</h3>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300"><span class="text-emerald-400">okalit</span> -g -c ./src/components/atoms/user-card</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Creates:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Generated files</span></div>
+            <pre class="code-font text-slate-300">src/components/atoms/user-card/
+├── user-card.js       <span class="text-slate-500"># Component class extending Okalit</span>
+└── user-card.scss     <span class="text-slate-500"># Empty stylesheet (scss or css auto-detected)</span></pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Generated code:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>user-card.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { Okalit, defineElement, html } <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@okalit/core"</span>;
+
+<span class="text-indigo-400">import</span> styles <span class="text-indigo-400">from</span> <span class="text-emerald-400">"./user-card.scss?inline"</span>;
+<span class="text-indigo-400">import</span> global <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@styles/global.scss?inline"</span>;
+
+<span class="text-blue-400">@defineElement</span>({
+  tag: <span class="text-emerald-400">"user-card"</span>,
+  styles: [styles, global]
+})
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">UserCard</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">Okalit</span> {
+  render() {
+    <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`
+      &lt;div class="user-card"&gt;
+        &lt;slot&gt;&lt;/slot&gt;
+      &lt;/div&gt;
+    `</span>;
+  }
+}</pre>
+          </div>
+
+          <!-- Generate Page -->
+          <h3 class="text-lg font-bold text-white">Generate a Page</h3>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300"><span class="text-emerald-400">okalit</span> -g -p ./src/modules/home/pages/settings</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Creates:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Generated files</span></div>
+            <pre class="code-font text-slate-300">src/modules/home/pages/settings/
+├── settings.js        <span class="text-slate-500"># Page class with PageMixin</span>
+└── settings.scss      <span class="text-slate-500"># Empty stylesheet</span></pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Generated code:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>settings.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { Okalit, defineElement, html, PageMixin } <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@okalit/core"</span>;
+
+<span class="text-indigo-400">import</span> styles <span class="text-indigo-400">from</span> <span class="text-emerald-400">"./settings.scss?inline"</span>;
+<span class="text-indigo-400">import</span> global <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@styles/global.scss?inline"</span>;
+
+<span class="text-blue-400">@defineElement</span>({
+  tag: <span class="text-emerald-400">"settings"</span>,
+  styles: [styles, global]
+})
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">Settings</span> <span class="text-indigo-400">extends</span> PageMixin(<span class="text-purple-300">Okalit</span>) {
+  render() {
+    <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`
+      &lt;div class="settings"&gt;
+        &lt;slot&gt;&lt;/slot&gt;
+      &lt;/div&gt;
+    `</span>;
+  }
+}</pre>
+          </div>
+
+          <!-- Generate Module -->
+          <h3 class="text-lg font-bold text-white">Generate a Module</h3>
+          <p class="text-sm text-slate-400 mb-4">Modules are the most powerful generator — they create a full feature boundary with routing.</p>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300"><span class="text-emerald-400">okalit</span> -g -m ./src/modules/billing</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Creates:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Generated structure</span></div>
+            <pre class="code-font text-slate-300">src/modules/billing/
+├── billing.module.js    <span class="text-slate-500"># ModuleMixin entry point</span>
+├── billing.routes.js    <span class="text-slate-500"># Module route definitions</span>
+└── pages/
+    ├── billing.page.js  <span class="text-slate-500"># Default page with PageMixin</span>
+    └── billing.page.scss</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Generated files:</p>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>billing.module.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { ModuleMixin, Okalit, defineElement } <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@okalit/core"</span>;
+
+<span class="text-blue-400">@defineElement</span>({ tag: <span class="text-emerald-400">"billing-module"</span> })
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">BillingModule</span> <span class="text-indigo-400">extends</span> ModuleMixin(<span class="text-purple-300">Okalit</span>) {}</pre>
+          </div>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>billing.routes.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">export default</span> [
+  {
+    path: <span class="text-emerald-400">""</span>,
+    component: <span class="text-emerald-400">"billing-page"</span>,
+    import: () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">"./pages/billing.page.js"</span>)
+  }
+];</pre>
+          </div>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>pages/billing.page.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { Okalit, defineElement, html, PageMixin, t } <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@okalit/core"</span>;
+
+<span class="text-indigo-400">import</span> styles <span class="text-indigo-400">from</span> <span class="text-emerald-400">"./billing.page.scss?inline"</span>;
+<span class="text-indigo-400">import</span> global <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@styles/global.scss?inline"</span>;
+
+<span class="text-blue-400">@defineElement</span>({
+  tag: <span class="text-emerald-400">"billing-page"</span>,
+  styles: [styles, global]
+})
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">BillingPage</span> <span class="text-indigo-400">extends</span> PageMixin(<span class="text-purple-300">Okalit</span>) {
+  render() {
+    <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`
+      &lt;main&gt;
+        &lt;h1&gt;${t("WELCOME")}&lt;/h1&gt;
+      &lt;/main&gt;
+    `</span>;
+  }
+}</pre>
+          </div>
+
+          <div class="p-4 rounded-xl border border-brand-purple/20 bg-brand-purple/5 mb-6">
+            <p class="text-sm text-brand-violet"><i class="fa-solid fa-magic-wand-sparkles mr-2"></i><strong>Auto-wiring:</strong> When generating a module, the CLI automatically imports and registers it in your <code>src/app.routes.js</code> file.</p>
+          </div>
+
+          <!-- Generate Service -->
+          <h3 class="text-lg font-bold text-white">Generate a REST Service</h3>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300"><span class="text-emerald-400">okalit</span> -g -s ./src/services/posts</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Creates <code>src/services/posts.service.js</code>:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>posts.service.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { OkalitService, service } <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@okalit/core"</span>;
+
+<span class="text-blue-400">@service</span>(<span class="text-emerald-400">"postsService"</span>)
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">PostsService</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">OkalitService</span> {
+  constructor() {
+    <span class="text-indigo-400">super</span>();
+    this.configure({
+      baseUrl: <span class="text-emerald-400">''</span>,
+      cache: <span class="text-orange-400">true</span>,
+      cacheTTL: <span class="text-orange-400">60_000</span>,
+    });
+  }
+}</pre>
+          </div>
+
+          <!-- Generate GraphQL Service -->
+          <h3 class="text-lg font-bold text-white">Generate a GraphQL Service</h3>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300"><span class="text-emerald-400">okalit</span> -g --gqservice ./src/services/users</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Creates <code>src/services/users.service.js</code>:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>users.service.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { OkalitGraphqlService, service } <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@okalit/core"</span>;
+
+<span class="text-blue-400">@service</span>(<span class="text-emerald-400">"usersService"</span>)
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">UsersService</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">OkalitGraphqlService</span> {
+  constructor() {
+    <span class="text-indigo-400">super</span>();
+    this.configure({
+      endpoint: <span class="text-emerald-400">''</span>,
+      cache: <span class="text-orange-400">true</span>,
+      cacheTTL: <span class="text-orange-400">120_000</span>,
+    });
+  }
+}</pre>
+          </div>
+
+          <!-- Generate Guard -->
+          <h3 class="text-lg font-bold text-white">Generate a Guard</h3>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300"><span class="text-emerald-400">okalit</span> -g --guard ./src/guards/auth</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-2">Creates <code>src/guards/auth.guard.js</code>:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>auth.guard.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">export async function</span> <span class="text-purple-300">authGuard</span>() {
+  <span class="text-indigo-400">return</span> <span class="text-orange-400">true</span>;
+}</pre>
+          </div>
+
+          <!-- Smart Detection -->
+          <h3 class="text-lg font-bold text-white">Smart Detection</h3>
+          <p class="text-sm text-slate-400 mb-4">The CLI automatically detects your project configuration:</p>
+          <table>
+            <thead><tr><th>Detection</th><th>How</th><th>Effect</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium">Style extension</td><td>Checks if <code>sass</code> is in dependencies</td><td>Uses <code>.scss</code> or <code>.css</code></td></tr>
+              <tr><td class="text-slate-200 font-medium">Global styles</td><td>Looks for <code>src/styles/global.scss</code></td><td>Adds <code>@styles/global.scss?inline</code> import</td></tr>
+              <tr><td class="text-slate-200 font-medium">Core alias</td><td>Always <code>@okalit/core</code></td><td>Used in all imports</td></tr>
+              <tr><td class="text-slate-200 font-medium">Project root</td><td>Walks up to find <code>package.json</code></td><td>Resolves all paths relative to root</td></tr>
+            </tbody>
+          </table>
+
+          <!-- Full CLI Reference -->
+          <h3 class="text-lg font-bold text-white mt-8">Full CLI Reference</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>okalit --help</span></div>
+            <pre class="code-font text-slate-300"><span class="text-amber-300 font-bold">Usage:</span>
+  <span class="text-emerald-400">okalit</span> new &lt;app-name&gt;
+  <span class="text-emerald-400">okalit</span> generate &lt;type&gt; &lt;path&gt;
+
+<span class="text-amber-300 font-bold">Commands:</span>
+  <span class="text-cyan-400">new</span> &lt;name&gt;                Create a new app
+
+  <span class="text-cyan-400">generate</span>, <span class="text-cyan-400">-g</span>
+    <span class="text-slate-500">-c, --component</span> &lt;path&gt; Create a component
+    <span class="text-slate-500">-p, --page</span> &lt;path&gt;      Create a page
+    <span class="text-slate-500">-s, --service</span> &lt;path&gt;   Create a service
+    <span class="text-slate-500">    --gqservice</span> &lt;path&gt; Create a GraphQL service
+    <span class="text-slate-500">-m, --module</span> &lt;path&gt;    Create a module
+    <span class="text-slate-500">    --guard</span> &lt;path&gt;     Create a guard
+
+<span class="text-amber-300 font-bold">Examples:</span>
+  <span class="text-slate-500">okalit new my-app</span>
+  <span class="text-slate-500">okalit -g -c ./src/components/user-card</span>
+  <span class="text-slate-500">okalit -g -s ./src/modules/home/services/user</span>
+  <span class="text-slate-500">okalit -g -m ./src/modules/billing</span>
+  <span class="text-slate-500">okalit -g --guard ./src/guards/auth</span></pre>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- PROJECT STRUCTURE -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="project-structure">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Project Structure</h2>
+          <p class="text-sm text-slate-400">Okalit follows an opinionated modular architecture:</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Recommended Structure</span></div>
+            <pre class="code-font text-slate-300">src/
+├── main-app.js              # App entry (AppMixin)
+├── app.routes.js            # Root route definitions
+├── channels/                # Global state channels
+│   ├── session.channel.js
+│   └── data.channel.js
+├── components/              # Shared UI components
+│   ├── atoms/               # Basic elements (button, input, badge)
+│   ├── molecules/           # Composed elements
+│   └── organisms/           # Complex UI blocks
+├── layouts/                 # Layout shells
+├── modules/                 # Feature modules
+│   ├── home/
+│   │   ├── home.module.js   # ModuleMixin entry
+│   │   ├── home.routes.js   # Module routes
+│   │   └── pages/           # Module pages (PageMixin)
+│   └── auth/
+├── services/                # API services
+│   ├── auth.service.js
+│   └── posts.service.js
+└── styles/                  # Global styles</pre>
+          </div>
+
+          <table>
+            <thead><tr><th>Layer</th><th>Mixin</th><th>Purpose</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium">App</td><td><code>AppMixin</code></td><td>Root. Initializes router, i18n, and config.</td></tr>
+              <tr><td class="text-slate-200 font-medium">Module</td><td><code>ModuleMixin</code></td><td>Feature boundary. Groups related pages.</td></tr>
+              <tr><td class="text-slate-200 font-medium">Page</td><td><code>PageMixin</code></td><td>Routed view. Accesses params and query.</td></tr>
+              <tr><td class="text-slate-200 font-medium">Component</td><td><code>Okalit</code></td><td>Reusable UI element. No routing awareness.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- OKALIT BASE CLASS -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="okalit-class">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Okalit Base Class</h2>
+          <p class="text-sm text-slate-400">All Okalit components extend the <code>Okalit</code> class, which extends Lit's <code>LitElement</code> with signal reactivity, channels, and lifecycle hooks.</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>my-component.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { <span class="text-purple-300">Okalit</span>, <span class="text-pink-400">html</span>, <span class="text-pink-400">defineElement</span> } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+<span class="text-indigo-400">import</span> styles <span class="text-indigo-400">from</span> <span class="text-emerald-400">'./my-component.scss?inline'</span>;
+
+<span class="text-blue-400">@defineElement</span>({
+  tag: <span class="text-emerald-400">'my-component'</span>,
+  styles: [styles],
+  props: [
+    { count: { type: Number, value: <span class="text-orange-400">0</span> } },
+    { label: { type: String, value: <span class="text-emerald-400">'Hello'</span> } },
+  ]
+})
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">MyComponent</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">Okalit</span> {
+  onInit() {
+    <span class="text-slate-500">// Called when component connects to DOM</span>
+  }
+
+  render() {
+    <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`
+      &lt;p&gt;${this.label.value}: ${this.count.value}&lt;/p&gt;
+      &lt;button @click=${() =&gt; this.count.value++}&gt;+1&lt;/button&gt;
+    `</span>;
+  }
+}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Key Concepts</h3>
+          <ul class="list-disc text-slate-400 text-sm leading-relaxed">
+            <li>Props are <strong class="text-slate-200">signals</strong> — access with <code>.value</code>, set with <code>.value = x</code></li>
+            <li>Rendering is wrapped in an <code>effect()</code> — signal reads inside <code>render()</code> are automatically tracked</li>
+            <li>Styles use <code>CSSStyleSheet</code> (Adopted Stylesheets) — shared across all instances of the same component</li>
+            <li>Shadow DOM is enabled by default (inherits from LitElement)</li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- @defineElement -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="define-element">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">@defineElement Decorator</h2>
+          <p class="text-sm text-slate-400">Registers your class as a Custom Element and configures its styles, props, and observed attributes.</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Signature</span></div>
+            <pre class="code-font text-slate-300">@defineElement({
+  tag: string,           <span class="text-slate-500">// Custom element tag name (must contain a dash)</span>
+  styles?: string[],     <span class="text-slate-500">// Array of CSS strings (use ?inline imports)</span>
+  props?: PropDef[],     <span class="text-slate-500">// Reactive property definitions</span>
+})</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Props Definition</h3>
+          <p class="text-sm text-slate-400">Each prop is an object with a single key (the prop name) mapping to its config:</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Props Config</span></div>
+            <pre class="code-font text-slate-300">props: [
+  { myProp: { type: String, value: 'default' } },
+  { count:  { type: Number, value: 0 } },
+  { active: { type: Boolean, value: false } },
+]</pre>
+          </div>
+
+          <table>
+            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium">type</td><td><code>String | Number | Boolean</code></td><td>Used for attribute coercion from HTML</td></tr>
+              <tr><td class="text-slate-200 font-medium">value</td><td><code>any</code></td><td>Initial default value for the signal</td></tr>
+            </tbody>
+          </table>
+
+          <p class="text-sm text-slate-400 mt-4">Prop names are automatically converted to kebab-case for HTML attributes: <code>myProp</code> → <code>my-prop</code>.</p>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- SIGNALS -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="signals">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Signals & Reactivity</h2>
+          <p class="text-sm text-slate-400">Okalit uses uhtml's signal primitives for fine-grained reactivity. Signals are the core unit of state.</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Imports</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { signal, computed, effect, batch } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">signal(initialValue)</h3>
+          <p class="text-sm text-slate-400">Creates a reactive atom. Read and write with <code>.value</code>.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Example</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">const</span> count = signal(<span class="text-orange-400">0</span>);
+console.log(count.value); <span class="text-slate-500">// 0</span>
+count.value = <span class="text-orange-400">5</span>;         <span class="text-slate-500">// triggers dependent effects/renders</span></pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">computed(fn)</h3>
+          <p class="text-sm text-slate-400">Creates a derived signal. Automatically recomputes when dependencies change.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Example</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">const</span> doubled = computed(() =&gt; count.value * <span class="text-orange-400">2</span>);
+console.log(doubled.value); <span class="text-slate-500">// 10</span></pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">effect(fn)</h3>
+          <p class="text-sm text-slate-400">Runs a side effect whenever its signal dependencies change. Returns a dispose function.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Example</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">const</span> dispose = effect(() =&gt; {
+  console.log(<span class="text-emerald-400">'Count is:'</span>, count.value);
+});
+
+<span class="text-slate-500">// Stop tracking:</span>
+dispose();</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">batch(fn)</h3>
+          <p class="text-sm text-slate-400">Groups multiple signal writes into a single notification, preventing intermediate renders.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Example</span></div>
+            <pre class="code-font text-slate-300">batch(() =&gt; {
+  name.value = <span class="text-emerald-400">'Alice'</span>;
+  age.value = <span class="text-orange-400">30</span>;
+  <span class="text-slate-500">// Only one re-render triggered after both changes</span>
+});</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Signals in Components</h3>
+          <p class="text-sm text-slate-400">Props declared in <code>@defineElement</code> are automatically wrapped in signals. The <code>render()</code> method is wrapped in an <code>effect()</code>, so any signal read inside it triggers re-render when that signal changes.</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Automatic tracking</span></div>
+            <pre class="code-font text-slate-300">render() {
+  <span class="text-slate-500">// Reading this.count.value registers this component</span>
+  <span class="text-slate-500">// as a subscriber of the count signal</span>
+  <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`&lt;p&gt;${this.count.value}&lt;/p&gt;`</span>;
+}</pre>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- LIFECYCLE -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="lifecycle">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Lifecycle Hooks</h2>
+          <p class="text-sm text-slate-400">Okalit provides clean lifecycle hooks that wrap Lit's internal callbacks:</p>
+
+          <table>
+            <thead><tr><th>Hook</th><th>When it runs</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>onInit()</code></td><td>Component connected to DOM (<code>connectedCallback</code>)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onChange(changes)</code></td><td>When any prop signal value changes. Receives <code>{ propName: { previous, current } }</code></td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onBeforeRender(changedProperties)</code></td><td>Before each render cycle (<code>willUpdate</code>)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onFirstRender(changedProperties)</code></td><td>After the very first DOM render (<code>firstUpdated</code>)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onAfterRender(changedProperties)</code></td><td>After each render cycle (<code>updated</code>)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onDestroy()</code></td><td>Component disconnected from DOM (<code>disconnectedCallback</code>)</td></tr>
+            </tbody>
+          </table>
+
+          <div class="code-block mt-6 mb-6">
+            <div class="code-block-header"><span>Example</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">export class</span> <span class="text-purple-300">UserCard</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">Okalit</span> {
+  onInit() {
+    console.log(<span class="text-emerald-400">'Component mounted'</span>);
+  }
+
+  onChange(changes) {
+    <span class="text-indigo-400">if</span> (changes.userId) {
+      console.log(<span class="text-emerald-400">'User changed from'</span>, changes.userId.previous, <span class="text-emerald-400">'to'</span>, changes.userId.current);
+    }
+  }
+
+  onDestroy() {
+    console.log(<span class="text-emerald-400">'Component unmounted'</span>);
+  }
+}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">output(name, detail)</h3>
+          <p class="text-sm text-slate-400">Utility method to dispatch a <code>CustomEvent</code> with <code>bubbles: true</code> and <code>composed: true</code>:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Emitting events</span></div>
+            <pre class="code-font text-slate-300"><span class="text-slate-500">// Inside a component method:</span>
+this.output(<span class="text-emerald-400">'on:select'</span>, { id: <span class="text-orange-400">42</span> });
+
+<span class="text-slate-500">// Parent listens:</span>
+html<span class="text-emerald-400">`&lt;child-el @on:select=${this.handleSelect}&gt;&lt;/child-el&gt;`</span></pre>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- PROPS -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="props">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Props System</h2>
+          <p class="text-sm text-slate-400">Props in Okalit are reactive signals exposed as element properties and HTML attributes.</p>
+
+          <h3 class="text-lg font-bold text-white">Defining Props</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Declaration</span></div>
+            <pre class="code-font text-slate-300">@defineElement({
+  tag: <span class="text-emerald-400">'user-avatar'</span>,
+  props: [
+    { src:  { type: String, value: <span class="text-emerald-400">''</span> } },
+    { size: { type: Number, value: <span class="text-orange-400">48</span> } },
+    { online: { type: Boolean, value: <span class="text-orange-400">false</span> } },
+  ]
+})</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Reading & Writing</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-slate-500">// Read (inside render or effect):</span>
+this.size.value   <span class="text-slate-500">// → 48</span>
+
+<span class="text-slate-500">// Write (triggers re-render):</span>
+this.size.value = <span class="text-orange-400">64</span>;
+
+<span class="text-slate-500">// From HTML attribute:</span>
+<span class="text-slate-500">// &lt;user-avatar size="96" online&gt;&lt;/user-avatar&gt;</span></pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Attribute Coercion</h3>
+          <p class="text-sm text-slate-400">When set via HTML attribute, values are automatically coerced:</p>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li><code>String</code> — used as-is</li>
+            <li><code>Number</code> — parsed with <code>Number(value)</code></li>
+            <li><code>Boolean</code> — <code>true</code> if attribute exists and is not <code>"false"</code></li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- MIXINS -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="mixins">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Mixins (App, Module, Page)</h2>
+          <p class="text-sm text-slate-400">Okalit provides three mixins that define the architectural layers of your application.</p>
+
+          <h3 class="text-lg font-bold text-white">AppMixin</h3>
+          <p class="text-sm text-slate-400">The root application component. Initializes router, i18n, and app-level config.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>main-app.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { <span class="text-purple-300">AppMixin</span>, <span class="text-purple-300">Okalit</span>, defineElement, html } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+<span class="text-indigo-400">import</span> routes <span class="text-indigo-400">from</span> <span class="text-emerald-400">'./app.routes.js'</span>;
+
+<span class="text-blue-400">@defineElement</span>({ tag: <span class="text-emerald-400">'main-app'</span> })
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">MainApp</span> <span class="text-indigo-400">extends</span> AppMixin(Okalit) {
+  <span class="text-indigo-400">static</span> config = {
+    routes,
+    modeDebug: <span class="text-orange-400">false</span>,
+    obfuscateChannels: <span class="text-orange-400">true</span>,
+    i18n: { locales: [<span class="text-emerald-400">'en'</span>, <span class="text-emerald-400">'es'</span>], default: <span class="text-emerald-400">'en'</span>, basePath: <span class="text-emerald-400">'/i18n'</span> },
+    template: (content) =&gt; html<span class="text-emerald-400">`&lt;app-layout&gt;${content}&lt;/app-layout&gt;`</span>,
+  };
+}</pre>
+          </div>
+
+          <table>
+            <thead><tr><th>Config Option</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>routes</code></td><td>Array</td><td>Root route definitions</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>modeDebug</code></td><td>Boolean</td><td>Enables channel debug logging</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>obfuscateChannels</code></td><td>Boolean</td><td>Scrambles channel data in storage</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>i18n</code></td><td>Object</td><td>i18n configuration (locales, default, basePath)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>template</code></td><td>Function</td><td>Layout wrapper for the router outlet</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">ModuleMixin</h3>
+          <p class="text-sm text-slate-400">Groups related pages under a feature boundary. Provides a nested <code>&lt;okalit-router&gt;</code> for child routes.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>home.module.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { <span class="text-purple-300">ModuleMixin</span>, <span class="text-purple-300">Okalit</span>, defineElement } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-blue-400">@defineElement</span>({ tag: <span class="text-emerald-400">'home-module'</span> })
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">HomeModule</span> <span class="text-indigo-400">extends</span> ModuleMixin(Okalit) {}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white mt-8">PageMixin</h3>
+          <p class="text-sm text-slate-400">Routed view components. Provides route params, query params, and navigation helpers.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>home.page.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { <span class="text-purple-300">PageMixin</span>, <span class="text-purple-300">Okalit</span>, defineElement, html } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-blue-400">@defineElement</span>({ tag: <span class="text-emerald-400">'home-page'</span> })
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">HomePage</span> <span class="text-indigo-400">extends</span> PageMixin(Okalit) {
+  onCacheHide() {
+    <span class="text-indigo-400">// It is called when the page is hidden and the route has the `cache` parameter set to `true`.</span>
+  }
+
+  onCacheView() {
+    <span class="text-indigo-400">// It is called when the page is displayed and the route has the `cache` parameter set to `true`.</span>
+  }
+
+  render() {
+    <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`&lt;h1&gt;Welcome home&lt;/h1&gt;`</span>;
+  }
+}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">PageMixin API</h3>
+          <table>
+            <thead><tr><th>Property / Method</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>this.routeParams</code></td><td>Current route params object (e.g. <code>{ id: '42' }</code>)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>this.queryParams</code></td><td>Current URL query params object</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>this.safeParam(name)</code></td><td>HTML-escaped route param (safe for innerHTML)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>this.safeQuery(name)</code></td><td>HTML-escaped query param</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>this.navigate(path, opts)</code></td><td>Navigate to a route</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>this.backRoute()</code></td><td>Go back in history</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- ROUTER -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="router">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Router</h2>
+          <p class="text-sm text-slate-400">Built-in SPA router with lazy loading, nested routes, dynamic params, and navigation guards.</p>
+
+          <h3 class="text-lg font-bold text-white">Route Definition</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>app.routes.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">export default</span> [
+  {
+    path: <span class="text-emerald-400">'/'</span>,
+    component: <span class="text-emerald-400">'home-module'</span>,
+    import: () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./modules/home/home.module.js'</span>),
+    children: [
+      {
+        path: <span class="text-emerald-400">''</span>,
+        component: <span class="text-emerald-400">'home-page'</span>,
+        import: () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./modules/home/pages/home.page.js'</span>),
+      },
+      {
+        path: <span class="text-emerald-400">'/users/:id'</span>,
+        component: <span class="text-emerald-400">'user-page'</span>,
+        import: () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./modules/home/pages/user.page.js'</span>),
+      },
+    ],
+  },
+  {
+    path: <span class="text-emerald-400">'/admin'</span>,
+    component: <span class="text-emerald-400">'admin-module'</span>,
+    import: () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./modules/admin/admin.module.js'</span>),
+    guards: [authGuard],
+    children: [...],
+  },
+];</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Route Config Object</h3>
+          <table>
+            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>path</code></td><td>string</td><td>URL pattern. Supports <code>:param</code> dynamic segments.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>component</code></td><td>string</td><td>Custom element tag to render</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>import</code></td><td>Function</td><td>Lazy loader (dynamic import)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>children</code></td><td>Route[]</td><td>Nested child routes</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>guards</code></td><td>Function[]</td><td>Navigation guards (run before loading)</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">Navigation Guards</h3>
+          <p class="text-sm text-slate-400">Guards are async functions that control route access. They can allow, block, or redirect.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>auth.guard.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">export function</span> <span class="text-purple-300">authGuard</span>({ path, params, route }) {
+  <span class="text-indigo-400">const</span> token = getChannel(<span class="text-emerald-400">'session:token'</span>)?.value;
+
+  <span class="text-indigo-400">if</span> (!token) <span class="text-indigo-400">return</span> <span class="text-emerald-400">'/auth/login'</span>; <span class="text-slate-500">// redirect</span>
+  <span class="text-indigo-400">return</span> <span class="text-orange-400">true</span>;                         <span class="text-slate-500">// allow</span>
+  <span class="text-slate-500">// return false;                      // block silently</span>
+}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white mt-8">Programmatic Navigation</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-slate-500">// Inside any component with PageMixin or ModuleMixin:</span>
+this.navigate(<span class="text-emerald-400">'/users/42'</span>);
+this.navigate(<span class="text-emerald-400">'/login'</span>, { replace: <span class="text-orange-400">true</span> });
+this.backRoute();
+
+<span class="text-slate-500">// From anywhere (helper function):</span>
+<span class="text-indigo-400">import</span> { navigate } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+navigate(<span class="text-emerald-400">'/dashboard'</span>);</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white mt-8">Channel Scopes & Router</h3>
+          <p class="text-sm text-slate-400">The router automatically clears scoped channels on navigation:</p>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li><code>scope: 'page'</code> — cleared when navigating to a different page</li>
+            <li><code>scope: 'module'</code> — cleared when navigating to a different module</li>
+            <li><code>scope: 'app'</code> — never cleared automatically</li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- CHANNELS -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="channels">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Channels (Global State)</h2>
+          <p class="text-sm text-slate-400">Channels provide reactive, cross-component state management without prop-drilling. They support persistence, scoping, validation, and pub/sub patterns.</p>
+
+          <h3 class="text-lg font-bold text-white">Defining a Channel</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>session.channel.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { defineChannel } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-indigo-400">export const</span> sessionToken = defineChannel(<span class="text-emerald-400">'session:token'</span>, {
+  initialValue: <span class="text-orange-400">null</span>,
+  persist: <span class="text-emerald-400">'local'</span>,     <span class="text-slate-500">// 'memory' | 'local' | 'session'</span>
+  scope: <span class="text-emerald-400">'app'</span>,         <span class="text-slate-500">// 'app' | 'module' | 'page'</span>
+});
+
+<span class="text-indigo-400">export const</span> userProfile = defineChannel(<span class="text-emerald-400">'session:user'</span>, {
+  initialValue: { name: <span class="text-emerald-400">''</span>, email: <span class="text-emerald-400">''</span>, avatar: <span class="text-emerald-400">''</span> },
+  persist: <span class="text-emerald-400">'local'</span>,
+  scope: <span class="text-emerald-400">'app'</span>,
+  validate: (value) =&gt; value &amp;&amp; <span class="text-indigo-400">typeof</span> value.email === <span class="text-emerald-400">'string'</span>,
+});
+
+<span class="text-slate-500">// Ephemeral channel (event bus, no state stored)</span>
+<span class="text-indigo-400">export const</span> toastEvent = defineChannel(<span class="text-emerald-400">'ui:toast'</span>, {
+  ephemeral: <span class="text-orange-400">true</span>,
+  scope: <span class="text-emerald-400">'app'</span>,
+});</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Channel Options</h3>
+          <table>
+            <thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>initialValue</code></td><td>—</td><td>Default value (ignored if ephemeral)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>persist</code></td><td><code>'memory'</code></td><td>Storage: <code>'memory'</code>, <code>'local'</code>, or <code>'session'</code></td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>scope</code></td><td><code>'app'</code></td><td>Auto-clear: <code>'app'</code>, <code>'module'</code>, or <code>'page'</code></td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>ephemeral</code></td><td><code>false</code></td><td>If true, acts as event bus (no persistent state)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>validate</code></td><td>—</td><td>Custom validator function for stored values</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">Using Channels in Components</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>profile.page.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { sessionToken, userProfile, toastEvent } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'../../channels/session.channel.js'</span>;
+
+<span class="text-blue-400">@defineElement</span>({ tag: <span class="text-emerald-400">'profile-page'</span> })
+<span class="text-indigo-400">export class</span> <span class="text-purple-300">ProfilePage</span> <span class="text-indigo-400">extends</span> PageMixin(Okalit) {
+  <span class="text-slate-500">// Declare channels with optional method callbacks</span>
+  <span class="text-indigo-400">static</span> channels = {
+    token: sessionToken(),                    <span class="text-slate-500">// read/write handle</span>
+    user: userProfile(<span class="text-emerald-400">'onUserChange'</span>),        <span class="text-slate-500">// + subscribe to changes</span>
+    toast: toastEvent(<span class="text-emerald-400">'onToast'</span>),             <span class="text-slate-500">// ephemeral subscription</span>
+  };
+
+  onUserChange(value) {
+    console.log(<span class="text-emerald-400">'User updated:'</span>, value);
+  }
+
+  onToast(message) {
+    <span class="text-slate-500">// Show toast notification</span>
+  }
+
+  render() {
+    <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`
+      &lt;p&gt;Hello, ${this.user.value?.name}&lt;/p&gt;
+      &lt;button @click=${() =&gt; this.user.set({ ...this.user.value, name: 'New' })}&gt;
+        Update name
+      &lt;/button&gt;
+      &lt;button @click=${() =&gt; this.toast.set('Profile saved!')}&gt;
+        Show toast
+      &lt;/button&gt;
+    `</span>;
+  }
+}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Channel Handle API</h3>
+          <table>
+            <thead><tr><th>Method</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>handle.value</code></td><td>Read current value (reactive — triggers render when read inside <code>render()</code>)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>handle.set(value)</code></td><td>Set new value (notifies all subscribers, persists if configured)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>handle.reset()</code></td><td>Reset to initialValue and clear storage</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">Reading Channels Outside Components</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>auth.guard.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { getChannel, getChannelValueStorage } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-slate-500">// Read from active channel (runtime)</span>
+<span class="text-indigo-400">const</span> token = getChannel(<span class="text-emerald-400">'session:token'</span>)?.value;
+
+<span class="text-slate-500">// Read directly from storage (before channels are initialized)</span>
+<span class="text-indigo-400">const</span> stored = getChannelValueStorage(<span class="text-emerald-400">'session:token'</span>, <span class="text-emerald-400">'local'</span>);</pre>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- FORMS -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="forms">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Forms & Validation</h2>
+          <p class="text-sm text-slate-400">Okalit includes a reactive form system with built-in validators, powered by signals.</p>
+
+          <h3 class="text-lg font-bold text-white">Creating a Form</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>login.page.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { createForm, required, email, minLength } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core/form'</span>;
+
+<span class="text-indigo-400">const</span> form = createForm({
+  fields: {
+    email:    { value: <span class="text-emerald-400">''</span>, validators: [required(), email()] },
+    password: { value: <span class="text-emerald-400">''</span>, validators: [required(), minLength(<span class="text-orange-400">8</span>)] },
+  },
+  validateOn: <span class="text-emerald-400">'blur'</span>,  <span class="text-slate-500">// 'input' | 'blur' | 'submit'</span>
+});</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Form API</h3>
+          <table>
+            <thead><tr><th>Property / Method</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>form.fields</code></td><td>Object with per-field signals: <code>{ value, error, touched, dirty }</code></td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.valid</code></td><td>Computed signal — <code>true</code> if all fields have no errors</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.dirty</code></td><td>Computed signal — <code>true</code> if any field differs from initial</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.errors</code></td><td>Computed — object of all current error messages</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.validate()</code></td><td>Validate all fields, returns <code>boolean</code></td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.validateField(name)</code></td><td>Validate a single field</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.values()</code></td><td>Get all values as plain object</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.reset()</code></td><td>Reset all fields to initial values</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.setErrors(map)</code></td><td>Set server-side errors: <code>{ email: 'Already taken' }</code></td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.handleInput(event)</code></td><td>Event handler for input changes (expects <code>detail.name</code> + <code>detail.value</code>)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.handleBlur(event)</code></td><td>Event handler for blur (expects <code>detail.name</code>)</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">Built-in Validators</h3>
+          <table>
+            <thead><tr><th>Validator</th><th>Signature</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>required</code></td><td><code>required(msg?)</code></td><td>Value must be non-empty</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>email</code></td><td><code>email(msg?)</code></td><td>Must match email format</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>minLength</code></td><td><code>minLength(n, msg?)</code></td><td>Minimum string length</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>maxLength</code></td><td><code>maxLength(n, msg?)</code></td><td>Maximum string length</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>min</code></td><td><code>min(n, msg?)</code></td><td>Minimum numeric value</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>max</code></td><td><code>max(n, msg?)</code></td><td>Maximum numeric value</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>pattern</code></td><td><code>pattern(regex, msg?)</code></td><td>Must match regex</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>match</code></td><td><code>match(getOtherValue, msg?)</code></td><td>Must equal another field's value</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">Full Form Example</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>register.page.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { createForm, required, email, minLength, match } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core/form'</span>;
+
+form = createForm({
+  fields: {
+    email:    { value: <span class="text-emerald-400">''</span>, validators: [required(), email()] },
+    password: { value: <span class="text-emerald-400">''</span>, validators: [required(), minLength(<span class="text-orange-400">8</span>)] },
+    confirm:  { value: <span class="text-emerald-400">''</span>, validators: [
+      required(),
+      match(() =&gt; this.form.fields.password.value.value, <span class="text-emerald-400">'Passwords do not match'</span>),
+    ]},
+  },
+});
+
+handleSubmit() {
+  <span class="text-indigo-400">if</span> (!this.form.validate()) <span class="text-indigo-400">return</span>;
+
+  inject(<span class="text-emerald-400">'auth'</span>).register(this.form.values()).fire({
+    onSuccess: () =&gt; this.navigate(<span class="text-emerald-400">'/home'</span>),
+    onError: (err) =&gt; this.form.setErrors(err.body),
+  });
+}
+
+render() {
+  <span class="text-indigo-400">const</span> { email, password, confirm } = this.form.fields;
+  <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`
+    &lt;input-atom name="email"
+      .value=${email.value.value}
+      .error=${email.error.value}
+      @on:change=${this.form.handleInput}
+      @on:blur=${this.form.handleBlur}&gt;&lt;/input-atom&gt;
+
+    &lt;button-atom
+      .disabled=${!this.form.valid.value}
+      @on:click=${this.handleSubmit}&gt;Register&lt;/button-atom&gt;
+  `</span>;
+}</pre>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- I18N -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="i18n">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Internationalization (i18n)</h2>
+          <p class="text-sm text-slate-400">Reactive, dictionary-driven translations. Language switching updates all components automatically without page reload.</p>
+
+          <h3 class="text-lg font-bold text-white">Setup</h3>
+          <p class="text-sm text-slate-400">Configure in your <code>AppMixin</code> static config:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>main-app.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">static</span> config = {
+  i18n: {
+    locales: [<span class="text-emerald-400">'en'</span>, <span class="text-emerald-400">'es'</span>, <span class="text-emerald-400">'fr'</span>],
+    default: <span class="text-emerald-400">'en'</span>,
+    basePath: <span class="text-emerald-400">'/i18n'</span>,  <span class="text-slate-500">// will fetch /i18n/en.json, /i18n/es.json, etc.</span>
+  },
+};</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Translation Files</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>/i18n/en.json</span></div>
+            <pre class="code-font text-slate-300">{
+  "NAV": {
+    "HOME": "Home",
+    "PROFILE": "Profile"
+  },
+  "WELCOME": "Welcome back, {{name}}!"
+}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Using <code>t()</code> in Templates</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Component usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { t } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+render() {
+  <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`
+    &lt;h1&gt;${t('WELCOME', { name: 'Alice' })}&lt;/h1&gt;
+    &lt;nav&gt;
+      &lt;a href="/"&gt;${t('NAV.HOME')}&lt;/a&gt;
+      &lt;a href="/profile"&gt;${t('NAV.PROFILE')}&lt;/a&gt;
+    &lt;/nav&gt;
+  `</span>;
+}</pre>
+          </div>
+
+          <p class="text-sm text-slate-400"><code>t()</code> is reactive — it reads internal locale signals, so any component using <code>t()</code> will re-render when the language changes.</p>
+
+          <h3 class="text-lg font-bold text-white mt-8">Switching Locale</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Language switcher</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { getI18n } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-slate-500">// Programmatic switch:</span>
+getI18n().setLocale(<span class="text-emerald-400">'es'</span>);
+
+<span class="text-slate-500">// Or from AppMixin:</span>
+this.switchLocale(<span class="text-emerald-400">'es'</span>);</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">i18n Features</h3>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li>Nested key support: <code>t('NAV.HOME')</code></li>
+            <li>Parameter interpolation: <code>t('WELCOME', { name: 'Alice' })</code> → replaces <code>{{name}}</code></li>
+            <li>Auto-detects browser locale from <code>navigator.language</code></li>
+            <li>Persists locale choice in <code>localStorage</code></li>
+            <li>Lazy-loads dictionaries on demand</li>
+            <li>Fallback to default locale if key not found</li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- SERVICES OVERVIEW -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="services-overview">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Services & Dependency Injection</h2>
+          <p class="text-sm text-slate-400">Services are singleton classes registered via the <code>@service</code> decorator and retrieved with <code>inject()</code>. They encapsulate API calls and business logic.</p>
+
+          <h3 class="text-lg font-bold text-white">The Pattern</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>auth.service.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { OkalitService, service, inject } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-blue-400">@service</span>(<span class="text-emerald-400">'auth'</span>)
+<span class="text-indigo-400">class</span> <span class="text-purple-300">AuthService</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">OkalitService</span> {
+  constructor() {
+    <span class="text-indigo-400">super</span>();
+    this.configure({
+      baseUrl: <span class="text-emerald-400">'https://api.example.com'</span>,
+    });
+  }
+
+  login(credentials) { <span class="text-indigo-400">return</span> this.post(<span class="text-emerald-400">'/auth/login'</span>, credentials); }
+  register(data)     { <span class="text-indigo-400">return</span> this.post(<span class="text-emerald-400">'/auth/register'</span>, data); }
+}
+
+<span class="text-slate-500">// Usage anywhere:</span>
+inject(<span class="text-emerald-400">'auth'</span>).login({ email, password }).fire({
+  onLoading: (v) =&gt; ...,
+  onSuccess: (data) =&gt; ...,
+  onError: (err) =&gt; ...,
+});</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">RequestControl</h3>
+          <p class="text-sm text-slate-400">All service methods return a <code>RequestControl</code> — a thenable wrapper that supports both declarative (<code>.fire()</code>) and imperative (<code>await</code>) patterns:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Two usage patterns</span></div>
+            <pre class="code-font text-slate-300"><span class="text-slate-500">// Pattern 1: Declarative with .fire()</span>
+inject(<span class="text-emerald-400">'posts'</span>).getAll().fire({
+  onLoading: (loading) =&gt; this.loading.value = loading,
+  onSuccess: (data) =&gt; this.posts.value = data,
+  onError: (err) =&gt; this.error.value = err.message,
+  onFinish: () =&gt; console.log(<span class="text-emerald-400">'done'</span>),
+});
+
+<span class="text-slate-500">// Pattern 2: Imperative with await</span>
+<span class="text-indigo-400">const</span> data = <span class="text-indigo-400">await</span> inject(<span class="text-emerald-400">'posts'</span>).getAll();</pre>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- REST SERVICE -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="rest-service">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">REST Service (OkalitService)</h2>
+          <p class="text-sm text-slate-400">Full-featured HTTP client with caching, rate limiting, retry, interceptors, and timeout.</p>
+
+          <h3 class="text-lg font-bold text-white">Configuration</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>configure() options</span></div>
+            <pre class="code-font text-slate-300">this.configure({
+  baseUrl: <span class="text-emerald-400">'https://api.example.com/v1'</span>,
+  headers: { <span class="text-emerald-400">'X-App'</span>: <span class="text-emerald-400">'my-app'</span> },
+  cache: <span class="text-orange-400">true</span>,                        <span class="text-slate-500">// enable in-memory cache for GET</span>
+  cacheTTL: <span class="text-orange-400">30000</span>,                    <span class="text-slate-500">// cache lifetime in ms (0 = forever)</span>
+  timeout: <span class="text-orange-400">10000</span>,                     <span class="text-slate-500">// request timeout in ms</span>
+  rateLimit: { maxRequests: <span class="text-orange-400">10</span>, perSeconds: <span class="text-orange-400">1</span> },
+  retry: { attempts: <span class="text-orange-400">3</span>, backoff: <span class="text-orange-400">1000</span>, factor: <span class="text-orange-400">2</span> },
+  interceptors: [...],               <span class="text-slate-500">// request interceptors</span>
+  responseInterceptors: [...],       <span class="text-slate-500">// response interceptors</span>
+});</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">HTTP Methods</h3>
+          <table>
+            <thead><tr><th>Method</th><th>Signature</th><th>Returns</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>get</code></td><td><code>get(path, params?)</code></td><td>RequestControl (cacheable)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>post</code></td><td><code>post(path, body)</code></td><td>RequestControl</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>put</code></td><td><code>put(path, body)</code></td><td>RequestControl</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>patch</code></td><td><code>patch(path, body)</code></td><td>RequestControl</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>delete</code></td><td><code>delete(path)</code></td><td>RequestControl</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>clearCache</code></td><td><code>clearCache(path?)</code></td><td>void</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">Interceptors</h3>
+          <p class="text-sm text-slate-400">Interceptors modify requests before they're sent or responses after they're received.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Bearer token interceptor</span></div>
+            <pre class="code-font text-slate-300">this.configure({
+  interceptors: [
+    ({ url, options }) =&gt; {
+      <span class="text-indigo-400">const</span> token = getChannel(<span class="text-emerald-400">'session:token'</span>)?.value;
+      <span class="text-indigo-400">if</span> (token) {
+        options.headers[<span class="text-emerald-400">'Authorization'</span>] = <span class="text-emerald-400">`Bearer ${token}`</span>;
+      }
+      <span class="text-indigo-400">return</span> { url, options };
+      <span class="text-slate-500">// return null; → cancels the request</span>
+    }
+  ],
+  responseInterceptors: [
+    ({ data, error }) =&gt; {
+      <span class="text-indigo-400">if</span> (error?.status === <span class="text-orange-400">401</span>) {
+        navigate(<span class="text-emerald-400">'/auth/login'</span>);
+      }
+      <span class="text-indigo-400">return</span> { data, error };
+    }
+  ],
+});</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white mt-8">Retry & Rate Limiting</h3>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li><strong class="text-slate-200">Retry</strong> — Only retries on HTTP 5xx errors and timeouts. Uses exponential backoff.</li>
+            <li><strong class="text-slate-200">Rate Limiting</strong> — Token bucket algorithm. Queues requests when limit is exceeded.</li>
+          </ul>
+
+          <h3 class="text-lg font-bold text-white mt-8">Error Handling</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>HttpError</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { HttpError } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-slate-500">// HttpError properties:</span>
+err.status     <span class="text-slate-500">// HTTP status code (e.g. 404)</span>
+err.statusText <span class="text-slate-500">// Status text (e.g. 'Not Found')</span>
+err.body       <span class="text-slate-500">// Parsed JSON body from server</span></pre>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- GRAPHQL SERVICE -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="graphql-service">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">GraphQL Service</h2>
+          <p class="text-sm text-slate-400">Extends <code>BaseService</code> with GraphQL-specific query/mutation methods, caching, and the <code>gql</code> template tag.</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>users.graphql.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { OkalitGraphqlService, service, gql } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-blue-400">@service</span>(<span class="text-emerald-400">'users-gql'</span>)
+<span class="text-indigo-400">class</span> <span class="text-purple-300">UsersGraphql</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">OkalitGraphqlService</span> {
+  constructor() {
+    <span class="text-indigo-400">super</span>();
+    this.configure({
+      endpoint: <span class="text-emerald-400">'https://api.example.com/graphql'</span>,
+      cache: <span class="text-orange-400">true</span>,
+      cacheTTL: <span class="text-orange-400">60000</span>,
+    });
+  }
+
+  getUser(id) {
+    <span class="text-indigo-400">return</span> this.query(gql<span class="text-emerald-400">`
+      query GetUser($id: ID!) {
+        user(id: $id) { id name email avatar }
+      }
+    `</span>, { id });
+  }
+
+  updateProfile(input) {
+    <span class="text-indigo-400">return</span> this.mutate(gql<span class="text-emerald-400">`
+      mutation UpdateProfile($input: ProfileInput!) {
+        updateProfile(input: $input) { id name }
+      }
+    `</span>, { input });
+  }
+}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">API</h3>
+          <table>
+            <thead><tr><th>Method</th><th>Signature</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>query</code></td><td><code>query(gqlString, variables?)</code></td><td>Execute a GraphQL query (cacheable)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>mutate</code></td><td><code>mutate(gqlString, variables?)</code></td><td>Execute a GraphQL mutation</td></tr>
+            </tbody>
+          </table>
+
+          <div class="p-4 rounded-xl border border-amber-500/20 bg-amber-500/5 mt-6 mb-6">
+            <p class="text-sm text-amber-300"><i class="fa-solid fa-triangle-exclamation mr-2"></i><strong>Important:</strong> Always pass dynamic values as <code>variables</code> (second argument), never interpolate user input directly into the <code>gql</code> template string. The <code>gql</code> tag is for static query structure only.</p>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- WEBSOCKET SERVICE -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="websocket-service">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">WebSocket Service</h2>
+          <p class="text-sm text-slate-400">Full-featured WebSocket client with auto-reconnect, exponential backoff, keepalive pings, and message interceptors.</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>chat.socket.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { OkalitSocketService, service } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-blue-400">@service</span>(<span class="text-emerald-400">'chat'</span>)
+<span class="text-indigo-400">class</span> <span class="text-purple-300">ChatService</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">OkalitSocketService</span> {
+  constructor() {
+    <span class="text-indigo-400">super</span>();
+    this.configure({
+      url: <span class="text-emerald-400">'wss://ws.example.com/chat'</span>,
+      reconnect: <span class="text-orange-400">true</span>,
+      reconnectInterval: <span class="text-orange-400">2000</span>,
+      reconnectMaxInterval: <span class="text-orange-400">30000</span>,
+      maxReconnectAttempts: <span class="text-orange-400">10</span>,
+      pingInterval: <span class="text-orange-400">30000</span>,
+    });
+  }
+
+  <span class="text-indigo-400">async</span> join(roomId) {
+    <span class="text-indigo-400">await</span> this.connect();
+    <span class="text-indigo-400">await</span> this.send(<span class="text-emerald-400">'join'</span>, { roomId });
+  }
+
+  sendMessage(roomId, text) {
+    this.send(<span class="text-emerald-400">'message'</span>, { roomId, text });
+  }
+
+  onNewMessage(callback) {
+    <span class="text-indigo-400">return</span> this.on(<span class="text-emerald-400">'message'</span>, callback);
+  }
+
+  leave() { this.disconnect(); }
+}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Configuration</h3>
+          <table>
+            <thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>url</code></td><td>—</td><td>WebSocket server URL (ws:// or wss://)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>protocols</code></td><td><code>[]</code></td><td>Sub-protocols</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>reconnect</code></td><td><code>true</code></td><td>Auto-reconnect on disconnect</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>reconnectInterval</code></td><td><code>1000</code></td><td>Initial reconnect delay (ms)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>reconnectMaxInterval</code></td><td><code>30000</code></td><td>Max backoff delay (ms)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>maxReconnectAttempts</code></td><td><code>Infinity</code></td><td>Max retry attempts</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>pingInterval</code></td><td><code>0</code></td><td>Keepalive ping interval (0 = disabled)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>serializer</code></td><td><code>JSON.stringify</code></td><td>Message serializer</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>deserializer</code></td><td><code>JSON.parse</code></td><td>Message deserializer</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">API</h3>
+          <table>
+            <thead><tr><th>Method</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>connect(url?)</code></td><td>Open connection. Returns Promise.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>disconnect(code?, reason?)</code></td><td>Close connection gracefully.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>send(event, payload)</code></td><td>Send structured message <code>{ event, payload }</code>.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>sendRaw(data)</code></td><td>Send raw data without event wrapper.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>on(event, callback)</code></td><td>Subscribe. Returns unsubscribe function.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>once(event, callback)</code></td><td>Subscribe once.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>off(event, callback)</code></td><td>Unsubscribe.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>state</code></td><td>Current state: <code>'CONNECTING'</code>, <code>'OPEN'</code>, <code>'CLOSING'</code>, <code>'CLOSED'</code></td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>connected</code></td><td>Boolean — whether socket is open and ready.</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">Events</h3>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li><code>'open'</code> — connection established</li>
+            <li><code>'close'</code> — connection closed</li>
+            <li><code>'error'</code> — connection error</li>
+            <li><code>'message'</code> — incoming message (deserialized)</li>
+            <li><code>'reconnecting'</code> — reconnect attempt <code>{ attempt, delay }</code></li>
+            <li><code>'reconnect_failed'</code> — max attempts reached</li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- GRPC SERVICE -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="grpc-service">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">gRPC Service</h2>
+          <p class="text-sm text-slate-400">gRPC-Web client with metadata interceptors, unary calls, and server-streaming support.</p>
+
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>users.grpc.js</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { OkalitGrpcService, service } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+<span class="text-indigo-400">import</span> { UserServiceClient } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'./proto/user_grpc_web_pb'</span>;
+<span class="text-indigo-400">import</span> { GetUserRequest } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'./proto/user_pb'</span>;
+
+<span class="text-blue-400">@service</span>(<span class="text-emerald-400">'users-grpc'</span>)
+<span class="text-indigo-400">class</span> <span class="text-purple-300">UsersGrpcService</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">OkalitGrpcService</span> {
+  constructor() {
+    <span class="text-indigo-400">super</span>();
+    this.configure({
+      host: <span class="text-emerald-400">'https://grpc.example.com'</span>,
+      metadata: { <span class="text-emerald-400">'x-app'</span>: <span class="text-emerald-400">'my-app'</span> },
+    });
+  }
+
+  getUser(id) {
+    <span class="text-indigo-400">const</span> req = <span class="text-indigo-400">new</span> GetUserRequest();
+    req.setId(id);
+    <span class="text-indigo-400">return</span> this.unary(UserServiceClient, <span class="text-emerald-400">'getUser'</span>, req);
+  }
+
+  streamUpdates(userId) {
+    <span class="text-indigo-400">const</span> req = <span class="text-indigo-400">new</span> GetUserRequest();
+    req.setId(userId);
+    <span class="text-indigo-400">return</span> this.serverStream(UserServiceClient, <span class="text-emerald-400">'watchUser'</span>, req);
+  }
+}</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">API</h3>
+          <table>
+            <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td class="text-slate-200 font-medium"><code>unary(Client, method, request, metadata?)</code></td><td>RequestControl</td><td>Single request/response RPC</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>serverStream(Client, method, request, metadata?)</code></td><td>StreamControl</td><td>Server-streaming RPC</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>setMetadata(key, value)</code></td><td>void</td><td>Update default metadata</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>removeMetadata(key)</code></td><td>void</td><td>Remove metadata key</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>client(ClientClass)</code></td><td>client</td><td>Get/create cached client instance</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="text-lg font-bold text-white mt-8">StreamControl</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Server streaming usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">const</span> stream = inject(<span class="text-emerald-400">'users-grpc'</span>).streamUpdates(<span class="text-emerald-400">'user-1'</span>);
+
+stream.listen({
+  onData: (msg) =&gt; console.log(<span class="text-emerald-400">'Update:'</span>, msg),
+  onError: (err) =&gt; console.error(err),
+  onEnd: () =&gt; console.log(<span class="text-emerald-400">'Stream ended'</span>),
+  onStatus: (status) =&gt; console.log(<span class="text-emerald-400">'Status:'</span>, status),
+});
+
+<span class="text-slate-500">// Cancel stream:</span>
+stream.cancel();</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white mt-8">GrpcError & GrpcStatus</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Error handling</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { GrpcError, GrpcStatus } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-slate-500">// GrpcError properties:</span>
+err.code         <span class="text-slate-500">// numeric status code</span>
+err.grpcMessage  <span class="text-slate-500">// error message from server</span>
+err.metadata     <span class="text-slate-500">// response metadata</span>
+
+<span class="text-slate-500">// GrpcStatus enum:</span>
+GrpcStatus.OK               <span class="text-slate-500">// 0</span>
+GrpcStatus.NOT_FOUND        <span class="text-slate-500">// 5</span>
+GrpcStatus.PERMISSION_DENIED <span class="text-slate-500">// 7</span>
+GrpcStatus.UNAUTHENTICATED  <span class="text-slate-500">// 16</span></pre>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- LAZY LOADING -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="lazy-loading">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Lazy Loading Elements</h2>
+          <p class="text-sm text-slate-400">Okalit provides three custom elements for deferred loading of heavy components, optimizing initial bundle size and perceived performance.</p>
+
+          <h3 class="text-lg font-bold text-white">&lt;o-idle&gt; — Load on Browser Idle</h3>
+          <p class="text-sm text-slate-400">Loads content when the browser is idle (via <code>requestIdleCallback</code>). Falls back to a 200ms timeout.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">const</span> idle = document.querySelector(<span class="text-emerald-400">'o-idle'</span>);
+idle.loader = () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./heavy-chart.js'</span>);
+
+<span class="text-slate-500">&lt;!-- In HTML: --&gt;</span>
+&lt;o-idle&gt;
+  &lt;heavy-chart&gt;&lt;/heavy-chart&gt;
+  &lt;span slot="fallback"&gt;Loading chart...&lt;/span&gt;
+&lt;/o-idle&gt;</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">&lt;o-when&gt; — Load on Condition</h3>
+          <p class="text-sm text-slate-400">Loads content when a boolean condition becomes <code>true</code>.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">const</span> el = document.querySelector(<span class="text-emerald-400">'o-when'</span>);
+el.loader = () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./admin-panel.js'</span>);
+el.condition = user.isAdmin; <span class="text-slate-500">// loads only when true</span></pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">&lt;o-viewport&gt; — Load on Scroll into View</h3>
+          <p class="text-sm text-slate-400">Loads content when the element enters the viewport (via <code>IntersectionObserver</code>, with 200px root margin).</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">const</span> el = document.querySelector(<span class="text-emerald-400">'o-viewport'</span>);
+el.loader = [
+  () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./comments-section.js'</span>),
+  () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./comment-item.js'</span>),
+];
+
+<span class="text-slate-500">&lt;!-- In HTML: --&gt;</span>
+&lt;o-viewport&gt;
+  &lt;comments-section&gt;&lt;/comments-section&gt;
+  &lt;div slot="fallback"&gt;
+    &lt;skeleton-loader&gt;&lt;/skeleton-loader&gt;
+  &lt;/div&gt;
+&lt;/o-viewport&gt;</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">Common Behavior</h3>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li><code>loader</code> accepts a function or array of functions (resolved with <code>Promise.all</code>)</li>
+            <li>Adds <code>[loaded]</code> attribute when complete — default slot shown, fallback hidden</li>
+            <li>Dispatches <code>o-error</code> event (bubbles + composed) on failure</li>
+            <li>Loads only once — subsequent reconnections don't re-trigger</li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- UTILITIES -->
+        <!-- ═══════════════════════════════════════ -->
+        <section id="utilities">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Utilities</h2>
+
+          <h3 class="text-lg font-bold text-white">escapeHtml(str)</h3>
+          <p class="text-sm text-slate-400">Escapes HTML special characters. Use when inserting user data into <code>innerHTML</code> (not needed with Lit's <code>html``</code> — it escapes by default).</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { escapeHtml } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+escapeHtml(<span class="text-emerald-400">'&lt;script&gt;alert("xss")&lt;/script&gt;'</span>);
+<span class="text-slate-500">// → '&amp;lt;script&amp;gt;alert(&amp;quot;xss&amp;quot;)&amp;lt;/script&amp;gt;'</span></pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">queryShadowSelector(path, context?)</h3>
+          <p class="text-sm text-slate-400">Traverse nested shadow DOMs with a <code>&gt;&gt;</code>-separated selector path.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { queryShadowSelector } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-slate-500">// Finds #my-id inside the shadow root of 'inner-element'</span>
+<span class="text-indigo-400">const</span> el = queryShadowSelector(<span class="text-emerald-400">'my-component >> inner-element >> #my-id'</span>);</pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">outEvent(context, name, detail)</h3>
+          <p class="text-sm text-slate-400">Standalone helper to dispatch a composed CustomEvent from any context.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { outEvent } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+outEvent(this, <span class="text-emerald-400">'on:submit'</span>, { formData });
+<span class="text-slate-500">// Equivalent to this.output('on:submit', { formData })</span></pre>
+          </div>
+
+          <h3 class="text-lg font-bold text-white">gql`...`</h3>
+          <p class="text-sm text-slate-400">Template tag that normalizes whitespace in GraphQL query strings. For static structure only — pass variables through the service method's second argument.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Usage</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { gql } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+
+<span class="text-indigo-400">const</span> GET_USER = gql<span class="text-emerald-400">`
+  query GetUser($id: ID!) {
+    user(id: $id) { id name email }
+  }
+`</span>;
+
+<span class="text-slate-500">// Pass variables separately:</span>
+this.query(GET_USER, { id: <span class="text-emerald-400">'42'</span> });</pre>
+          </div>
+        </section>
+
+        <!-- End spacer -->
+        <div class="h-24"></div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Mobile sidebar toggle
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    // Active link tracking
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove('active'));
+          const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Close sidebar on link click (mobile)
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
