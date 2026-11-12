@@ -28,11 +28,11 @@
         extend: {
           colors: {
             brand: {
-              pale: '#e0e4fc',
-              pastel: '#9cadf2',
-              violet: '#a876f2',
-              purple: '#8a4df2',
-              darkbg: '#0a0814',
+              pale: '#fce7f3',
+              pastel: '#d8b4fe',
+              violet: '#b18af5',
+              purple: '#e879b9',
+              darkbg: '#030307',
               darkcard: '#120f24',
               lightbg: '#f8fafc'
             }
@@ -41,21 +41,6 @@
             sans: ['Inter', 'system-ui', 'sans-serif'],
             mono: ['Fira Code', 'Courier New', 'monospace']
           },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'float 6s ease-in-out infinite',
-            'twinkle': 'twinkle 4s ease-in-out infinite',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-10px)' },
-            },
-            twinkle: {
-              '0%, 100%': { opacity: '0.2', transform: 'scale(0.8)' },
-              '50%': { opacity: '1', transform: 'scale(1.2)' },
-            }
-          }
         }
       }
     }
@@ -65,6 +50,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -72,11 +58,101 @@
     .code-font {
       font-family: 'Fira Code', monospace;
     }
+    @keyframes heroEditorFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .hero-editor-float {
+      animation: heroEditorFloat 3.8s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-editor-float { animation: none; }
+    }
+    .signal-step.is-active {
+      color: #fff;
+      border-color: rgba(244, 114, 182, 0.9);
+      background: rgba(217, 70, 164, 0.25);
+    }
+    .signal-connector.is-active {
+      color: #d8b4fe;
+      font-weight: 700;
+    }
+    .hero-aurora {
+      position: absolute;
+      z-index: 0;
+      inset: -8% -4% -4%;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 42% 72% at 68% 48%, rgba(190, 45, 139, 0.3), transparent 76%),
+        radial-gradient(ellipse 34% 70% at 34% 42%, rgba(105, 47, 201, 0.23), transparent 76%),
+        radial-gradient(ellipse 34% 60% at 88% 55%, rgba(111, 73, 173, 0.15), transparent 78%);
+      filter: blur(42px);
+    }
+    .hero-aurora::before,
+    .hero-aurora::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      filter: blur(38px);
+      will-change: transform;
+    }
+    .hero-aurora::before {
+      top: -12%;
+      left: 2%;
+      width: 62%;
+      height: 118%;
+      border-radius: 48% 52% 62% 38% / 46% 40% 60% 54%;
+      background: radial-gradient(ellipse at center, rgba(135, 64, 230, 0.24), rgba(91, 48, 174, 0.14) 48%, transparent 72%);
+      animation: auroraFlow 12s ease-in-out infinite alternate;
+    }
+    .hero-aurora::after {
+      top: -8%;
+      right: 0;
+      width: 54%;
+      height: 112%;
+      border-radius: 56% 44% 38% 62% / 50% 58% 42% 50%;
+      background: radial-gradient(ellipse at center, rgba(233, 85, 163, 0.28), rgba(190, 45, 125, 0.12) 46%, transparent 72%);
+      animation: auroraFlowReverse 16s ease-in-out infinite alternate;
+    }
+    @keyframes auroraFlow {
+      0% { transform: translate3d(-3%, -2%, 0) rotate(-8deg) scale(0.94); }
+      50% { transform: translate3d(5%, 3%, 0) rotate(5deg) scale(1.06); }
+      100% { transform: translate3d(1%, -3%, 0) rotate(11deg) scale(0.98); }
+    }
+    @keyframes auroraFlowReverse {
+      0% { transform: translate3d(3%, 2%, 0) rotate(8deg) scale(1.02); }
+      50% { transform: translate3d(-5%, -2%, 0) rotate(-6deg) scale(0.94); }
+      100% { transform: translate3d(-1%, 3%, 0) rotate(-12deg) scale(1.06); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-aurora::before,
+      .hero-aurora::after { animation: none; }
+    }
+    .hero-title-glow {
+      position: relative;
+      isolation: isolate;
+      white-space: nowrap;
+    }
+    .hero-title-glow::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: -0.28em -0.22em;
+      border-radius: 999px;
+      background: radial-gradient(ellipse, rgba(244, 114, 182, 0.42), rgba(139, 92, 246, 0.2) 42%, transparent 74%);
+      filter: blur(24px);
+      opacity: 0.85;
+    }
+    #playground-code-pre code.hljs {
+      padding: 0;
+      background: transparent;
+      overflow: visible;
+    }
     /* Gradientes dinámicos para el logotipo de Okalit */
-    .logo-gradient-1 { stop-color: #e0e4fc; }
-    .logo-gradient-2 { stop-color: #9cadf2; }
-    .logo-gradient-3 { stop-color: #a876f2; }
-    .logo-gradient-4 { stop-color: #8a4df2; }
+    .logo-gradient-1 { stop-color: #fce7f3; }
+    .logo-gradient-2 { stop-color: #d8b4fe; }
+    .logo-gradient-3 { stop-color: #b18af5; }
+    .logo-gradient-4 { stop-color: #e879b9; }
 
     /* Barra de desplazamiento personalizada y elegante */
     ::-webkit-scrollbar {
@@ -91,107 +167,14 @@
       border-radius: 4px;
     }
 
-    /* Efecto destello (flash) para denotar actualizaciones reactivas de señales */
-    @keyframes domFlash {
-      0% { background-color: rgba(138, 77, 242, 0.4); filter: drop-shadow(0 0 8px rgba(138, 77, 242, 0.6)); }
-      100% { background-color: transparent; filter: none; }
-    }
-    .dom-updated {
-      animation: domFlash 0.8s ease-out;
-    }
-
-    /* Patrón de malla de puntos de fondo (Siempre en versión oscura) */
-    .bg-dot-grid {
-      background-image: radial-gradient(rgba(138, 77, 242, 0.12) 1px, transparent 1px);
-      background-size: 24px 24px;
-    }
-
-    /* Animación de estrellas flotantes de fondo */
-    @keyframes floatAndTwinkle {
-      0% {
-        transform: translateY(0px) translateX(0px) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: var(--star-opacity, 0.7);
-      }
-      90% {
-        opacity: var(--star-opacity, 0.7);
-      }
-      100% {
-        transform: translateY(-120px) translateX(15px) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    .star-bg-element {
-      position: absolute;
-      pointer-events: none;
-      animation: floatAndTwinkle var(--star-duration, 12s) ease-in-out infinite;
-      animation-delay: var(--star-delay, 0s);
-    }
-
-    /* Partículas interactivas que siguen al cursor */
-    .sparkle-trail {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      animation: sparkleOut 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-    }
-
-    @keyframes sparkleOut {
-      0% { 
-        transform: translate(-50%, -50%) scale(0) rotate(0deg); 
-        opacity: 1; 
-        filter: drop-shadow(0 0 4px currentColor);
-      }
-      30% {
-        opacity: 1;
-      }
-      100% { 
-        transform: translate(-50%, calc(-50% + var(--translate-y, -40px))) scale(var(--target-scale, 1.3)) rotate(var(--target-rotate, 180deg)); 
-        opacity: 0; 
-        filter: drop-shadow(0 0 0px transparent);
-      }
-    }
-
-    /* ========================================================
-       SISTEMA DE ANIMACIÓN AL HACER SCROLL (REVEAL CONTROLLERS)
-       ======================================================== */
-    .reveal-element {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1.1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1);
-      will-change: transform, opacity;
-    }
-
-    .reveal-element.revealed {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Retrasos progresivos (Staggered Delays) */
-    .delay-100 { transition-delay: 100ms; }
-    .delay-200 { transition-delay: 200ms; }
-    .delay-300 { transition-delay: 300ms; }
-    .delay-400 { transition-delay: 400ms; }
-    .delay-500 { transition-delay: 500ms; }
   </style>
 </head>
-<body class="bg-brand-darkbg text-slate-100 transition-colors duration-300 antialiased overflow-x-hidden bg-dot-grid">
-
-  <!-- Contenedor para las estrellas cósmicas flotantes en el fondo (Siempre activo) -->
-  <div id="stars-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
-
-  <!-- Efectos de resplandor ambiental de fondo -->
-  <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-brand-purple/5 rounded-full blur-[120px] pointer-events-none -z-10"></div>
-  <div class="absolute top-[800px] right-10 w-[600px] h-[600px] bg-brand-violet/5 rounded-full blur-[140px] pointer-events-none -z-10"></div>
-  <div class="absolute bottom-1/4 left-10 w-[500px] h-[500px] bg-brand-purple/5 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+<body class="bg-brand-darkbg text-slate-100 antialiased overflow-x-hidden">
 
   <!-- SECCIÓN HERO PRINCIPAL -->
   <section id="hero-section" class="relative pt-16 pb-20 lg:pt-28 lg:pb-36">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="hero-aurora" aria-hidden="true"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Branding flotante al tope de la página (reemplazando el header removido) -->
       <div class="flex justify-center lg:justify-start items-center gap-3 mb-16 reveal-element">
@@ -206,20 +189,28 @@
         <div class="lg:col-span-6 space-y-8 text-center lg:text-left reveal-element delay-100">
           
           <!-- Etiqueta superior -->
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-purple/20 bg-brand-purple/5 text-xs font-semibold text-brand-violet">
-            <span class="w-2 h-2 rounded-full bg-brand-purple animate-pulse"></span>
-            Okalit Framework v0.1.8
+          <div class="inline-flex items-center gap-2 rounded-full border border-brand-violet/50 bg-gradient-to-r from-brand-purple/25 via-brand-violet/15 to-brand-purple/25 px-4 py-2 text-xs font-bold tracking-wide text-violet-200 shadow-lg shadow-brand-purple/20">
+            <i class="fa-solid fa-bolt text-brand-violet" aria-hidden="true"></i>
+            <span>THE NEXT STEP</span>
+            <span class="h-3 border-l border-brand-violet/40"></span>
+            <span class="font-mono text-white">CORE 0.3.0</span>
           </div>
 
           <!-- Título principal -->
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            The power of <span class="bg-gradient-to-r from-brand-violet to-brand-purple bg-clip-text text-transparent">Signals</span> meet standards.
+            Reactive by nature.<br>
+            <span class="hero-title-glow bg-gradient-to-r from-brand-violet via-fuchsia-300 to-brand-purple bg-clip-text text-transparent">Native by design.</span>
           </h1>
 
           <!-- Resumen de Okalit -->
           <p class="text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 font-light">
-            A progressive Web Components framework built on top of <strong class="text-slate-200">Lit</strong>, supercharged with signal-based reactivity via <strong class="text-slate-200">uhtml</strong>, modern TC39 decorators, and clean modular architecture. No virtual DOM overhead. Zero boilerplate. Absolute control.
+            A progressive Web Components framework built on <strong class="text-slate-200">Lit 3</strong>, with TC39-proposal Signals via <strong class="text-slate-200">@lit-labs/signals</strong>, modern TC39 decorators, and modular architecture. Reactive state and incremental DOM updates, without a virtual DOM.
           </p>
+          <div class="inline-flex items-center gap-2 rounded-lg border border-brand-violet/25 bg-brand-violet/10 px-3 py-2 text-sm text-violet-100">
+            <i class="fa-solid fa-bolt text-brand-violet" aria-hidden="true"></i>
+            <span>Now powered by Lit 3 + Signals</span>
+            <a href="doc.html#migration" class="font-semibold text-white underline decoration-brand-violet/70 underline-offset-4 hover:text-brand-violet">See what changed</a>
+          </div>
 
           <!-- Botones de Acción y Copiador de Terminal CLI -->
           <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
@@ -240,22 +231,22 @@
           <!-- Estadísticas clave -->
           <div class="grid grid-cols-3 gap-4 pt-4 border-t border-white/5 max-w-md mx-auto lg:mx-0">
             <div>
-              <div class="text-2xl font-bold text-white">&lt; 3KB</div>
-              <div class="text-xs text-slate-400">Library overhead</div>
+              <div class="text-2xl font-bold text-white">Lit 3</div>
+              <div class="text-xs text-slate-400">Template rendering</div>
             </div>
             <div>
-              <div class="text-2xl font-bold text-white">0ms</div>
-              <div class="text-xs text-slate-400">VDOM Diffing</div>
+              <div class="text-2xl font-bold text-white">Signals</div>
+              <div class="text-xs text-slate-400">Reactive dependencies</div>
             </div>
             <div>
-              <div class="text-2xl font-bold text-white">100</div>
-              <div class="text-xs text-slate-400">Lighthouse Score</div>
+              <div class="text-2xl font-bold text-white">Native</div>
+              <div class="text-xs text-slate-400">Custom Elements</div>
             </div>
           </div>
         </div>
 
         <!-- IDE en el lado Derecho (Sin Playground - Todo Código a pantalla completa) -->
-        <div class="lg:col-span-6 relative reveal-element delay-300">
+        <div class="hero-editor-float lg:col-span-6 relative reveal-element delay-300">
           <!-- Esfera brillante en el fondo de la tarjeta -->
           <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-brand-violet to-brand-purple opacity-30 blur-2xl group-hover:opacity-40 transition pointer-events-none"></div>
           
@@ -270,7 +261,7 @@
                 <span class="ml-4 text-xs font-mono text-slate-400">my-counter.js</span>
               </div>
               <div class="flex items-center gap-1.5 text-xs text-brand-violet font-semibold">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                 100% JS / ESM
               </div>
             </div>
@@ -297,6 +288,34 @@
   }
 }</pre>
             </div>
+            <div class="px-5 py-4 bg-gradient-to-r from-[#17102a] via-[#111027] to-[#0d1b20] border-t border-brand-violet/40">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="space-y-3">
+                  <div class="flex items-center gap-2 text-xs">
+                    <span class="inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+                    <span class="rounded bg-emerald-400/10 px-2 py-1 font-bold tracking-widest text-emerald-300">VISUAL SIGNAL FLOW</span>
+                    <span class="text-slate-400">Illustrative demo · not a live component</span>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-2 font-mono text-[10px] sm:text-xs">
+                    <span id="signal-step-source" class="signal-step rounded-md border border-brand-violet/30 bg-brand-violet/10 px-2.5 py-1.5 font-semibold tracking-wider text-violet-200">SIGNAL</span>
+                    <i id="signal-link-one" class="signal-connector fa-solid fa-arrow-right text-brand-violet/60" aria-hidden="true"></i>
+                    <span id="signal-step-component" class="signal-step rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-slate-300">COMPONENT</span>
+                    <i id="signal-link-two" class="signal-connector fa-solid fa-arrow-right text-brand-violet/60" aria-hidden="true"></i>
+                    <span id="signal-step-dom" class="signal-step rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-slate-300">LIT PATCHES DOM</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onclick="incrementHeroCounter()"
+                  class="inline-flex shrink-0 items-center justify-center gap-3 rounded-lg border border-brand-violet/60 bg-gradient-to-r from-brand-violet/30 to-brand-purple/30 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-purple/20 transition hover:-translate-y-0.5 hover:border-brand-violet hover:shadow-brand-purple/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet"
+                  aria-label="Replay the visual Signals update"
+                >
+                  <span>Replay</span>
+                  <span id="hero-counter-value" class="preview-count min-w-5 text-right font-mono font-semibold text-white" aria-live="polite">0</span>
+                  <i class="fa-solid fa-bolt text-xs text-violet-200" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -314,7 +333,7 @@
           What is Okalit?
         </p>
         <p class="text-lg text-slate-400 leading-relaxed">
-          Okalit is a progressive Web Components framework built on Lit, enhanced with signal-based reactivity via uhtml, modern TC39 decorators, and a modular enterprise architecture. Uncompromised performance meets absolute control.
+          Okalit combines Lit's Web Components and template rendering with Signals, TC39 decorators, routing, channels, forms and services. Core 0.3.0 replaces the previous uhtml integration.
         </p>
       </div>
 
@@ -328,18 +347,18 @@
           </div>
           <h3 class="text-lg font-bold text-white mb-2">Native Web Components</h3>
           <p class="text-sm text-slate-400 leading-relaxed">
-            Built on Lit's secure, modern browser native baseline. Write clean, platform-compliant components in pure JS that run inside any HTML page without complex compiler transformations.
+            Built on Lit and native Custom Elements with Shadow DOM. Write JavaScript components that can be used in HTML pages; the decorator syntax requires a compatible build configuration.
           </p>
         </div>
 
-        <!-- Reactividad por uhtml -->
+        <!-- Reactividad con Signals -->
         <div class="p-6 rounded-2xl border border-white/5 bg-brand-darkcard hover:shadow-xl transition duration-300 reveal-element delay-200">
           <div class="w-12 h-12 rounded-xl bg-brand-violet/10 text-brand-violet flex items-center justify-center text-xl mb-4">
             <i class="fa-solid fa-bolt"></i>
           </div>
           <h3 class="text-lg font-bold text-white mb-2">Signal-Based Reactivity</h3>
           <p class="text-sm text-slate-400 leading-relaxed">
-            Powered by uhtml's fine-grained signal primitives, state changes propagate directly to DOM nodes through Lit's rendering engine. No virtual diffing — only what truly changes gets updated.
+            SignalWatcher tracks signals read during rendering and schedules Lit updates. The component render method can run again while Lit preserves existing nodes and updates dynamic template parts.
           </p>
         </div>
 
@@ -389,7 +408,7 @@
                 <span class="text-[10px] bg-brand-purple/15 text-brand-purple px-1.5 py-0.5 rounded uppercase font-semibold tracking-wider">Fine-grained</span>
               </div>
               <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                Fine-grained reactivity. Update the DOM directly without virtual diffing overhead.
+                Tracked signal dependencies with Lit's incremental template updates.
               </p>
             </div>
           </button>
@@ -482,7 +501,7 @@
                 <div class="space-y-2">
                   <span class="text-xs font-semibold text-indigo-500">How it works:</span>
                   <p class="text-sm text-slate-300">
-                    Traditional VDOM frameworks recalculate whole virtual trees and patch differences. **Okalit Signals** target precise HTML text nodes or attributes. 
+                    Signals schedule updates for components that read them. Lit re-evaluates their templates and patches dynamic parts while retaining stable DOM nodes. This diagram is illustrative, not a benchmark.
                   </p>
                 </div>
                 
@@ -500,13 +519,13 @@
                       <div id="vdom-node" class="pl-2 p-1 rounded text-red-400 transition-colors">&lt;p&gt;Active user: <span class="font-bold">254</span>&lt;/p&gt;</div>
                       <div class="text-slate-400">&lt;/div&gt;</div>
                     </div>
-                    <p class="text-[10px] text-slate-400 mt-2">Re-executes layout functions & checks children tags on every keystroke.</p>
+                    <p class="text-[10px] text-slate-400 mt-2">A virtual DOM renderer compares virtual output; it can also retain existing DOM nodes.</p>
                   </div>
 
                   <!-- Bloque Okalit -->
                   <div class="p-4 rounded-xl border border-brand-purple/20 bg-brand-purple/5">
                     <div class="flex items-center justify-between mb-3">
-                      <span class="text-xs font-bold text-brand-violet">Okalit Direct Signal</span>
+                      <span class="text-xs font-bold text-brand-violet">Okalit Signals + Lit</span>
                       <span id="okalit-update-count" class="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded">Updates: 0</span>
                     </div>
                     <div id="okalit-card-visual" class="p-3 bg-zinc-900 border border-zinc-800 rounded-lg text-xs space-y-2">
@@ -515,7 +534,7 @@
                       <div class="pl-2 p-1 rounded text-slate-400 transition-colors">&lt;p&gt;Active user: <span id="okalit-node" class="font-bold text-brand-violet transition px-1 rounded">254</span>&lt;/p&gt;</div>
                       <div class="text-slate-400">&lt;/div&gt;</div>
                     </div>
-                    <p class="text-[10px] text-slate-400 mt-2">Fires pointer-bound node updates directly without re-rendering parent tag.</p>
+                    <p class="text-[10px] text-slate-400 mt-2">The dependent component renders again; unchanged template nodes are retained.</p>
                   </div>
                 </div>
 
@@ -552,7 +571,7 @@
                   <!-- Vista de Rutas dinámicas -->
                   <div class="p-6 min-h-[140px] flex flex-col justify-center items-center text-center">
                     <div id="router-page-loading" class="hidden">
-                      <div class="w-6 h-6 border-2 border-brand-purple border-t-transparent rounded-full animate-spin mb-2 mx-auto"></div>
+                      <i class="fa-solid fa-hourglass-half mb-2 text-brand-violet" aria-hidden="true"></i>
                       <span class="text-xs text-slate-400 font-mono">Loading lazy chunk...</span>
                     </div>
 
@@ -700,7 +719,7 @@
                   <i class="fa-solid fa-code text-brand-purple"></i>
                   <span class="text-xs text-slate-400 font-medium">Underlying Library API:</span>
                 </div>
-                <code id="sandbox-code-summary" class="text-xs text-slate-400 font-mono bg-white/5 px-2 py-1 rounded">import { signal } from '@okalit/core'; // uhtml 5.x signals</code>
+                <code id="sandbox-code-summary" class="text-xs text-slate-400 font-mono bg-white/5 px-2 py-1 rounded">import { signal } from '@okalit/core'; // Signals + Lit</code>
               </div>
 
             </div>
@@ -806,7 +825,7 @@
 
             <!-- Cuerpo del Visor de Código -->
             <div class="p-6 overflow-x-auto bg-[#0c0922]">
-              <pre class="code-font text-xs sm:text-sm leading-relaxed text-slate-300" id="playground-code-pre">
+              <pre class="code-font text-xs sm:text-sm leading-relaxed text-slate-300"><code class="language-javascript" id="playground-code-pre">
 import { AppMixin, defineElement, html, Okalit } from '@okalit/core';
 import routes from './app.routes.js';
 
@@ -819,7 +838,7 @@ export class MainApp extends AppMixin(Okalit) {
     i18n: { locales: ['en', 'es'], default: 'en' },
     template: (content) => html`<app-shell>${content}</app-shell>`,
   };
-}</pre>
+}</code></pre>
             </div>
           </div>
         </div>
@@ -832,7 +851,6 @@ export class MainApp extends AppMixin(Okalit) {
   <!-- SECCIÓN DE INSTALACIÓN CLI Y TERMINAL INTERACTIVA -->
   <section id="docs" class="py-24 bg-[#080616] relative overflow-hidden">
     <!-- Malla de fondo sutil -->
-    <div class="absolute inset-0 bg-dot-grid opacity-30"></div>
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
@@ -893,7 +911,7 @@ export class MainApp extends AppMixin(Okalit) {
             <!-- Contenido de pantalla terminal -->
             <div id="cli-terminal-screen" class="p-5 h-72 overflow-y-auto space-y-3 text-slate-300 leading-relaxed">
               <div>
-                <span class="text-emerald-500">user@okalit-local:~$</span> npx @okalit/cli new app-nae
+                <span class="text-emerald-500">user@okalit-local:~$</span> npx @okalit/cli new app-name
               </div>
               <div class="text-slate-500 italic">
                 Press "Run Interactive CLI Mock" button to simulate full system initialization...
@@ -919,27 +937,27 @@ export class MainApp extends AppMixin(Okalit) {
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
         
         <div class="space-y-2 p-6 rounded-xl bg-brand-darkcard/50 border border-white/5 reveal-element delay-100">
-          <div class="text-4xl font-extrabold text-brand-purple">1.2ms</div>
-          <div class="text-sm font-bold text-slate-200">First Input Delay (FID)</div>
-          <p class="text-xs text-slate-400 leading-relaxed">Near instantaneous interaction readiness thanks to lightweight baseline structures.</p>
+          <div class="text-4xl font-extrabold text-brand-purple">Lazy</div>
+          <div class="text-sm font-bold text-slate-200">Route Imports</div>
+          <p class="text-xs text-slate-400 leading-relaxed">Load route code on demand; measure startup and interaction performance in your application.</p>
         </div>
 
         <div class="space-y-2 p-6 rounded-xl bg-brand-darkcard/50 border border-white/5 reveal-element delay-200">
-          <div class="text-4xl font-extrabold text-brand-violet">9KB</div>
-          <div class="text-sm font-bold text-slate-200">Baseline GZip Size</div>
-          <p class="text-xs text-slate-400 leading-relaxed">Combines base engine structure with Signals without bloating initial bundles.</p>
+          <div class="text-4xl font-extrabold text-brand-violet">Opt-in</div>
+          <div class="text-sm font-bold text-slate-200">Route Cache</div>
+          <p class="text-xs text-slate-400 leading-relaxed">Remove views by default or retain selected routes with explicit hide and restore hooks.</p>
         </div>
 
         <div class="space-y-2 p-6 rounded-xl bg-brand-darkcard/50 border border-white/5 reveal-element delay-300">
-          <div class="text-4xl font-extrabold text-indigo-500">100%</div>
-          <div class="text-sm font-bold text-slate-200">W3C Compliance</div>
-          <p class="text-xs text-slate-400 leading-relaxed">Runs in native Custom Elements registries and works flawlessly alongside React or Vue.</p>
+          <div class="text-4xl font-extrabold text-indigo-500">DOM</div>
+          <div class="text-sm font-bold text-slate-200">Native Components</div>
+          <p class="text-xs text-slate-400 leading-relaxed">Custom Elements expose properties and events; framework integrations need their own compatibility checks.</p>
         </div>
 
         <div class="space-y-2 p-6 rounded-xl bg-brand-darkcard/50 border border-white/5 reveal-element delay-400">
-          <div class="text-4xl font-extrabold text-emerald-500">0ms</div>
-          <div class="text-sm font-bold text-slate-200">Virtual Diffing Work</div>
-          <p class="text-xs text-slate-400 leading-relaxed">Reactivity values skip structural updates to immediately access actual elements.</p>
+          <div class="text-4xl font-extrabold text-emerald-500">Lit</div>
+          <div class="text-sm font-bold text-slate-200">Incremental Rendering</div>
+          <p class="text-xs text-slate-400 leading-relaxed">Stable templates retain DOM identity. Removing branches or changing keys can still recreate nodes.</p>
         </div>
 
       </div>
@@ -1008,7 +1026,7 @@ export class MainApp extends AppMixin(Okalit) {
             <li><a href="https://github.com/okalit" class="hover:text-brand-purple transition"><i class="fa-brands fa-github mr-1.5"></i> GitHub Organization</a></li>
             <li><a href="#discord" class="hover:text-brand-purple transition"><i class="fa-brands fa-discord mr-1.5"></i> Discord Server</a></li>
             <li><a href="#twitter" class="hover:text-brand-purple transition"><i class="fa-brands fa-twitter mr-1.5"></i> Twitter / X updates</a></li>
-            <li><a href="#community" class="hover:text-brand-purple transition"><i class="fa-solid fa-users mr-1.5"></i> Lit & uhtml hubs</a></li>
+            <li><a href="#community" class="hover:text-brand-purple transition"><i class="fa-solid fa-users mr-1.5"></i> Lit & Signals ecosystem</a></li>
           </ul>
         </div>
 
@@ -1016,7 +1034,7 @@ export class MainApp extends AppMixin(Okalit) {
         <div>
           <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Status & Legal</h4>
           <ul class="space-y-2.5 text-xs text-slate-400">
-            <li><span class="inline-flex items-center gap-1.5 text-emerald-500"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> All Systems Operational</span></li>
+            <li><span class="inline-flex items-center gap-1.5 text-emerald-500"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> All Systems Operational</span></li>
             <li><a href="#license" class="hover:text-brand-purple transition">MIT License</a></li>
             <li><a href="#privacy" class="hover:text-brand-purple transition">Privacy Policy</a></li>
             <li><a href="#security" class="hover:text-brand-purple transition">Security vulnerability program</a></li>
@@ -1026,7 +1044,7 @@ export class MainApp extends AppMixin(Okalit) {
       </div>
 
       <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-        <span>&copy; 2026 Okalit Framework. Built on Lit and uhtml. All rights reserved.</span>
+        <span>&copy; 2026 Okalit Framework. Built on Lit and Signals. All rights reserved.</span>
         <div class="flex items-center gap-4">
           <a href="#github" class="hover:text-brand-purple transition"><i class="fa-brands fa-github text-base"></i></a>
           <a href="#discord" class="hover:text-brand-purple transition"><i class="fa-brands fa-discord text-base"></i></a>
@@ -1036,8 +1054,28 @@ export class MainApp extends AppMixin(Okalit) {
     </div>
   </footer>
 
-  <!-- SCRIPTS DE INTERACTIVIDAD CÓSMICA Y SIMULADORES -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+  <!-- SCRIPTS DE INTERACCIÓN Y SIMULADORES -->
   <script>
+    let heroCounter = 0;
+
+    function incrementHeroCounter() {
+      const value = document.getElementById('hero-counter-value');
+      heroCounter += 1;
+      value.textContent = heroCounter;
+
+      const steps = [
+        document.getElementById('signal-step-source'),
+        document.getElementById('signal-link-one'),
+        document.getElementById('signal-step-component'),
+        document.getElementById('signal-link-two'),
+        document.getElementById('signal-step-dom'),
+      ];
+
+      steps.forEach((step) => step.classList.add('is-active'));
+    }
+
     // Función copiadora de textos al portapapeles
     function copyToClipboard(text, btnElement) {
       navigator.clipboard.writeText(text).then(() => {
@@ -1055,7 +1093,7 @@ export class MainApp extends AppMixin(Okalit) {
     const sandboxCodeSummary = document.getElementById('sandbox-code-summary');
 
     const codeSummaries = {
-      signals: "import { signal } from '@okalit/core'; // uhtml 5.x signals",
+      signals: "import { signal } from '@okalit/core'; // Signals + Lit",
       router: "import { Router, navigate } from '@okalit/core'; // Built-in SPA router",
       services: "import { OkalitService, service, inject } from '@okalit/core';",
       channels: "import { defineChannel } from '@okalit/core'; // Pub/Sub state",
@@ -1103,19 +1141,19 @@ export class MainApp extends AppMixin(Okalit) {
       const vdomVisualNode = document.getElementById('vdom-card-visual');
       const okalitVisualNode = document.getElementById('okalit-node');
 
-      // VDOM refresca todo el contenedor secundario (marcado en rojo)
+      // Ilustracion de la evaluacion de una vista, no una medicion de rendimiento.
       vdomVisualNode.classList.add('border-red-500/40', 'bg-red-500/5');
       setTimeout(() => {
         vdomVisualNode.classList.remove('border-red-500/40', 'bg-red-500/5');
       }, 500);
 
-      // Okalit solo refresca el nodo de texto de la señal puntual (marcado en verde)
+      // Ilustracion de una parte dinamica actualizada por Lit.
       okalitVisualNode.classList.add('text-emerald-500', 'bg-emerald-500/10');
       setTimeout(() => {
         okalitVisualNode.classList.remove('text-emerald-500', 'bg-emerald-500/10');
       }, 500);
 
-      document.getElementById('signal-sim-status').innerText = `Simulation fired. VDOM checked 3 subelements. Okalit modified 1 node.`;
+      document.getElementById('signal-sim-status').innerText = `Illustration: a dependent component updates; Lit patches its changed template parts. Not a benchmark.`;
     }
 
     // Simulación del Router
@@ -1250,7 +1288,6 @@ export default [
   {
     path: '/auth',
     component: 'auth-module',
-    ca
     import: () => import('./modules/auth/auth.module.js'),
     cache: true,
     children: AuthRoutes,
@@ -1280,14 +1317,14 @@ export default [
   },
 ];`,
       page: `import { defineElement, html, Okalit, PageMixin } from '@okalit/core';
-import { createForm, required, email } from '@okalit/core/form';
+import { createForm, required, isEmail } from '@okalit/core/form';
 import { inject } from '@okalit/core';
 
 @defineElement({ tag: 'login-page', styles: [styles] })
 export class LoginPage extends PageMixin(Okalit) {
   form = createForm({
     fields: {
-      email:    { value: '', validators: [required(), email()] },
+      email:    { value: '', validators: [required(), isEmail()] },
       password: { value: '', validators: [required()] },
     },
   });
@@ -1425,18 +1462,20 @@ class ChatService extends OkalitSocketService {
 }
 
 // Usage in a page:
-onInit() {
+onConnected() {
   inject('chat').join('room-123');
   this._unsub = inject('chat').onMessage((data) => {
     this.messages.value = [...this.messages.value, data.payload];
   });
 }
 
-onDestroy() {
+onDisconnected() {
   this._unsub();
   inject('chat').leave();
 }`
     };
+
+    hljs.highlightElement(playgroundCodePre);
 
     const playgroundFileTitles = {
       main: 'src/main-app.js',
@@ -1451,6 +1490,8 @@ onDestroy() {
 
     function switchPlaygroundTab(tabName) {
       playgroundCodePre.textContent = playgroundCodes[tabName];
+      playgroundCodePre.removeAttribute('data-highlighted');
+      hljs.highlightElement(playgroundCodePre);
       playgroundTabFileTitle.innerText = playgroundFileTitles[tabName];
 
       ['main', 'routes', 'module', 'page', 'component', 'rest', 'graphql', 'websocket'].forEach(t => {
@@ -1460,6 +1501,7 @@ onDestroy() {
         } else {
           btn.className = "w-full text-left p-3.5 rounded-lg border border-white/5 hover:bg-white/5 text-slate-300 flex items-center justify-between text-sm transition";
         }
+
       });
     }
 
@@ -1467,18 +1509,18 @@ onDestroy() {
     const terminalScreen = document.getElementById('cli-terminal-screen');
     
     function runCliGenerator() {
-      // Entrada inicial con el nombre "app-nae" igual al screenshot
-      terminalScreen.innerHTML = '<div><span class="text-emerald-500">user@okalit-local:~$</span> npx @okalit/cli new app-nae</div>';
+      // Entrada inicial con el nombre "app-name" igual al screenshot
+      terminalScreen.innerHTML = '<div><span class="text-emerald-500">user@okalit-local:~$</span> npx @okalit/cli new app-name</div>';
 
       const logLines = [
         '<span class="text-slate-100 font-bold">[<span class="text-emerald-400">✓</span>] Empty Project:</span> <span class="text-cyan-400 font-semibold">Yes</span>',
         '',
-        '🚀 Creating project <span class="text-slate-100 font-bold">"app-nae"</span> using <span class="text-slate-100 font-medium">structure-example...</span>',
+        '🚀 Creating project <span class="text-slate-100 font-bold">"app-name"</span> using <span class="text-slate-100 font-medium">structure-example...</span>',
         '',
         '<span class="text-amber-200 font-semibold">✨ Okalit project generated successfully!</span>',
         '',
         '<span class="text-amber-300 font-bold">Next steps:</span>',
-        '  <span class="text-cyan-400">cd</span> app-nae',
+        '  <span class="text-cyan-400">cd</span> app-name',
         '  <span class="text-cyan-400">npm</span> install',
         '  <span class="text-cyan-400">npm</span> run dev'
       ];
@@ -1497,166 +1539,6 @@ onDestroy() {
       }, 500);
     }
 
-
-    // ==========================================
-    // 4. MÓDULO INTERACTIVO DE ESTRELLAS CÓSMICAS
-    // ==========================================
-    const starsContainer = document.getElementById('stars-container');
-    const starColors = ['#e0e4fc', '#9cadf2', '#a876f2', '#8a4df2', '#ffffff'];
-    const starSVGs = [
-      // Destello premium de 4 puntas (Sparkle)
-      `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12,0 L14.5,9.5 L24,12 L14.5,14.5 L12,24 L9.5,14.5 L0,12 L9.5,9.5 Z" /></svg>`,
-      // Diamante clásico fino
-      `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12,2 L17,12 L12,22 L7,12 Z" /></svg>`,
-      // Pequeño orbe brillante
-      `<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6" /></svg>`
-    ];
-
-    // Generador de estrellas estáticas y flotantes para el fondo cósmico
-    function generateBackgroundStars() {
-      starsContainer.innerHTML = ''; 
-      const isMobile = window.innerWidth < 768;
-      const count = isMobile ? 25 : 55; // Adaptar densidad para optimizar rendimiento móvil
-      
-      for (let i = 0; i < count; i++) {
-        const star = document.createElement('div');
-        star.className = 'star-bg-element';
-        
-        // Aleatorización matemática fluida
-        const size = Math.random() * 10 + 4; // Entre 4px y 14px
-        const left = Math.random() * 100; // Posicionamiento horizontal %
-        const top = Math.random() * 95; // Posicionamiento vertical %
-        const duration = Math.random() * 12 + 8; // Duración flotante (8s a 20s)
-        const delay = Math.random() * -20; // Retraso negativo para inicialización inmediata
-        const opacity = Math.random() * 0.45 + 0.15; // Opacidad sutil
-        const color = starColors[Math.floor(Math.random() * starColors.length)];
-        
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = `${left}%`;
-        star.style.top = `${top}%`;
-        star.style.color = color;
-        star.style.setProperty('--star-duration', `${duration}s`);
-        star.style.setProperty('--star-delay', `${delay}s`);
-        star.style.setProperty('--star-opacity', `${opacity}`);
-        
-        // Asignar silueta aleatoria
-        star.innerHTML = starSVGs[Math.floor(Math.random() * starSVGs.length)];
-        
-        // Pequeño extra de parpadeo a estrellas seleccionadas
-        if (Math.random() > 0.4) {
-          star.classList.add('animate-twinkle');
-        }
-        
-        starsContainer.appendChild(star);
-      }
-    }
-
-    // El modo mágico (estelas) siempre está activo por debajo
-    const magicModeActive = true; 
-
-    // Generador de destellos individuales al pasar el ratón
-    function spawnSparkle(x, y) {
-      if (!magicModeActive) return;
-      
-      const sparkle = document.createElement('div');
-      sparkle.className = 'sparkle-trail';
-      
-      const size = Math.random() * 12 + 8; // Entre 8px y 20px
-      const color = starColors[Math.floor(Math.random() * starColors.length)];
-      
-      sparkle.style.width = `${size}px`;
-      sparkle.style.height = `${size}px`;
-      sparkle.style.left = `${x}px`;
-      sparkle.style.top = `${y}px`;
-      sparkle.style.color = color;
-      
-      // Dirección y empuje físico aleatorio (Física sutil en CSS)
-      const travelY = (Math.random() * 100 + 40) * (Math.random() > 0.5 ? 1 : -1);
-      const targetScale = Math.random() * 0.9 + 0.6;
-      const targetRotate = Math.random() * 180 - 90;
-      
-      sparkle.style.setProperty('--translate-y', `${travelY}px`);
-      sparkle.style.setProperty('--target-scale', `${targetScale}`);
-      sparkle.style.setProperty('--target-rotate', `${targetRotate}deg`);
-      
-      // Estella con forma de Sparkle de 4 puntas premium
-      sparkle.innerHTML = starSVGs[0]; 
-      
-      document.body.appendChild(sparkle);
-      
-      // Autoeliminación para evitar sobrecarga del DOM
-      setTimeout(() => {
-        sparkle.remove();
-      }, 900);
-    }
-
-    // Limitador de frecuencia (Throttling) para suavizar rendimiento del movimiento
-    let isThrottled = false;
-    window.addEventListener('mousemove', (e) => {
-      if (isThrottled) return;
-      isThrottled = true;
-      setTimeout(() => { isThrottled = false; }, 40); 
-
-      spawnSparkle(e.clientX, e.clientY);
-    });
-
-    // Explosión de estrellas en cascada al dar Clic en la pantalla
-    window.addEventListener('click', (e) => {
-      // Ignorar clics en botones interactivos para no entorpecer la UI principal
-      if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input')) return;
-
-      for (let i = 0; i < 15; i++) {
-        setTimeout(() => {
-          const offsetX = e.clientX + (Math.random() * 120 - 60);
-          const offsetY = e.clientY + (Math.random() * 120 - 60);
-          spawnSparkle(offsetX, offsetY);
-        }, i * 20);
-      }
-    });
-
-    // Soporte táctil reactivo para dispositivos móviles
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        spawnSparkle(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    });
-
-
-    // ==========================================
-    // 5. MOTOR DE REVELACIÓN GRADUAL EN SCROLL
-    // ==========================================
-    function initScrollReveal() {
-      const revealElements = document.querySelectorAll('.reveal-element');
-      
-      const observerOptions = {
-        root: null, // usa la vista del viewport del navegador
-        threshold: 0.15, // dispara la animación al tener visible el 15% del elemento
-        rootMargin: "0px 0px -50px 0px" // dispara ligeramente antes de que entre del todo
-      };
-
-      const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            // Dejar de observar una vez que ya se ha revelado
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
-
-      revealElements.forEach(el => {
-        revealObserver.observe(el);
-      });
-    }
-
-
-    // Carga inicial y regeneración en redimensión de pantalla
-    window.onload = function() {
-      generateBackgroundStars();
-      initScrollReveal();
-      window.addEventListener('resize', generateBackgroundStars);
-    }
 
     // Inicializar el Sandbox en pestaña Signals
     switchArchTab('signals');

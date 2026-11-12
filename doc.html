@@ -13,10 +13,10 @@
         extend: {
           colors: {
             brand: {
-              pale: '#e0e4fc',
-              pastel: '#9cadf2',
-              violet: '#a876f2',
-              purple: '#8a4df2',
+              pale: '#fce7f3',
+              pastel: '#d8b4fe',
+              violet: '#b18af5',
+              purple: '#e879b9',
               darkbg: '#0a0814',
               darkcard: '#120f24',
               lightbg: '#f8fafc'
@@ -43,15 +43,15 @@
     ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
 
     .bg-dot-grid {
-      background-image: radial-gradient(rgba(138, 77, 242, 0.08) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(217, 70, 164, 0.08) 1px, transparent 1px);
       background-size: 24px 24px;
     }
 
     /* Sidebar active link */
     .nav-link.active {
-      background: rgba(138, 77, 242, 0.1);
-      border-left-color: #8a4df2;
-      color: #a876f2;
+      background: rgba(217, 70, 164, 0.1);
+      border-left-color: #b18af5;
+      color: #d8b4fe;
     }
 
     /* Code blocks */
@@ -87,7 +87,7 @@
     .doc-prose table { width: 100%; margin-bottom: 1.5rem; }
     .doc-prose th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
     .doc-prose td { padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
-    .doc-prose code:not(pre code) { background: rgba(138,77,242,0.1); color: #c4b5fd; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.8em; }
+    .doc-prose code:not(pre code) { background: rgba(217,70,164,0.1); color: #fbcfe8; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.8em; }
 
     /* Smooth scroll offset for fixed header */
     [id] { scroll-margin-top: 80px; }
@@ -117,7 +117,7 @@
         <span class="hidden sm:inline text-xs text-slate-500 border-l border-white/10 pl-4 ml-2">Documentation</span>
       </div>
       <div class="flex items-center gap-3">
-        <span class="text-[10px] bg-brand-purple/10 text-brand-purple px-2 py-1 rounded font-semibold">v0.1.8</span>
+        <span class="text-[10px] bg-brand-purple/10 text-brand-purple px-2 py-1 rounded font-semibold">Core v0.3.0</span>
         <a href="#" class="text-slate-400 hover:text-white transition"><i class="fa-brands fa-github text-lg"></i></a>
       </div>
     </div>
@@ -134,6 +134,7 @@
         <nav class="space-y-0.5">
           <a href="#introduction" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Introduction</a>
           <a href="#installation" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Installation</a>
+          <a href="#migration" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Migrating to 0.3.0</a>
           <a href="#cli" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">CLI</a>
           <a href="#project-structure" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Project Structure</a>
         </nav>
@@ -181,6 +182,7 @@
         <nav class="space-y-0.5">
           <a href="#lazy-loading" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Lazy Loading Elements</a>
           <a href="#utilities" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Utilities</a>
+          <a href="#status" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Status & Future Work</a>
         </nav>
       </div>
 
@@ -196,17 +198,17 @@
         <section id="introduction">
           <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Okalit Framework</h1>
           <p class="text-lg text-slate-400 mb-8">
-            A progressive Web Components framework built on <strong class="text-slate-200">Lit</strong>, with signal-based reactivity via <strong class="text-slate-200">uhtml</strong>, modern TC39 decorators, and enterprise-grade modular architecture.
+            A progressive Web Components framework built on <strong class="text-slate-200">Lit 3</strong>, with TC39-proposal Signals via <strong class="text-slate-200">@lit-labs/signals</strong>, modern TC39 decorators, and modular architecture.
           </p>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             <div class="p-4 rounded-xl border border-white/5 bg-brand-darkcard">
-              <div class="text-2xl font-bold text-brand-purple mb-1">&lt; 3KB</div>
-              <div class="text-xs text-slate-400">Core overhead (gzip)</div>
+              <div class="text-2xl font-bold text-brand-purple mb-1">Lit 3</div>
+              <div class="text-xs text-slate-400">Incremental template rendering</div>
             </div>
             <div class="p-4 rounded-xl border border-white/5 bg-brand-darkcard">
-              <div class="text-2xl font-bold text-brand-violet mb-1">0ms</div>
-              <div class="text-xs text-slate-400">Virtual DOM diffing</div>
+              <div class="text-2xl font-bold text-brand-violet mb-1">Signals</div>
+              <div class="text-xs text-slate-400">Tracked component dependencies</div>
             </div>
             <div class="p-4 rounded-xl border border-white/5 bg-brand-darkcard">
               <div class="text-2xl font-bold text-indigo-500 mb-1">Native</div>
@@ -216,7 +218,7 @@
 
           <h3 class="text-lg font-bold text-white">Key Principles</h3>
           <ul class="list-disc text-slate-400 text-sm leading-relaxed">
-            <li><strong class="text-slate-200">Signals over VDOM</strong> — Fine-grained reactivity via uhtml signals. Updates target specific DOM nodes, not entire trees.</li>
+            <li><strong class="text-slate-200">Signals with Lit</strong> — SignalWatcher tracks signals read during rendering and schedules component updates. Lit patches dynamic template parts without a virtual DOM.</li>
             <li><strong class="text-slate-200">Standards-first</strong> — Built on native Custom Elements (Lit). Works in any HTML page, alongside any framework.</li>
             <li><strong class="text-slate-200">TC39 Decorators</strong> — Clean, declarative component definitions using Stage-3 decorators.</li>
             <li><strong class="text-slate-200">Enterprise Architecture</strong> — Opinionated App → Module → Page hierarchy with dependency injection, routing, and global state channels.</li>
@@ -241,10 +243,32 @@ npm run dev</pre>
           <h3 class="text-lg font-bold text-white">Manual Setup</h3>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Terminal</span></div>
-            <pre class="code-font text-slate-300">npm install @okalit/core lit uhtml</pre>
+            <pre class="code-font text-slate-300">npm install @okalit/core@^0.3.0 lit@^3.0.0</pre>
           </div>
 
           <p class="text-sm text-slate-400">Okalit requires a build tool that supports TC39 decorators (Stage 3). Recommended: <code>rsbuild</code>, <code>vite</code>, or <code>esbuild</code> with the decorators plugin.</p>
+          <p class="text-sm text-slate-400"><code>lit</code> is a peer dependency; <code>@lit-labs/signals</code> is installed by the core. Import <code>signal</code>, <code>computed</code>, <code>effect</code>, and <code>html</code> from <code>@okalit/core</code>. No uhtml dependency is required. These instructions target the 0.3.0 source line; registry installation requires that release to be published.</p>
+        </section>
+
+        <section id="migration">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Migrating to Core 0.3.0</h2>
+          <p class="text-sm text-slate-400">This is a breaking change from the 0.2.x line. Version numbers here refer to <code>@okalit/core</code>, not the independently versioned CLI or component library.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Existing application (after 0.3.0 is published)</span></div>
+            <pre class="code-font text-slate-300">npm uninstall uhtml
+npm install @okalit/core@^0.3.0 lit@^3.0.0</pre>
+          </div>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li>Remove uhtml only if no other code in your application uses it. Regenerate and commit your package manager's lockfile; changing a manifest alone does not replace an older resolved core.</li>
+            <li>Use Okalit's <code>html</code> export for Lit templates. Move remaining uhtml imports to Lit equivalents; an old template or directive is not made compatible by changing the package version.</li>
+            <li>Keep <code>.value</code> for signals and props. Computed signals are read-only. Signal wrappers no longer modify the global Signal prototypes.</li>
+            <li>Remove <code>batch</code> imports and calls. It is no longer exported; the previous helper did not implement transactions. Normal Lit update scheduling and effect microtasks still apply.</li>
+            <li>Declare public inputs only through <code>@defineElement({ props })</code>. Lit's <code>static properties</code> and property decorators are not supported. Do not redeclare a decorated prop as an instance field.</li>
+            <li>Read component channel handles in <code>onConnected()</code> (or the compatibility hook <code>onInit()</code>), never in constructors or eager field initializers. Callbacks for stateful channels can run immediately during connection.</li>
+            <li>Pair connection setup with <code>onDisconnected()</code> cleanup. A DOM disconnection is not proof of permanent destruction. See <a href="#lifecycle" class="text-brand-violet hover:underline">lifecycle rules</a> and <a href="#forms" class="text-brand-violet hover:underline">form disposal</a>.</li>
+            <li>Routes are removed by default. Opt into <code>cache: true</code> to retain a page instance; use <code>onCacheHide()</code>/<code>onCacheView()</code> to pause and resume work.</li>
+          </ul>
+          <p class="text-sm text-slate-400">The updated local CLI templates and update command no longer request uhtml and target the new core line. Use a CLI release containing those changes when generating projects. The updater does not automatically remove an existing uhtml declaration or migrate application code. A vendored source copy must also be synchronized; if it imports Signals directly, its application's manifest must declare <code>@lit-labs/signals</code> directly.</p>
         </section>
 
         <!-- ═══════════════════════════════════════ -->
@@ -513,6 +537,14 @@ npm run dev</pre>
           </table>
 
           <!-- Full CLI Reference -->
+          <h3 class="text-lg font-bold text-white">Updating a Project</h3>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300">okalit update
+okalit update component-name</pre>
+          </div>
+          <p class="text-sm text-slate-400">Without a component name, the command updates project configuration/dependency targets and catalog components. With a name, it updates only that catalog component. Review generated changes and lockfiles, and follow the <a href="#migration" class="text-brand-violet hover:underline">migration checklist</a> for source changes. The CLI's own version is independent from the core version.</p>
+
           <h3 class="text-lg font-bold text-white mt-8">Full CLI Reference</h3>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>okalit --help</span></div>
@@ -522,6 +554,7 @@ npm run dev</pre>
 
 <span class="text-amber-300 font-bold">Commands:</span>
   <span class="text-cyan-400">new</span> &lt;name&gt;                Create a new app
+  <span class="text-cyan-400">update</span> [component-name]   Update project/catalogs, or one catalog component
 
   <span class="text-cyan-400">generate</span>, <span class="text-cyan-400">-g</span>
     <span class="text-slate-500">-c, --component</span> &lt;path&gt; Create a component
@@ -604,7 +637,7 @@ npm run dev</pre>
   ]
 })
 <span class="text-indigo-400">export class</span> <span class="text-purple-300">MyComponent</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">Okalit</span> {
-  onInit() {
+  onConnected() {
     <span class="text-slate-500">// Called when component connects to DOM</span>
   }
 
@@ -620,7 +653,7 @@ npm run dev</pre>
           <h3 class="text-lg font-bold text-white">Key Concepts</h3>
           <ul class="list-disc text-slate-400 text-sm leading-relaxed">
             <li>Props are <strong class="text-slate-200">signals</strong> — access with <code>.value</code>, set with <code>.value = x</code></li>
-            <li>Rendering is wrapped in an <code>effect()</code> — signal reads inside <code>render()</code> are automatically tracked</li>
+            <li><code>SignalWatcher(LitElement)</code> tracks signal reads during rendering and requests Lit updates when dependencies change</li>
             <li>Styles use <code>CSSStyleSheet</code> (Adopted Stylesheets) — shared across all instances of the same component</li>
             <li>Shadow DOM is enabled by default (inherits from LitElement)</li>
           </ul>
@@ -670,11 +703,11 @@ npm run dev</pre>
         <!-- ═══════════════════════════════════════ -->
         <section id="signals">
           <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Signals & Reactivity</h2>
-          <p class="text-sm text-slate-400">Okalit uses uhtml's signal primitives for fine-grained reactivity. Signals are the core unit of state.</p>
+          <p class="text-sm text-slate-400">Okalit wraps the TC39-proposal Signals implementation provided by <code>@lit-labs/signals</code>. These are proposal-based APIs, not a required native browser feature. The wrappers preserve <code>.value</code> without modifying global prototypes.</p>
 
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Imports</span></div>
-            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { signal, computed, effect, batch } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;</pre>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { signal, computed, effect } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;</pre>
           </div>
 
           <h3 class="text-lg font-bold text-white">signal(initialValue)</h3>
@@ -687,7 +720,7 @@ count.value = <span class="text-orange-400">5</span>;         <span class="text-
           </div>
 
           <h3 class="text-lg font-bold text-white">computed(fn)</h3>
-          <p class="text-sm text-slate-400">Creates a derived signal. Automatically recomputes when dependencies change.</p>
+          <p class="text-sm text-slate-400">Creates a read-only derived signal. Its value is recomputed lazily when read after a dependency changes; do not assign to its <code>.value</code>.</p>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Example</span></div>
             <pre class="code-font text-slate-300"><span class="text-indigo-400">const</span> doubled = computed(() =&gt; count.value * <span class="text-orange-400">2</span>);
@@ -695,7 +728,7 @@ console.log(doubled.value); <span class="text-slate-500">// 10</span></pre>
           </div>
 
           <h3 class="text-lg font-bold text-white">effect(fn)</h3>
-          <p class="text-sm text-slate-400">Runs a side effect whenever its signal dependencies change. Returns a dispose function.</p>
+          <p class="text-sm text-slate-400">Runs immediately, then reruns after dependency changes in a microtask. Returns a dispose function. If the callback returns a cleanup function, it runs before the next execution and on disposal. User-created effects are not automatically owned by the component: store and call their disposers.</p>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Example</span></div>
             <pre class="code-font text-slate-300"><span class="text-indigo-400">const</span> dispose = effect(() =&gt; {
@@ -706,19 +739,8 @@ console.log(doubled.value); <span class="text-slate-500">// 10</span></pre>
 dispose();</pre>
           </div>
 
-          <h3 class="text-lg font-bold text-white">batch(fn)</h3>
-          <p class="text-sm text-slate-400">Groups multiple signal writes into a single notification, preventing intermediate renders.</p>
-          <div class="code-block mb-6">
-            <div class="code-block-header"><span>Example</span></div>
-            <pre class="code-font text-slate-300">batch(() =&gt; {
-  name.value = <span class="text-emerald-400">'Alice'</span>;
-  age.value = <span class="text-orange-400">30</span>;
-  <span class="text-slate-500">// Only one re-render triggered after both changes</span>
-});</pre>
-          </div>
-
           <h3 class="text-lg font-bold text-white">Signals in Components</h3>
-          <p class="text-sm text-slate-400">Props declared in <code>@defineElement</code> are automatically wrapped in signals. The <code>render()</code> method is wrapped in an <code>effect()</code>, so any signal read inside it triggers re-render when that signal changes.</p>
+          <p class="text-sm text-slate-400">Props declared in <code>@defineElement</code> are automatically wrapped in signals. SignalWatcher tracks reads during rendering. An update can execute the component's <code>render()</code> again; Lit updates its existing template parts rather than replacing the entire container.</p>
 
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Automatic tracking</span></div>
@@ -728,6 +750,13 @@ dispose();</pre>
   <span class="text-indigo-400">return</span> html<span class="text-emerald-400">`&lt;p&gt;${this.count.value}&lt;/p&gt;`</span>;
 }</pre>
           </div>
+          <h3 class="text-lg font-bold text-white">Preserving DOM and child state</h3>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li>A stable template normally retains existing input and child-element nodes. Re-running <code>render()</code> is not the same as destroying the subtree.</li>
+            <li>A local child signal does not automatically update its parent or siblings. Components reading a shared signal each become its dependents.</li>
+            <li>Removing a conditional branch, changing a keyed identity, or explicitly replacing DOM can destroy nodes. Use <code>repeat</code> from <code>lit/directives/repeat.js</code> with stable item keys for reorderable lists.</li>
+            <li>Bound input properties can still overwrite user input. Fresh arrays/objects passed on every render can trigger extra child updates. Keep object identities stable when their contents have not changed.</li>
+          </ul>
         </section>
 
         <!-- ═══════════════════════════════════════ -->
@@ -740,19 +769,23 @@ dispose();</pre>
           <table>
             <thead><tr><th>Hook</th><th>When it runs</th></tr></thead>
             <tbody class="text-slate-400">
-              <tr><td class="text-slate-200 font-medium"><code>onInit()</code></td><td>Component connected to DOM (<code>connectedCallback</code>)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onConnected()</code></td><td>Every DOM connection, after attribute synchronization and channel initialization. Rendered children may not exist yet.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onInit()</code></td><td>Compatibility hook called by the default <code>onConnected()</code>; not a once-only constructor hook.</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>onChange(changes)</code></td><td>When any prop signal value changes. Receives <code>{ propName: { previous, current } }</code></td></tr>
               <tr><td class="text-slate-200 font-medium"><code>onBeforeRender(changedProperties)</code></td><td>Before each render cycle (<code>willUpdate</code>)</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>onFirstRender(changedProperties)</code></td><td>After the very first DOM render (<code>firstUpdated</code>)</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>onAfterRender(changedProperties)</code></td><td>After each render cycle (<code>updated</code>)</td></tr>
-              <tr><td class="text-slate-200 font-medium"><code>onDestroy()</code></td><td>Component disconnected from DOM (<code>disconnectedCallback</code>)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onDisconnected()</code></td><td>Every DOM disconnection, after framework prop watchers and channel subscriptions are disposed.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onDestroy()</code></td><td>Compatibility hook called by the default <code>onDisconnected()</code>; disconnection may be temporary.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onCacheHide()</code></td><td>A cache-enabled route is hidden but remains connected. Pause work explicitly if needed.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>onCacheView()</code></td><td>A hidden cached route is restored. Not called for its initial mount.</td></tr>
             </tbody>
           </table>
 
           <div class="code-block mt-6 mb-6">
             <div class="code-block-header"><span>Example</span></div>
             <pre class="code-font text-slate-300"><span class="text-indigo-400">export class</span> <span class="text-purple-300">UserCard</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">Okalit</span> {
-  onInit() {
+  onConnected() {
     console.log(<span class="text-emerald-400">'Component mounted'</span>);
   }
 
@@ -762,14 +795,29 @@ dispose();</pre>
     }
   }
 
-  onDestroy() {
+  onDisconnected() {
     console.log(<span class="text-emerald-400">'Component unmounted'</span>);
   }
 }</pre>
           </div>
+          <p class="text-sm text-slate-400">On reconnection, channels and prop watching are installed again; <code>onFirstRender()</code> does not repeat for the same instance. Setup must be repeatable and cleanup must release application-owned effects, timers, listeners and requests. Hidden cached routes remain active unless you pause them yourself.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Own the effects you create</span></div>
+            <pre class="code-font text-slate-300">onConnected() {
+  this.stopEffect = effect(() =&gt; {
+    console.log(this.count.value);
+    return () =&gt; console.log('Cleaning up this effect run');
+  });
+}
+
+onDisconnected() {
+  this.stopEffect();
+}</pre>
+          </div>
+          <p class="text-sm text-slate-400">Prefer the new connection hooks. Overriding <code>onConnected()</code> or <code>onDisconnected()</code> replaces the default forwarding to legacy hooks; defining both names does not make both run automatically. Preserve <code>super</code> calls when extending an existing hook implementation, or when overriding native Lit lifecycle callbacks. Render hooks remain supported; they have not been removed.</p>
 
           <h3 class="text-lg font-bold text-white">output(name, detail)</h3>
-          <p class="text-sm text-slate-400">Utility method to dispatch a <code>CustomEvent</code> with <code>bubbles: true</code> and <code>composed: true</code>:</p>
+          <p class="text-sm text-slate-400">Dispatches a <code>CustomEvent</code> with <code>bubbles: false</code> and <code>composed: false</code>. Listen directly on the child element. Use an explicit <code>CustomEvent</code> with the required options if delegation across Shadow DOM boundaries is intended.</p>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Emitting events</span></div>
             <pre class="code-font text-slate-300"><span class="text-slate-500">// Inside a component method:</span>
@@ -785,7 +833,7 @@ html<span class="text-emerald-400">`&lt;child-el @on:select=${this.handleSelect}
         <!-- ═══════════════════════════════════════ -->
         <section id="props">
           <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Props System</h2>
-          <p class="text-sm text-slate-400">Props in Okalit are reactive signals exposed as element properties and HTML attributes.</p>
+          <p class="text-sm text-slate-400"><code>@defineElement({ props })</code> is the only supported public input mechanism. Props are signals exposed through element accessors, with attribute-to-prop synchronization. Do not mix in Lit's <code>static properties</code> or <code>@property</code> decorators.</p>
 
           <h3 class="text-lg font-bold text-white">Defining Props</h3>
           <div class="code-block mb-6">
@@ -809,6 +857,12 @@ this.size.value   <span class="text-slate-500">// → 48</span>
 <span class="text-slate-500">// Write (triggers re-render):</span>
 this.size.value = <span class="text-orange-400">64</span>;
 
+<span class="text-slate-500">// Assign a raw value through the element setter:</span>
+this.size = <span class="text-orange-400">64</span>;
+
+<span class="text-slate-500">// Parent template: property binding, not a signal object:</span>
+html`&lt;user-avatar .size=${96}&gt;&lt;/user-avatar&gt;`;
+
 <span class="text-slate-500">// From HTML attribute:</span>
 <span class="text-slate-500">// &lt;user-avatar size="96" online&gt;&lt;/user-avatar&gt;</span></pre>
           </div>
@@ -820,6 +874,7 @@ this.size.value = <span class="text-orange-400">64</span>;
             <li><code>Number</code> — parsed with <code>Number(value)</code></li>
             <li><code>Boolean</code> — <code>true</code> if attribute exists and is not <code>"false"</code></li>
           </ul>
+          <p class="text-sm text-slate-400">Attribute removal passes <code>null</code> through conversion: String becomes <code>null</code>, Number becomes <code>0</code>, Boolean becomes <code>false</code>. There is no automatic prop-to-attribute reflection or JSON parsing. Pass objects and arrays with Lit property bindings such as <code>.items=${items}</code>, not serialized attributes. The <code>type</code> option controls attribute coercion, not runtime validation of property assignments.</p>
         </section>
 
         <!-- ═══════════════════════════════════════ -->
@@ -854,6 +909,7 @@ this.size.value = <span class="text-orange-400">64</span>;
               <tr><td class="text-slate-200 font-medium"><code>routes</code></td><td>Array</td><td>Root route definitions</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>modeDebug</code></td><td>Boolean</td><td>Enables channel debug logging</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>obfuscateChannels</code></td><td>Boolean</td><td>Scrambles channel data in storage</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>routerCacheLimit</code></td><td>Number</td><td>Maximum hidden cached routes per root outlet (default 10). Set 0 to disable retention.</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>i18n</code></td><td>Object</td><td>i18n configuration (locales, default, basePath)</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>template</code></td><td>Function</td><td>Layout wrapper for the router outlet</td></tr>
             </tbody>
@@ -861,6 +917,7 @@ this.size.value = <span class="text-orange-400">64</span>;
 
           <h3 class="text-lg font-bold text-white mt-8">ModuleMixin</h3>
           <p class="text-sm text-slate-400">Groups related pages under a feature boundary. Provides a nested <code>&lt;okalit-router&gt;</code> for child routes.</p>
+          <p class="text-sm text-slate-400">AppMixin destroys its router and clears outlet registrations on disconnection, then recreates the router on reconnection. Apply it to a single application root. For a ModuleMixin outlet, configure <code>static routerCacheLimit = 10</code> on the module class.</p>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>home.module.js</span></div>
             <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { <span class="text-purple-300">ModuleMixin</span>, <span class="text-purple-300">Okalit</span>, defineElement } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
@@ -947,13 +1004,76 @@ this.size.value = <span class="text-orange-400">64</span>;
           <table>
             <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
             <tbody class="text-slate-400">
-              <tr><td class="text-slate-200 font-medium"><code>path</code></td><td>string</td><td>URL pattern. Supports <code>:param</code> dynamic segments.</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>path</code></td><td>string</td><td>URL pattern. Supports <code>:param</code> dynamic segments and a trailing <code>**</code> catch-all.</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>component</code></td><td>string</td><td>Custom element tag to render</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>import</code></td><td>Function</td><td>Lazy loader (dynamic import)</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>children</code></td><td>Route[]</td><td>Nested child routes</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>guards</code></td><td>Function[]</td><td>Navigation guards (run before loading)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>cache</code></td><td>Boolean</td><td>Opt in to retaining the route element while hidden. Omitted or false removes it when leaving.</td></tr>
             </tbody>
           </table>
+
+          <h3 class="text-lg font-bold text-white">Not-found pages and wildcard routes</h3>
+          <p class="text-sm text-slate-400 mb-4">Add a trailing <code>**</code> route to render your own 404 page when no specific sibling route matches. Specific routes take priority even when the wildcard is declared first.</p>
+          <div class="code-block mb-4">
+            <div class="code-block-header"><span>app.routes.js — application-wide fallback</span></div>
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">export default</span> [
+  {
+    path: <span class="text-emerald-400">'/home'</span>,
+    component: <span class="text-emerald-400">'home-page'</span>,
+    import: () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./pages/home.page.js'</span>),
+  },
+  {
+    path: <span class="text-emerald-400">'**'</span>,
+    component: <span class="text-emerald-400">'not-found-page'</span>,
+    import: () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./pages/not-found.page.js'</span>),
+  },
+];</pre>
+          </div>
+          <p class="text-sm text-slate-400 mb-4">A wildcard can also be scoped to a module. It handles unknown child paths under that module without catching paths belonging to other modules:</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>admin.routes.js — module fallback</span></div>
+            <pre class="code-font text-slate-300">children: [
+  {
+    path: <span class="text-emerald-400">'/users'</span>,
+    component: <span class="text-emerald-400">'admin-users-page'</span>,
+    import: () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./users.page.js'</span>),
+  },
+  {
+    path: <span class="text-emerald-400">'**'</span>,
+    component: <span class="text-emerald-400">'admin-not-found-page'</span>,
+    import: () =&gt; <span class="text-indigo-400">import</span>(<span class="text-emerald-400">'./not-found.page.js'</span>),
+  },
+]</pre>
+          </div>
+          <p class="text-sm text-slate-400">The wildcard must be the final path segment. It does not capture the unmatched URL as a route parameter. A root-level wildcard is optional; without one, unmatched paths continue to be reported as having no matching route.</p>
+
+          <h3 class="text-lg font-bold text-white">Route lifetime and optional cache</h3>
+          <p class="text-sm text-slate-400">By default, leaving for another route component removes the old element. Its disconnect hook runs and a later visit creates a new instance. Cache is opt-in per route: it retains the element and its local DOM/state, hiding it with <code>display: none</code>.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Retain an editor; recreate other pages</span></div>
+            <pre class="code-font text-slate-300">export default [
+  {
+    path: '/editor',
+    component: 'editor-page',
+    import: () =&gt; import('./editor.page.js'),
+    cache: true,
+  },
+  {
+    path: '/summary',
+    component: 'summary-page',
+    import: () =&gt; import('./summary.page.js'),
+  },
+];
+
+// Inside EditorPage: these hooks do not disconnect/reconnect the element.
+onCacheHide() { this.pausePreview(); }
+onCacheView() { this.resumePreview(); }</pre>
+          </div>
+          <p class="text-sm text-slate-400">Each outlet retains at most 10 hidden routes by default. Configure <code>routerCacheLimit</code> on AppMixin's config, <code>static routerCacheLimit</code> on a module, or <code>&lt;okalit-router cache-limit="5"&gt;</code> on a custom outlet. Eviction removes the oldest hidden entry and triggers disconnection. Hidden routes do not automatically stop effects, subscriptions, timers or requests.</p>
+          <p class="text-sm text-slate-400">The current outlet identifies active and cached views by component tag, not by the full URL. Navigating between parameters of the same component reuses that instance even without <code>cache: true</code>; react to route state rather than relying only on connection hooks. Caching a page also does not exempt scoped channels from router cleanup.</p>
+          <h3 class="text-lg font-bold text-white">Initial navigation and visual flashes</h3>
+          <p class="text-sm text-slate-400">Resolve session redirects in guards before mounting a login page, rather than redirecting from its connection hook. When changing modules, the outlet prepares the incoming element hidden and waits for its first render and the matched nested route before revealing it and removing or hiding the outgoing view. This avoids an empty intermediate view, but is not an animated transition; <code>updateComplete</code> does not mean that network data or images have loaded.</p>
 
           <h3 class="text-lg font-bold text-white mt-8">Navigation Guards</h3>
           <p class="text-sm text-slate-400">Guards are async functions that control route access. They can allow, block, or redirect.</p>
@@ -1035,6 +1155,7 @@ navigate(<span class="text-emerald-400">'/dashboard'</span>);</pre>
           </table>
 
           <h3 class="text-lg font-bold text-white mt-8">Using Channels in Components</h3>
+          <p class="text-sm text-slate-400">Handles declared in <code>static channels</code> are installed on connection, after subclass construction finishes and before <code>onConnected()</code>. They are not available in the constructor or eager field initializers. Stateful callbacks run initially on connection and subsequently on changes; all handles are installed before these initial callbacks run. Framework subscriptions are disposed on disconnection and recreated on reconnection.</p>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>profile.page.js</span></div>
             <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { sessionToken, userProfile, toastEvent } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'../../channels/session.channel.js'</span>;
@@ -1047,6 +1168,10 @@ navigate(<span class="text-emerald-400">'/dashboard'</span>);</pre>
     user: userProfile(<span class="text-emerald-400">'onUserChange'</span>),        <span class="text-slate-500">// + subscribe to changes</span>
     toast: toastEvent(<span class="text-emerald-400">'onToast'</span>),             <span class="text-slate-500">// ephemeral subscription</span>
   };
+
+  onConnected() {
+    console.log('Current user:', this.user.value);
+  }
 
   onUserChange(value) {
     console.log(<span class="text-emerald-400">'User updated:'</span>, value);
@@ -1091,6 +1216,7 @@ navigate(<span class="text-emerald-400">'/dashboard'</span>);</pre>
 <span class="text-slate-500">// Read directly from storage (before channels are initialized)</span>
 <span class="text-indigo-400">const</span> stored = getChannelValueStorage(<span class="text-emerald-400">'session:token'</span>, <span class="text-emerald-400">'local'</span>);</pre>
           </div>
+          <p class="text-sm text-slate-400">Imperative <code>subscribeChannel(name, callback)</code> returns <code>{ handle, dispose }</code>; call its disposer yourself. Browser storage and channel obfuscation are not a security boundary: obfuscation is reversible, not encryption. Do not treat stored session values as proof of authorization; the server must enforce access control. Storage availability and quota errors still need application-level handling.</p>
         </section>
 
         <!-- ═══════════════════════════════════════ -->
@@ -1103,11 +1229,11 @@ navigate(<span class="text-emerald-400">'/dashboard'</span>);</pre>
           <h3 class="text-lg font-bold text-white">Creating a Form</h3>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>login.page.js</span></div>
-            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { createForm, required, email, minLength } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core/form'</span>;
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { createForm, required, isEmail, minLength } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core/form'</span>;
 
 <span class="text-indigo-400">const</span> form = createForm({
   fields: {
-    email:    { value: <span class="text-emerald-400">''</span>, validators: [required(), email()] },
+    email:    { value: <span class="text-emerald-400">''</span>, validators: [required(), isEmail()] },
     password: { value: <span class="text-emerald-400">''</span>, validators: [required(), minLength(<span class="text-orange-400">8</span>)] },
   },
   validateOn: <span class="text-emerald-400">'blur'</span>,  <span class="text-slate-500">// 'input' | 'blur' | 'submit'</span>
@@ -1126,18 +1252,38 @@ navigate(<span class="text-emerald-400">'/dashboard'</span>);</pre>
               <tr><td class="text-slate-200 font-medium"><code>form.validateField(name)</code></td><td>Validate a single field</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>form.values()</code></td><td>Get all values as plain object</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>form.reset()</code></td><td>Reset all fields to initial values</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>form.dispose()</code></td><td>Idempotently stop automatic validation effects. Does not reset values or prevent manual validation. No restart method is provided.</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>form.setErrors(map)</code></td><td>Set server-side errors: <code>{ email: 'Already taken' }</code></td></tr>
               <tr><td class="text-slate-200 font-medium"><code>form.handleInput(event)</code></td><td>Event handler for input changes (expects <code>detail.name</code> + <code>detail.value</code>)</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>form.handleBlur(event)</code></td><td>Event handler for blur (expects <code>detail.name</code>)</td></tr>
             </tbody>
           </table>
 
+          <h3 class="text-lg font-bold text-white">Disposal and reconnection</h3>
+          <p class="text-sm text-slate-400"><code>validateOn: 'input'</code> installs effects when the form is created. Dispose them when their owner disconnects. A disposed form does not automatically resume input validation on reconnection; recreate it if that is the desired lifetime. Blur/submit forms do not create these automatic effects. Hidden cached routes remain connected, so they do not dispose their forms merely by being hidden.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Connection-scoped input validation</span></div>
+            <pre class="code-font text-slate-300">onConnected() {
+  this.form = createForm({
+    fields: {
+      title: { value: '', validators: [required()] },
+    },
+    validateOn: 'input',
+  });
+}
+
+onDisconnected() {
+  this.form.dispose();
+}</pre>
+          </div>
+          <p class="text-sm text-slate-400">This example intentionally resets the form after reconnection; retain a separate draft if values must survive. For native inputs, adapt their events to the form API or write the field signal directly. <code>handleInput</code> expects <code>event.detail.name</code> and <code>event.detail.value</code>, not a native input event's target.</p>
+
           <h3 class="text-lg font-bold text-white mt-8">Built-in Validators</h3>
           <table>
             <thead><tr><th>Validator</th><th>Signature</th><th>Description</th></tr></thead>
             <tbody class="text-slate-400">
               <tr><td class="text-slate-200 font-medium"><code>required</code></td><td><code>required(msg?)</code></td><td>Value must be non-empty</td></tr>
-              <tr><td class="text-slate-200 font-medium"><code>email</code></td><td><code>email(msg?)</code></td><td>Must match email format</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>isEmail</code></td><td><code>isEmail(msg?)</code></td><td>Must match email format</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>minLength</code></td><td><code>minLength(n, msg?)</code></td><td>Minimum string length</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>maxLength</code></td><td><code>maxLength(n, msg?)</code></td><td>Maximum string length</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>min</code></td><td><code>min(n, msg?)</code></td><td>Minimum numeric value</td></tr>
@@ -1150,11 +1296,11 @@ navigate(<span class="text-emerald-400">'/dashboard'</span>);</pre>
           <h3 class="text-lg font-bold text-white mt-8">Full Form Example</h3>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>register.page.js</span></div>
-            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { createForm, required, email, minLength, match } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core/form'</span>;
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { createForm, required, isEmail, minLength, match } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core/form'</span>;
 
 form = createForm({
   fields: {
-    email:    { value: <span class="text-emerald-400">''</span>, validators: [required(), email()] },
+    email:    { value: <span class="text-emerald-400">''</span>, validators: [required(), isEmail()] },
     password: { value: <span class="text-emerald-400">''</span>, validators: [required(), minLength(<span class="text-orange-400">8</span>)] },
     confirm:  { value: <span class="text-emerald-400">''</span>, validators: [
       required(),
@@ -1297,6 +1443,7 @@ inject(<span class="text-emerald-400">'auth'</span>).login({ email, password }).
 
           <h3 class="text-lg font-bold text-white">RequestControl</h3>
           <p class="text-sm text-slate-400">All service methods return a <code>RequestControl</code> — a thenable wrapper that supports both declarative (<code>.fire()</code>) and imperative (<code>await</code>) patterns:</p>
+          <p class="text-sm text-slate-400"><code>fire()</code> currently returns <code>undefined</code>, not the request promise. To await completion and handle errors with <code>try/catch</code>, await the RequestControl itself. Component disconnection or route caching does not automatically cancel service calls or suppress late responses.</p>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Two usage patterns</span></div>
             <pre class="code-font text-slate-300"><span class="text-slate-500">// Pattern 1: Declarative with .fire()</span>
@@ -1723,6 +1870,28 @@ outEvent(this, <span class="text-emerald-400">'on:submit'</span>, { formData });
 <span class="text-slate-500">// Pass variables separately:</span>
 this.query(GET_USER, { id: <span class="text-emerald-400">'42'</span> });</pre>
           </div>
+        </section>
+
+        <section id="status">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Status & Future Work</h2>
+          <p class="text-sm text-slate-400">This documentation describes the local Core 0.3.0 implementation, not a guarantee of registry publication or a completed stability/security audit. Lit is the current rendering foundation; a renderer-independent or vanilla implementation is not shipped.</p>
+          <h3 class="text-lg font-bold text-white">Implemented in this line</h3>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li>Lit 3 rendering with SignalWatcher; local signal wrappers preserving <code>.value</code>; no uhtml dependency or <code>batch</code> export.</li>
+            <li>Decorator props as the supported input contract; channel setup after construction; repeatable connection/disconnection hooks with legacy forwarding.</li>
+            <li>Router outlet registration cleanup and app router recreation; optional, bounded route cache with hide/restore hooks.</li>
+            <li>Explicit form effect disposal through <code>form.dispose()</code>.</li>
+          </ul>
+          <h3 class="text-lg font-bold text-white">Stabilization priorities, not completed features</h3>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li>Browser regression tests for DOM identity, focus, props, channels, reconnects, route cache and navigation races. Existing Node tests and builds do not verify all browser behavior.</li>
+            <li>A consistent async error/cancellation contract, including disposal during lazy route imports, service callback errors and late results.</li>
+            <li>More resilient storage access, explicit persisted-data versioning/migration and documented failure handling.</li>
+            <li>An atomic visual route swap to reduce transition flashes. The existing first-render wait is not a complete solution.</li>
+          </ul>
+          <h3 class="text-lg font-bold text-white">Optional integrations under consideration</h3>
+          <p class="text-sm text-slate-400">Async resources or <code>@lit/task</code>, tree-scoped dependencies with <code>@lit/context</code>, virtualized lists, and an RxJS adapter are proposals, not built-in APIs. React wrappers, scoped registries, SSR and a possible vanilla experiment also require separate compatibility work. Zustand and another Signals implementation are not required for current state management.</p>
+          <p class="text-sm text-slate-400">Application safety still requires server-side authorization and validation, appropriate handling of browser storage and untrusted content, and GraphQL variables rather than user-input interpolation. Lit text interpolation is not a general sanitizer for arbitrary HTML, URLs, CSS or scripts; the <code>gql</code> helper is not a sanitizer either.</p>
         </section>
 
         <!-- End spacer -->
