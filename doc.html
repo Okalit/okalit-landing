@@ -153,6 +153,7 @@
           <a href="#cli" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">CLI</a>
           <a href="#testing" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Unit &amp; E2E Testing</a>
           <a href="#biome" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Code Quality · Biome</a>
+          <a href="#npm-libraries" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">npm Libraries</a>
           <a href="#project-structure" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Project Structure</a>
         </nav>
       </div>
@@ -670,6 +671,7 @@ okalit update component-name</pre>
 
 <span class="text-amber-300 font-bold">Scaffold:</span>
   <span class="text-cyan-400">new</span> &lt;name&gt;                Choose Project, Component or Catalog
+    Distribution prompt     Components/catalogs: source or npm library
   <span class="text-cyan-400">new</span> &lt;name&gt; --ok | --js     Create an app without prompts
     --empty                 Use the empty app template
     --unit-tests            Enable unit tests (default)
@@ -718,7 +720,7 @@ okalit update component-name</pre>
         <section id="testing">
           <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Unit &amp; End-to-End Testing</h2>
           <p class="text-sm text-slate-400">Creation asks <strong class="text-white">Add unit tests?</strong> (Yes by default) and <strong class="text-white">Add end-to-end tests?</strong> (No by default). Unit tests use Web Test Runner + Open WC in Chromium; end-to-end tests use Playwright against the running application. Both are optional.</p>
-          <p class="text-sm text-slate-400">Projects, standalone component demos and catalogs offer both options. Catalogs now include a runnable demo using the default component viewer. Testing dependencies and configuration are installed only for your selections.</p>
+          <p class="text-sm text-slate-400">Projects, standalone component demos and catalogs offer both options. Catalogs include a runnable demo using the default component viewer. Source unit/e2e configuration follows your selections. npm library mode additionally includes browser tooling for its separate package-consumer test.</p>
           <div class="code-block">
             <div class="code-block-header"><span>Terminal</span></div>
             <pre class="code-font text-slate-300">okalit new my-app --ok --unit-tests --e2e
@@ -768,7 +770,7 @@ okalit -g --interceptor src/interceptors/auth
               <tr><td><code>npm run test:e2e:ui</code></td><td>Open Playwright's interactive UI</td><td>E2e enabled</td></tr>
             </tbody>
           </table>
-          <p class="text-sm text-slate-400">Unit setup adds <code>web-test-runner.config.mjs</code> and <code>okalit-test-plugin.mjs</code>. E2e setup adds <code>playwright.config.mjs</code> and an initial spec in <code>e2e/</code>, tailored to the application, component demo or catalog demo. Declining both options adds neither runner nor test scripts.</p>
+          <p class="text-sm text-slate-400">Unit setup adds <code>web-test-runner.config.mjs</code> and <code>okalit-test-plugin.mjs</code>. E2e setup adds <code>playwright.config.mjs</code> and an initial spec in <code>e2e/</code>, tailored to the application, component demo or catalog demo. Declining both options omits these source-test configurations and scripts. npm libraries still include their independent <code>test:package</code> verification and browser tooling.</p>
           <p class="text-sm text-slate-400">Use <code>npm run test:watch</code> in an interactive terminal or <code>npm run test:e2e:ui</code> for Playwright UI. E2e starts the Rsbuild server on port 4173, reuses a running server outside CI and retains traces on failure. Playwright consumes compiled browser code, so it needs no .ok parser.</p>
           <p class="text-sm text-slate-400">Run different projects' e2e suites sequentially, or assign distinct ports and base URLs in their Playwright configurations. Otherwise server reuse may connect a test to another application's demo.</p>
         </section>
@@ -794,6 +796,49 @@ npm run lint:fix   # biome check --write .</pre>
           </div>
           <div class="info-callout"><strong>Same rules, not a custom .ok parser.</strong><p>Biome does not directly lint or format .ok blocks. <code>ignoreUnknown</code> skips formats it cannot recognize; JavaScript and other supported files use the same baseline in either project syntax. SCSS support depends on the pinned Biome version. Validate .ok compilation with <code>npm run build</code> and component behavior with browser tests.</p></div>
           <p class="text-sm text-slate-400">Review reported diagnostics and changes from <code>lint:fix</code>. Sharing a configuration does not automatically make every generated or edited file free of lint findings.</p>
+        </section>
+
+        <section id="npm-libraries">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Publishable npm Libraries</h2>
+          <p class="text-sm text-slate-400">Create a Component or Catalog interactively and choose <strong class="text-white">npm library</strong> in <strong class="text-white">How do you want to distribute it?</strong>. Source catalog remains the default. The npm option asks for a package name, optionally scoped (for example <code>@company/design-system</code>), independently of your local folder name. Both .ok and JavaScript sources work.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span>Terminal · select Catalog and npm library</span></div>
+            <pre class="code-font text-slate-300">okalit new my-catalog
+cd my-catalog
+npm install
+npm run dev
+npm run build:demo
+npm run build
+npm run test:install
+npm run test:package
+npm pack --dry-run</pre>
+          </div>
+          <table>
+            <thead><tr><th>Target</th><th>Output</th><th>Consumer</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td>Source catalog</td><td>Registry-declared .ok/.js sources and styles</td><td>Application compiles sources with its own tooling</td></tr>
+              <tr><td>npm library</td><td>Compiled ESM in dist/, inline styles embedded</td><td>Imports a package; no .ok loader required</td></tr>
+              <tr><td>Project</td><td>Website in dist/</td><td>Deploy to a web server; no npm library option</td></tr>
+            </tbody>
+          </table>
+          <p class="text-sm text-slate-400">Library mode separates <code>build</code> (npm distribution in <code>dist/</code>) from <code>build:demo</code> (website in <code>demo-dist/</code>). It generates package exports and <code>prepack</code>, so <code>npm pack</code> and <code>npm publish</code> build automatically. Core/Lit remain external runtime peers; other external imports must be declared in dependencies or peers. Nested .ok/.js modules and CSS/SCSS inline imports are bundled.</p>
+          <p class="text-sm text-slate-400">Catalog builds discover <code>components/name/name.ok</code> or <code>name.js</code>, including nested folders. Root imports expose named classes; individual components are available through subpaths. Use unique exported class names and custom-element tags. Maintain <code>demo.js</code> for preview and <code>registry.json</code> separately for source distribution.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span>JavaScript · consumer of a catalog named @company/design-system</span></div>
+            <pre class="code-font text-slate-300">import '@company/design-system';
+// Or load just one entry:
+import { ExampleButton } from '@company/design-system/components/example-button';</pre>
+          </div>
+          <p class="text-sm text-slate-400"><code>test:package</code> packs and installs a clean consumer, then checks exports, component registration/rendering and styles in Chromium without a custom loader. This distribution test is generated independently of your optional source unit/e2e selections.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span>Terminal · explicit publication after reviewing name/version and authentication</span></div>
+            <pre class="code-font text-slate-300"># Public scoped npm package:
+npm publish --access public
+
+# Private company registry:
+npm publish --registry https://npm.company.example</pre>
+          </div>
+          <div class="info-callout"><strong>Your registry, your release process.</strong><p>The CLI prepares the library but never publishes automatically, forces public access or stores registry credentials. Use your existing npm authentication tooling and do not commit tokens. Applications retain the normal build-for-deployment workflow.</p></div>
         </section>
 
         <section id="project-structure">
