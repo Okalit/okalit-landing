@@ -9,15 +9,16 @@
   <!-- Open Graph / Facebook / WhatsApp / Discord -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://okalit.com/">
-  <meta property="og:title" content="Okalit - Bizarre SPA Framework">
-  <meta property="og:description" content="Framework for WebComponents. A batteries-included architecture for modern single-page applications.">
+  <meta property="og:title" content="Okalit — Native components. Clear architecture.">
+  <meta property="og:description" content="Build reactive Web Components with .ok files, Lit and Signals. One framework, a clear path from component to application.">
   <meta property="og:image" content="https://okalit.com/preview.jpg">
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://okalit.com/">
-  <meta name="twitter:title" content="Okalit - Bizarre SPA Framework">
-  <meta name="twitter:description" content="Framework for WebComponents. A batteries-included architecture for modern single-page applications.">
+  <meta name="twitter:title" content="Okalit — Native components. Clear architecture.">
+  <meta name="twitter:description" content="Build reactive Web Components with .ok files, Lit and Signals. One framework, a clear path from component to application.">
+  <meta name="description" content="Build reactive Web Components with Okalit .ok files, Lit and Signals. Explore the architecture, create your first app and install the VS Code extension.">
   <meta name="twitter:image" content="https://okalit.com/preview.jpg">
   <!-- CDN de Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -28,12 +29,13 @@
         extend: {
           colors: {
             brand: {
-              pale: '#fce7f3',
-              pastel: '#d8b4fe',
-              violet: '#b18af5',
-              purple: '#e879b9',
-              darkbg: '#030307',
-              darkcard: '#120f24',
+              pale: '#eef2ff',
+              pastel: '#c4b5fd',
+              violet: '#a78bfa',
+              purple: '#8b5cf6',
+              blue: '#60a5fa',
+              darkbg: '#080c18',
+              darkcard: '#111a2e',
               lightbg: '#f8fafc'
             }
           },
@@ -70,8 +72,8 @@
     }
     .signal-step.is-active {
       color: #fff;
-      border-color: rgba(244, 114, 182, 0.9);
-      background: rgba(217, 70, 164, 0.25);
+      border-color: rgba(96, 165, 250, 0.9);
+      background: rgba(139, 92, 246, 0.25);
     }
     .signal-connector.is-active {
       color: #d8b4fe;
@@ -83,7 +85,7 @@
       inset: -8% -4% -4%;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 42% 72% at 68% 48%, rgba(190, 45, 139, 0.3), transparent 76%),
+        radial-gradient(ellipse 42% 72% at 68% 48%, rgba(59, 130, 246, 0.24), transparent 76%),
         radial-gradient(ellipse 34% 70% at 34% 42%, rgba(105, 47, 201, 0.23), transparent 76%),
         radial-gradient(ellipse 34% 60% at 88% 55%, rgba(111, 73, 173, 0.15), transparent 78%);
       filter: blur(42px);
@@ -111,7 +113,7 @@
       width: 54%;
       height: 112%;
       border-radius: 56% 44% 38% 62% / 50% 58% 42% 50%;
-      background: radial-gradient(ellipse at center, rgba(233, 85, 163, 0.28), rgba(190, 45, 125, 0.12) 46%, transparent 72%);
+      background: radial-gradient(ellipse at center, rgba(96, 165, 250, 0.24), rgba(59, 130, 246, 0.12) 46%, transparent 72%);
       animation: auroraFlowReverse 16s ease-in-out infinite alternate;
     }
     @keyframes auroraFlow {
@@ -139,7 +141,7 @@
       z-index: -1;
       inset: -0.28em -0.22em;
       border-radius: 999px;
-      background: radial-gradient(ellipse, rgba(244, 114, 182, 0.42), rgba(139, 92, 246, 0.2) 42%, transparent 74%);
+      background: radial-gradient(ellipse, rgba(96, 165, 250, 0.26), rgba(139, 92, 246, 0.2) 42%, transparent 74%);
       filter: blur(24px);
       opacity: 0.85;
     }
@@ -149,10 +151,10 @@
       overflow: visible;
     }
     /* Gradientes dinámicos para el logotipo de Okalit */
-    .logo-gradient-1 { stop-color: #fce7f3; }
+    .logo-gradient-1 { stop-color: #eef2ff; }
     .logo-gradient-2 { stop-color: #d8b4fe; }
-    .logo-gradient-3 { stop-color: #b18af5; }
-    .logo-gradient-4 { stop-color: #e879b9; }
+    .logo-gradient-3 { stop-color: #60a5fa; }
+    .logo-gradient-4 { stop-color: #8b5cf6; }
 
     /* Barra de desplazamiento personalizada y elegante */
     ::-webkit-scrollbar {
@@ -168,21 +170,23 @@
     }
 
   </style>
+  <link rel="stylesheet" href="./site.css">
 </head>
-<body class="bg-brand-darkbg text-slate-100 antialiased overflow-x-hidden">
+<body data-example-syntax="ok" class="bg-brand-darkbg text-slate-100 antialiased overflow-x-hidden">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content">
 
   <!-- SECCIÓN HERO PRINCIPAL -->
-  <section id="hero-section" class="relative pt-16 pb-20 lg:pt-28 lg:pb-36">
+  <section id="hero-section" class="relative pt-16 pb-20 lg:pt-20 lg:pb-24">
     <div class="hero-aurora" aria-hidden="true"></div>
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Branding flotante al tope de la página (reemplazando el header removido) -->
-      <div class="flex justify-center lg:justify-start items-center gap-3 mb-16 reveal-element">
-        <!-- Recreación vectorial del logo okalit.png -->
-        <img class="w-10 h-10" src="./okalit.png" alt="">
-        <span class="text-2xl font-bold tracking-tight bg-gradient-to-r from-brand-violet to-brand-purple bg-clip-text text-transparent">Okalit</span>
+      <div class="hero-branding">
+        <a class="site-logo" href="#hero-section" aria-label="Okalit home">
+          <img src="./okalit.png" width="40" height="40" alt="">
+          <span>Okalit<span class="logo-dot">.</span></span>
+        </a>
       </div>
-
+      
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
         <!-- Textos del Hero -->
@@ -191,40 +195,44 @@
           <!-- Etiqueta superior -->
           <div class="inline-flex items-center gap-2 rounded-full border border-brand-violet/50 bg-gradient-to-r from-brand-purple/25 via-brand-violet/15 to-brand-purple/25 px-4 py-2 text-xs font-bold tracking-wide text-violet-200 shadow-lg shadow-brand-purple/20">
             <i class="fa-solid fa-bolt text-brand-violet" aria-hidden="true"></i>
-            <span>THE NEXT STEP</span>
+            <span>CRAFT. ARCHITECTURE. AMBITION.</span>
             <span class="h-3 border-l border-brand-violet/40"></span>
-            <span class="font-mono text-white">CORE 0.3.0</span>
+            <span class="font-mono text-white">CORE 0.3.1</span>
           </div>
 
           <!-- Título principal -->
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            Reactive by nature.<br>
-            <span class="hero-title-glow bg-gradient-to-r from-brand-violet via-fuchsia-300 to-brand-purple bg-clip-text text-transparent">Native by design.</span>
+            Built with passion<br>
+            <span class="hero-title-glow brand-text">For complexity.</span>
           </h1>
 
           <!-- Resumen de Okalit -->
           <p class="text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 font-light">
-            A progressive Web Components framework built on <strong class="text-slate-200">Lit 3</strong>, with TC39-proposal Signals via <strong class="text-slate-200">@lit-labs/signals</strong>, modern TC39 decorators, and modular architecture. Reactive state and incremental DOM updates, without a virtual DOM.
+            Great software demands more than features. It demands <strong class="text-white">engineering with intent</strong>. Okalit brings reactive components, connected services and modular architecture into one cohesive framework — giving teams the clarity to build ambitious applications without losing control of the complexity.
           </p>
           <div class="inline-flex items-center gap-2 rounded-lg border border-brand-violet/25 bg-brand-violet/10 px-3 py-2 text-sm text-violet-100">
             <i class="fa-solid fa-bolt text-brand-violet" aria-hidden="true"></i>
-            <span>Now powered by Lit 3 + Signals</span>
-            <a href="doc.html#migration" class="font-semibold text-white underline decoration-brand-violet/70 underline-offset-4 hover:text-brand-violet">See what changed</a>
+            <span>Your component, without the boilerplate.</span>
+            <a href="doc.html#ok-files" class="font-semibold text-white underline decoration-brand-violet/70 underline-offset-4 hover:text-brand-violet">Meet .ok</a>
           </div>
 
           <!-- Botones de Acción y Copiador de Terminal CLI -->
-          <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+          <div class="hero-actions">
             <!-- Botón primario de Documentación -->
-            <a href="doc.html" class="w-full sm:w-auto px-8 h-12 inline-flex items-center justify-center gap-2 rounded-xl text-white bg-gradient-to-r from-brand-violet to-brand-purple hover:shadow-xl hover:shadow-brand-purple/30 transition duration-300 font-medium">
-              <i class="fa-solid fa-book"></i> Documentation
+            <a href="doc.html#installation" class="button-primary w-full sm:w-auto">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> Build your first app
             </a>
 
             <!-- Copiador de npx comando -->
             <div class="w-full sm:w-auto flex items-center justify-between gap-3 px-4 h-12 rounded-xl bg-white/5 border border-white/10 text-slate-300 font-mono text-sm relative group max-w-sm sm:max-w-none">
               <span class="select-all">npx @okalit/cli new app-name</span>
-              <button onclick="copyToClipboard('npx @okalit/cli new app-name', this)" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors" title="Copy Command">
+              <button onclick="copyToClipboard('npx @okalit/cli new app-name', this)" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors" title="Copy Command" aria-label="Copy create-project command">
                 <i class="fa-regular fa-copy"></i>
               </button>
+            </div>
+            <div class="hero-supporting-links">
+              <a href="#examples">Explore a real component <span aria-hidden="true">↓</span></a>
+              <a href="https://marketplace.visualstudio.com/items?itemName=Okalit.okalit-language-support" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-code" aria-hidden="true"></i> Get the VS Code extension <span aria-hidden="true">↗</span></a>
             </div>
           </div>
 
@@ -251,41 +259,35 @@
           <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-brand-violet to-brand-purple opacity-30 blur-2xl group-hover:opacity-40 transition pointer-events-none"></div>
           
           <!-- Contenedor de la IDE -->
-          <div class="relative bg-[#0c091e] rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+          <div class="editor-window relative rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
             <!-- Barra superior estilo Mac -->
-            <div class="bg-[#080516] px-4 py-3 flex items-center justify-between border-b border-white/5">
+            <div class="editor-toolbar px-4 py-3 flex items-center justify-between border-b border-white/5">
               <div class="flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full bg-red-500"></span>
                 <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
                 <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                <span class="ml-4 text-xs font-mono text-slate-400">my-counter.js</span>
+                <span class="ml-4 text-xs font-mono text-slate-400">my-counter.ok</span>
               </div>
               <div class="flex items-center gap-1.5 text-xs text-brand-violet font-semibold">
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                100% JS / ESM
+                .ok / Lit
               </div>
             </div>
 
             <!-- Código limpio a pantalla completa sin división de playground -->
-            <div class="p-6 bg-[#0c091e] overflow-x-auto">
+            <div class="p-6 overflow-x-auto">
               <pre class="code-font text-xs sm:text-sm leading-relaxed text-slate-200">
-<span class="text-indigo-400">import</span> { <span class="text-purple-300">Okalit</span>, <span class="text-pink-500">html</span>, <span class="text-pink-500">defineElement</span> } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
-<span class="text-indigo-400">import</span> styles <span class="text-indigo-400">from</span> <span class="text-emerald-400">'./my-counter.scss?inline'</span>;
-
-<span class="text-blue-500">@defineElement</span>({
+<span class="text-blue-500">@component</span> {
   tag: <span class="text-emerald-400">'my-counter'</span>,
-  styles: [styles],
-  props: [
-    { count: { type: Number, value: <span class="text-orange-500">0</span> } }
-  ]
-})
-<span class="text-indigo-400">export class</span> <span class="text-purple-300">MyCounter</span> <span class="text-indigo-400">extends</span> <span class="text-purple-300">Okalit</span> {
-  render() {
-    <span class="text-indigo-400">return</span> <span class="text-pink-500">html</span>`
-      &lt;p&gt;Count: <span class="text-blue-400">${this.count.value}</span>&lt;/p&gt;
-      &lt;button <span class="text-yellow-400">@click</span>=<span class="text-amber-500">${() => <span class="text-purple-300">this</span>.count.value++}</span>&gt;+1&lt;/button&gt;
-    `;
+  styles: [<span class="text-emerald-400">'./my-counter.scss'</span>],
+  props: {
+    count: { type: Number, value: <span class="text-orange-500">0</span> }
   }
+}
+
+<span class="text-blue-500">@render</span> {
+  &lt;p&gt;Count: <span class="text-blue-400">${this.count.value}</span>&lt;/p&gt;
+  &lt;button <span class="text-yellow-400">@click</span>=<span class="text-amber-500">${() => <span class="text-purple-300">this</span>.count.value++}</span>&gt;+1&lt;/button&gt;
 }</pre>
             </div>
             <div class="px-5 py-4 bg-gradient-to-r from-[#17102a] via-[#111027] to-[#0d1b20] border-t border-brand-violet/40">
@@ -328,12 +330,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="max-w-3xl mx-auto text-center space-y-4 mb-20 reveal-element">
-        <h2 class="text-xs uppercase tracking-widest text-brand-purple font-semibold">Framework Philosophy</h2>
-        <p class="text-3xl sm:text-4xl font-extrabold text-white">
+        <span class="section-kicker">Framework Philosophy</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
           What is Okalit?
-        </p>
+        </h2>
         <p class="text-lg text-slate-400 leading-relaxed">
-          Okalit combines Lit's Web Components and template rendering with Signals, TC39 decorators, routing, channels, forms and services. Core 0.3.0 replaces the previous uhtml integration.
+          Okalit combines Lit's Web Components and template rendering with Signals, TC39 decorators, routing, channels, forms and services. Core 0.3.1 replaces the previous uhtml integration.
         </p>
       </div>
 
@@ -367,9 +369,9 @@
           <div class="w-12 h-12 rounded-xl bg-brand-purple/10 text-brand-purple flex items-center justify-center text-xl mb-4">
             <i class="fa-solid fa-code"></i>
           </div>
-          <h3 class="text-lg font-bold text-white mb-2">TC39 Stage-3 Decorators</h3>
+          <h3 class="text-lg font-bold text-white mb-2">Declarative .ok Files</h3>
           <p class="text-sm text-slate-400 leading-relaxed">
-            Utilize standard and standard-compliant JavaScript decorators. Clean class definitions, autowired states, and service-injection parameters make codebase maintenance a breeze.
+            Declare your component's role, props and styles in one place. Keep familiar JavaScript in optional blocks; the engine handles class and registration setup. Prefer JavaScript classes? Those remain supported.
           </p>
         </div>
 
@@ -382,12 +384,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="max-w-3xl mx-auto text-center space-y-4 mb-20 reveal-element">
-        <h2 class="text-xs uppercase tracking-widest text-brand-purple font-semibold">Power Features</h2>
-        <p class="text-3xl sm:text-4xl font-extrabold text-white">
+        <span class="section-kicker">Clear boundaries. Native foundations.</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
           Opinionated Enterprise Architecture
-        </p>
+        </h2>
         <p class="text-sm sm:text-base text-slate-400">
-          Discover why Okalit is ready for complex, scalable web platforms right out of the box. Click each architectural feature to interact with its live simulator below.
+          Start with a component. Grow into pages, modules and an application. Explore the .ok format and the framework features behind it; the interactive diagrams are illustrative, not live framework benchmarks.
         </p>
       </div>
 
@@ -396,6 +398,16 @@
         
         <!-- Lista de pestañas izquierdas (Sin sección Perf) -->
         <div class="lg:col-span-5 space-y-4 reveal-element delay-100">
+          <button onclick="switchArchTab('ok')" id="tab-btn-ok" class="w-full text-left p-5 rounded-xl border border-white/10 bg-brand-darkcard transition flex items-start gap-4" aria-pressed="true" aria-controls="sim-ok">
+            <div class="format-icon shrink-0">.ok</div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-bold text-white">A FORMAT WITH A PURPOSE</h4>
+                <span class="text-[10px] bg-brand-blue/15 text-brand-blue px-1.5 py-0.5 rounded uppercase font-semibold">Start here</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">Less setup code. Explicit roles. JavaScript stays JavaScript.</p>
+            </div>
+          </button>
           
           <!-- Signals Tab -->
           <button onclick="switchArchTab('signals')" id="tab-btn-signals" class="w-full text-left p-5 rounded-xl border border-white/10 bg-brand-darkcard hover:border-brand-purple dark:hover:border-brand-violet transition flex items-start gap-4 focus:outline-none ring-2 ring-transparent">
@@ -463,13 +475,13 @@
 
           <!-- I18N Tab -->
           <button onclick="switchArchTab('i18n')" id="tab-btn-i18n" class="w-full text-left p-5 rounded-xl border border-white/10 bg-brand-darkcard hover:border-brand-purple dark:hover:border-brand-violet transition flex items-start gap-4 focus:outline-none">
-            <div class="w-10 h-10 rounded-lg bg-pink-500/10 text-pink-500 flex items-center justify-center shrink-0 mt-0.5">
+            <div class="w-10 h-10 rounded-lg bg-brand-blue/10 text-brand-blue flex items-center justify-center shrink-0 mt-0.5">
               <i class="fa-solid fa-language"></i>
             </div>
             <div>
               <div class="flex items-center gap-2">
                 <h4 class="font-bold text-white">I18N</h4>
-                <span class="text-[10px] bg-pink-500/15 text-pink-300 px-1.5 py-0.5 rounded uppercase font-semibold tracking-wider">Reactive i18n</span>
+                <span class="text-[10px] bg-brand-blue/15 text-brand-blue px-1.5 py-0.5 rounded uppercase font-semibold tracking-wider">Reactive i18n</span>
               </div>
               <p class="text-xs text-slate-400 mt-1 leading-relaxed">
                 Reactive translations. Switch languages fluidly without reloading the app.
@@ -481,10 +493,10 @@
 
         <!-- Lado Derecho: Contenedor del Simulador Activo de Okalit -->
         <div class="lg:col-span-7 flex flex-col reveal-element delay-300">
-          <div class="relative flex-1 bg-[#0c0920] border border-white/10 rounded-2xl shadow-xl overflow-hidden flex flex-col">
+          <div class="editor-window relative flex-1 border border-white/10 rounded-2xl shadow-xl overflow-hidden flex flex-col">
             
             <!-- Encabezado del Sandbox (Estilo Barra de Ventana Minimalista) -->
-            <div class="bg-[#070515] px-6 py-4 flex items-center justify-between border-b border-white/5">
+            <div class="editor-toolbar px-6 py-4 flex items-center justify-between border-b border-white/5">
               <div class="flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full bg-red-500"></span>
                 <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
@@ -495,9 +507,27 @@
 
             <!-- CONTENIDOS DINÁMICOS DEL SIMULADOR (Sin sección Perf) -->
             <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
+              <div id="sim-ok" class="sim-content space-y-6">
+                <div class="space-y-3">
+                  <span class="section-kicker">Not a new programming language</span>
+                  <h3 class="text-2xl font-bold text-white">A clearer home for your component.</h3>
+                  <p class="text-sm text-slate-300 leading-relaxed">.ok removes repeated class, mixin and registration setup. A role tells Okalit what you are building; optional blocks organize the JavaScript and template that make it yours.</p>
+                </div>
+                <div class="format-blocks">
+                  <div><code>@component</code><span>Declare the role, tag, props and styles.</span></div>
+                  <div><code>@script</code><span>Import JavaScript and share module-level helpers.</span></div>
+                  <div><code>@logic</code><span>Write ordinary fields, methods and lifecycle hooks.</span></div>
+                  <div><code>@render</code><span>Compose HTML with Lit expressions and events.</span></div>
+                </div>
+                <div class="format-pipeline" aria-label="Compilation pipeline">
+                  <span>Component.ok</span><span aria-hidden="true">→</span><span>Engine</span><span aria-hidden="true">→</span><span>JS + Lit</span><span aria-hidden="true">→</span><span>Custom Element</span>
+                </div>
+                <p class="text-sm text-slate-400">Choose <code>@page</code>, <code>@module</code> or <code>@main</code> for other roles. Mix .ok and .js imports without migrating the whole app. Routes and services stay JavaScript; the browser runs compiled JavaScript, not .ok source.</p>
+                <a class="text-link" href="doc.html#ok-files">Understand the format <span aria-hidden="true">↗</span></a>
+              </div>
               
               <!-- 1. SIGNALS SIMULATOR -->
-              <div id="sim-signals" class="sim-content space-y-6">
+              <div id="sim-signals" class="sim-content space-y-6 hidden">
                 <div class="space-y-2">
                   <span class="text-xs font-semibold text-indigo-500">How it works:</span>
                   <p class="text-sm text-slate-300">
@@ -682,7 +712,7 @@
               <!-- 5. I18N SIMULATOR -->
               <div id="sim-i18n" class="sim-content space-y-6 hidden">
                 <div class="space-y-2">
-                  <span class="text-xs font-semibold text-pink-500">How it works:</span>
+                  <span class="text-xs font-semibold text-brand-blue">How it works:</span>
                   <p class="text-sm text-slate-300">
                     Okalit provides dictionary-driven multi-language support. Translating your application triggers reactive changes directly in active elements without page reloads.
                   </p>
@@ -693,7 +723,7 @@
                   <div class="bg-zinc-900 rounded-lg border border-white/10 p-4 space-y-3">
                     <h5 class="text-sm font-bold text-white" id="i18n-welcome-header">Welcome back, Developer!</h5>
                     <p class="text-xs text-slate-400" id="i18n-sub-text">You have 5 notifications waiting in your dashboard.</p>
-                    <button class="h-8 px-3 rounded text-xs font-medium text-white bg-pink-500 hover:bg-pink-600 transition" id="i18n-btn-text">
+                    <button class="h-8 px-3 rounded text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 transition" id="i18n-btn-text">
                       View Profile
                     </button>
                   </div>
@@ -714,10 +744,10 @@
               </div>
 
               <!-- Resumen API del sandbox -->
-              <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+              <div class="sandbox-summary mt-6 pt-4 border-t border-white/5 flex items-center justify-between gap-3">
                 <div class="flex items-center gap-2">
                   <i class="fa-solid fa-code text-brand-purple"></i>
-                  <span class="text-xs text-slate-400 font-medium">Underlying Library API:</span>
+                  <span class="text-xs text-slate-400 font-medium">Behind the example:</span>
                 </div>
                 <code id="sandbox-code-summary" class="text-xs text-slate-400 font-mono bg-white/5 px-2 py-1 rounded">import { signal } from '@okalit/core'; // Signals + Lit</code>
               </div>
@@ -732,17 +762,18 @@
   </section>
 
   <!-- MUESTRAS DE CÓDIGO Y EXPLORADOR DE ARCHIVOS ENTERPRISE -->
-  <section class="py-24 border-t border-white/5 bg-[#070514]/30 relative">
+  <section id="examples" class="py-24 border-t border-white/5 relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="max-w-3xl mx-auto text-center space-y-4 mb-20 reveal-element">
-        <h2 class="text-xs uppercase tracking-widest text-brand-purple font-semibold">Developers First</h2>
-        <p class="text-3xl sm:text-4xl font-extrabold text-white">
-          Write less code. Get more performance.
-        </p>
+        <span class="section-kicker">Developers First</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+          From entry point to component.
+        </h2>
         <p class="text-sm sm:text-base text-slate-400">
-          Okalit eliminates the bloat from standard state containers and component boilerplates. Let's look at how intuitive a routed multi-state container app looks.
+          Follow the structure of an Okalit app. Select a file, inspect its responsibilities and copy the example into your project.
         </p>
+        <p class="text-sm text-slate-400">One framework, two component formats. Mix .ok and .js imports freely; routes and services stay JavaScript. New projects include the engine and loader for both.</p>
       </div>
 
       <!-- Barra de archivos y visor de código en un mock de editor IDE -->
@@ -754,7 +785,7 @@
           
           <button onclick="switchPlaygroundTab('main')" id="p-tab-main" class="w-full text-left p-3.5 rounded-lg border border-brand-purple bg-brand-purple/5 text-white flex items-center justify-between text-sm transition">
             <span class="flex items-center gap-2.5 font-medium">
-              <i class="fa-brands fa-js-square text-yellow-500 text-base"></i> main-app.js
+              <i class="fa-solid fa-file-code text-brand-violet text-base"></i> main-app.ok
             </span>
             <span class="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-slate-400">App Entry</span>
           </button>
@@ -768,21 +799,21 @@
 
           <button onclick="switchPlaygroundTab('module')" id="p-tab-module" class="w-full text-left p-3.5 rounded-lg border border-white/5 hover:bg-white/5 text-slate-300 flex items-center justify-between text-sm transition">
             <span class="flex items-center gap-2.5 font-medium">
-              <i class="fa-solid fa-layer-group text-indigo-400 text-base"></i> home.module.js
+              <i class="fa-solid fa-layer-group text-indigo-400 text-base"></i> home.module.ok
             </span>
             <span class="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-slate-400">Module</span>
           </button>
 
           <button onclick="switchPlaygroundTab('page')" id="p-tab-page" class="w-full text-left p-3.5 rounded-lg border border-white/5 hover:bg-white/5 text-slate-300 flex items-center justify-between text-sm transition">
             <span class="flex items-center gap-2.5 font-medium">
-              <i class="fa-solid fa-file-code text-cyan-400 text-base"></i> login.page.js
+              <i class="fa-solid fa-file-code text-cyan-400 text-base"></i> login.page.ok
             </span>
             <span class="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-slate-400">Page + Form</span>
           </button>
 
           <button onclick="switchPlaygroundTab('component')" id="p-tab-component" class="w-full text-left p-3.5 rounded-lg border border-white/5 hover:bg-white/5 text-slate-300 flex items-center justify-between text-sm transition">
             <span class="flex items-center gap-2.5 font-medium">
-              <i class="fa-solid fa-cube text-pink-400 text-base"></i> badge-atom.js
+              <i class="fa-solid fa-cube text-brand-violet text-base"></i> badge-atom.ok
             </span>
             <span class="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-slate-400">Component</span>
           </button>
@@ -811,33 +842,32 @@
 
         <!-- Contenedor del Editor de Código -->
         <div class="lg:col-span-8 reveal-element delay-300">
-          <div class="bg-[#0c091f] border border-white/10 rounded-xl overflow-hidden shadow-xl">
+          <div class="editor-window border border-white/10 rounded-xl overflow-hidden shadow-xl">
             <!-- Barra superior del Visor de Archivos -->
-            <div class="bg-[#080515] px-4 py-2.5 border-b border-white/5 flex items-center justify-between">
+            <div class="editor-toolbar px-4 py-2.5 border-b border-white/5 flex items-center justify-between">
               <div class="flex items-center gap-1.5">
                 <i class="fa-solid fa-folder-open text-xs text-brand-purple"></i>
-                <span id="playground-tab-file-title" class="text-xs font-mono text-slate-400">src/main-app.js</span>
+                <span id="playground-tab-file-title" class="text-xs font-mono text-slate-400">src/main-app.ok</span>
               </div>
-              <button onclick="copyPlaygroundCode()" class="text-xs text-slate-400 hover:text-brand-violet font-medium flex items-center gap-1 transition">
+              <button onclick="copyPlaygroundCode(this)" class="text-xs text-slate-400 hover:text-brand-violet font-medium flex items-center gap-1 transition" aria-label="Copy selected example">
                 <i class="fa-regular fa-copy"></i> Copy Code
               </button>
             </div>
 
             <!-- Cuerpo del Visor de Código -->
-            <div class="p-6 overflow-x-auto bg-[#0c0922]">
-              <pre class="code-font text-xs sm:text-sm leading-relaxed text-slate-300"><code class="language-javascript" id="playground-code-pre">
-import { AppMixin, defineElement, html, Okalit } from '@okalit/core';
-import routes from './app.routes.js';
+            <div class="p-6 overflow-x-auto">
+              <pre class="code-font text-xs sm:text-sm leading-relaxed text-slate-300"><code class="language-okalit" id="playground-code-pre">
+@script {
+  import { html } from '@okalit/core';
+  import routes from './app.routes.js';
+}
 
-@defineElement({ tag: 'main-app' })
-export class MainApp extends AppMixin(Okalit) {
-  static config = {
-    routes,
-    modeDebug: true,
-    obfuscateChannels: true,
-    i18n: { locales: ['en', 'es'], default: 'en' },
-    template: (content) => html`<app-shell>${content}</app-shell>`,
-  };
+@main {
+  tag: 'main-app',
+  routes,
+  obfuscateChannels: true,
+  i18n: { locales: ['en', 'es'], default: 'en' },
+  template: (content) => html`&lt;app-shell&gt;${content}&lt;/app-shell&gt;`,
 }</code></pre>
             </div>
           </div>
@@ -849,7 +879,7 @@ export class MainApp extends AppMixin(Okalit) {
   </section>
 
   <!-- SECCIÓN DE INSTALACIÓN CLI Y TERMINAL INTERACTIVA -->
-  <section id="docs" class="py-24 bg-[#080616] relative overflow-hidden">
+  <section id="docs" class="py-24 relative overflow-hidden">
     <!-- Malla de fondo sutil -->
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -860,9 +890,9 @@ export class MainApp extends AppMixin(Okalit) {
         <div class="lg:col-span-5 space-y-6 reveal-element delay-100">
           <div class="space-y-3">
             <span class="text-xs font-semibold tracking-wider text-brand-purple uppercase">Quickstart</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Get running in 30 seconds</h2>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Your first .ok app starts here.</h2>
             <p class="text-sm text-slate-400 leading-relaxed">
-              Generate ready-to-run microfrontends, modules, or complete SPA applications with our custom-tuned terminal CLI utility. Configure ES Modules, Sass, routing, and i18n modules out of the box.
+              A guided CLI sets up the component format, build tooling, routing and i18n. Start with .ok components and a shared Biome quality baseline. Unit tests are enabled by default; Playwright e2e is optional.
             </p>
           </div>
 
@@ -870,35 +900,44 @@ export class MainApp extends AppMixin(Okalit) {
             <div class="flex items-start gap-3">
               <span class="w-6 h-6 rounded-full bg-brand-purple/10 text-brand-purple text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
               <div>
-                <h4 class="text-sm font-semibold text-white">Fire CLI Creator</h4>
-                <p class="text-xs text-slate-400">Run the wizard and configure your styling, tooling, and backend connections.</p>
+                <h4 class="text-sm font-semibold text-white">Create and install</h4>
+                <p class="text-xs text-slate-400"><code>npx @okalit/cli new my-app</code>, then <code>cd my-app</code> and <code>npm install</code>.</p>
               </div>
             </div>
 
             <div class="flex items-start gap-3">
               <span class="w-6 h-6 rounded-full bg-brand-purple/10 text-brand-purple text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
               <div>
-                <h4 class="text-sm font-semibold text-white">Build Modules</h4>
-                <p class="text-xs text-slate-400">Use standard decorators and signals to link clean architecture states fluidly.</p>
+                <h4 class="text-sm font-semibold text-white">Run and make it yours</h4>
+                <p class="text-xs text-slate-400">Run <code>npm run dev</code>. Add pages and components with generators that follow your project's format.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-brand-purple/10 text-brand-purple text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+              <div>
+                <h4 class="text-sm font-semibold text-white">Test and check quality</h4>
+                <p class="text-xs text-slate-400">With tests enabled, install Chromium using <code>npm run test:install</code>, then run <code>npm test</code> or <code>npm run test:e2e</code> for your selected runners. Every template includes <code>npm run lint</code> and <code>npm run lint:fix</code>.</p>
               </div>
             </div>
           </div>
 
+          <p class="text-xs text-slate-400 leading-relaxed">Unit tests enabled? Generators add companion tests for components, pages, modules, services, guards and interceptors. Explore <a href="doc.html#testing" class="text-brand-violet hover:underline">unit &amp; e2e testing</a>, <a href="doc.html#biome" class="text-brand-violet hover:underline">Biome rules</a> and the <a href="doc.html#cli" class="text-brand-violet hover:underline">CLI flags</a>.</p>
+
           <div class="pt-4 flex flex-col sm:flex-row items-stretch gap-3">
-            <button onclick="runCliGenerator()" class="h-11 px-6 rounded-xl bg-gradient-to-r from-brand-violet to-brand-purple hover:shadow-lg hover:shadow-brand-purple/20 text-white font-medium text-sm transition">
+            <button onclick="runCliGenerator()" class="button-primary">
               <i class="fa-solid fa-play mr-1.5"></i> Run Interactive CLI Mock
             </button>
-            <a href="#github" class="h-11 px-6 rounded-xl border border-white/10 hover:bg-white/5 text-slate-300 font-medium text-sm inline-flex items-center justify-center gap-2 transition">
-              <i class="fa-brands fa-github text-base"></i> View Github Code
+            <a href="doc.html#installation" class="h-11 px-6 rounded-xl border border-white/10 hover:bg-white/5 text-slate-300 font-medium text-sm inline-flex items-center justify-center gap-2 transition">
+              <i class="fa-solid fa-book-open" aria-hidden="true"></i> Setup guide
             </a>
           </div>
         </div>
 
         <!-- Terminal Bash Interactiva (Inyecta el resultado exacto de la captura de pantalla) -->
         <div class="lg:col-span-7 reveal-element delay-300">
-          <div class="bg-[#05040f] rounded-xl border border-white/10 shadow-2xl overflow-hidden font-mono text-xs">
+          <div class="editor-window rounded-xl border border-white/10 shadow-2xl overflow-hidden font-mono text-xs">
             <!-- Cabecera de Terminal -->
-            <div class="bg-[#0c091c] px-4 py-3 border-b border-white/5 flex items-center justify-between">
+            <div class="editor-toolbar px-4 py-3 border-b border-white/5 flex items-center justify-between">
               <div class="flex items-center gap-1.5">
                 <span class="w-3 h-3 rounded-full bg-red-500"></span>
                 <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
@@ -920,8 +959,8 @@ export class MainApp extends AppMixin(Okalit) {
 
             <!-- Pie de Terminal -->
             <div class="bg-[#0a0817] px-4 py-2 border-t border-white/5 flex items-center justify-between text-[10px] text-slate-500">
-              <span>Exit code: 0</span>
-              <span>100% Native WebComponents compiler</span>
+              <span>Illustrative CLI preview</span>
+              <span>.ok + JavaScript</span>
             </div>
           </div>
         </div>
@@ -967,7 +1006,7 @@ export class MainApp extends AppMixin(Okalit) {
   <!-- BANNER DE CIERRE CON CTAS -->
   <section class="py-24 relative border-t border-white/5">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="relative rounded-3xl bg-gradient-to-r from-brand-violet to-brand-purple p-8 sm:p-12 text-center text-white overflow-hidden shadow-2xl reveal-element">
+      <div class="closing-banner relative rounded-3xl p-8 sm:p-12 text-center text-white overflow-hidden shadow-2xl reveal-element">
         <!-- Esferas flotantes de fondo dentro del banner -->
         <div class="absolute -top-12 -left-12 w-40 h-40 bg-white/10 rounded-full blur-xl"></div>
         <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-xl"></div>
@@ -975,7 +1014,7 @@ export class MainApp extends AppMixin(Okalit) {
         <div class="relative z-10 space-y-6 max-w-2xl mx-auto">
           <h2 class="text-3xl sm:text-4xl font-extrabold">Build with Okalit Today</h2>
           <p class="text-sm sm:text-base text-brand-pale/95 font-light leading-relaxed">
-            Ready to experience a modern, performance-first developer framework built natively for the web platform? Step up to Signals with zero virtual DOM overhead.
+            Start with one component. Keep the JavaScript you know. Let .ok make the structure easier to see.
           </p>
 
           <div class="flex flex-col sm:flex-row items-center gap-4 justify-center pt-2">
@@ -990,6 +1029,8 @@ export class MainApp extends AppMixin(Okalit) {
       </div>
     </div>
   </section>
+  </main>
+  <div id="site-feedback" class="site-feedback" role="status" aria-live="polite"></div>
 
   <!-- PIE DE PÁGINA -->
   <footer class="bg-[#06040e] border-t border-white/5 py-12 transition-colors reveal-element">
@@ -1024,20 +1065,20 @@ export class MainApp extends AppMixin(Okalit) {
           <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Community</h4>
           <ul class="space-y-2.5 text-xs text-slate-400">
             <li><a href="https://github.com/okalit" class="hover:text-brand-purple transition"><i class="fa-brands fa-github mr-1.5"></i> GitHub Organization</a></li>
-            <li><a href="#discord" class="hover:text-brand-purple transition"><i class="fa-brands fa-discord mr-1.5"></i> Discord Server</a></li>
-            <li><a href="#twitter" class="hover:text-brand-purple transition"><i class="fa-brands fa-twitter mr-1.5"></i> Twitter / X updates</a></li>
-            <li><a href="#community" class="hover:text-brand-purple transition"><i class="fa-solid fa-users mr-1.5"></i> Lit & Signals ecosystem</a></li>
+            <li><a href="https://marketplace.visualstudio.com/items?itemName=Okalit.okalit-language-support" class="hover:text-brand-purple transition" target="_blank" rel="noopener noreferrer">VS Code Extension</a></li>
+            <li><a href="doc.html" class="hover:text-brand-purple transition">Documentation</a></li>
+            <li><a href="doc.html#ok-files" class="hover:text-brand-purple transition">The .ok format</a></li>
           </ul>
         </div>
 
         <!-- Estados y Legal -->
         <div>
-          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Status & Legal</h4>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Keep exploring</h4>
           <ul class="space-y-2.5 text-xs text-slate-400">
-            <li><span class="inline-flex items-center gap-1.5 text-emerald-500"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> All Systems Operational</span></li>
-            <li><a href="#license" class="hover:text-brand-purple transition">MIT License</a></li>
-            <li><a href="#privacy" class="hover:text-brand-purple transition">Privacy Policy</a></li>
-            <li><a href="#security" class="hover:text-brand-purple transition">Security vulnerability program</a></li>
+            <li><a href="doc.html#status" class="hover:text-brand-purple transition">Project status &amp; limitations</a></li>
+            <li><a href="doc.html#migration" class="hover:text-brand-purple transition">Migrating to Core 0.3.1</a></li>
+            <li><a href="doc.html#cli" class="hover:text-brand-purple transition">CLI reference</a></li>
+            <li><a href="#examples" class="hover:text-brand-purple transition">Code examples</a></li>
           </ul>
         </div>
 
@@ -1046,15 +1087,15 @@ export class MainApp extends AppMixin(Okalit) {
       <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
         <span>&copy; 2026 Okalit Framework. Built on Lit and Signals. All rights reserved.</span>
         <div class="flex items-center gap-4">
-          <a href="#github" class="hover:text-brand-purple transition"><i class="fa-brands fa-github text-base"></i></a>
-          <a href="#discord" class="hover:text-brand-purple transition"><i class="fa-brands fa-discord text-base"></i></a>
-          <a href="#twitter" class="hover:text-brand-purple transition"><i class="fa-brands fa-twitter text-base"></i></a>
+          <a href="https://github.com/okalit" class="hover:text-brand-purple transition" aria-label="Okalit on GitHub"><i class="fa-brands fa-github text-base" aria-hidden="true"></i></a>
+          <a href="doc.html" class="hover:text-brand-purple transition" aria-label="Okalit documentation"><i class="fa-solid fa-book-open text-base" aria-hidden="true"></i></a>
         </div>
       </div>
     </div>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="./code-highlight.js"></script>
 
   <!-- SCRIPTS DE INTERACCIÓN Y SIMULADORES -->
   <script>
@@ -1076,23 +1117,34 @@ export class MainApp extends AppMixin(Okalit) {
       steps.forEach((step) => step.classList.add('is-active'));
     }
 
-    // Función copiadora de textos al portapapeles
-    function copyToClipboard(text, btnElement) {
-      navigator.clipboard.writeText(text).then(() => {
-        // Feedback visual del botón
-        const origIcon = btnElement.innerHTML;
-        btnElement.innerHTML = '<i class="fa-solid fa-check text-emerald-500"></i>';
-        setTimeout(() => {
-          btnElement.innerHTML = origIcon;
-        }, 2000);
-      });
+    const feedback = document.getElementById('site-feedback');
+    let feedbackTimeout;
+    async function copyToClipboard(text, btnElement) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (error) {
+        console.error('Could not copy to clipboard:', error);
+        feedback.textContent = 'Copy failed. Select the command or example and copy it manually.';
+        clearTimeout(feedbackTimeout);
+        feedbackTimeout = setTimeout(() => { feedback.textContent = ''; }, 6000);
+        return;
+      }
+      const origIcon = btnElement.innerHTML;
+      btnElement.innerHTML = '<i class="fa-solid fa-check text-emerald-500" aria-hidden="true"></i> Copied';
+      feedback.textContent = 'Copied to clipboard.';
+      clearTimeout(feedbackTimeout);
+      feedbackTimeout = setTimeout(() => { feedback.textContent = ''; }, 3000);
+      setTimeout(() => { btnElement.innerHTML = origIcon; }, 2000);
     }
 
-    // 1. CONMUTADOR DE PESTAÑAS DEL SIMULADOR DE ARQUITECTURA (Sin sección Perf)
-    let activeArchTab = 'signals';
+    function copyPlaygroundCode(button) {
+      return copyToClipboard(document.getElementById('playground-code-pre').textContent, button);
+    }
+
     const sandboxCodeSummary = document.getElementById('sandbox-code-summary');
 
     const codeSummaries = {
+      ok: '.ok source → @okalit/engine → JavaScript + Lit',
       signals: "import { signal } from '@okalit/core'; // Signals + Lit",
       router: "import { Router, navigate } from '@okalit/core'; // Built-in SPA router",
       services: "import { OkalitService, service, inject } from '@okalit/core';",
@@ -1101,12 +1153,13 @@ export class MainApp extends AppMixin(Okalit) {
     };
 
     function switchArchTab(tabName) {
-      activeArchTab = tabName;
       sandboxCodeSummary.innerText = codeSummaries[tabName];
 
       // Resetear marcas visuales de las pestañas
-      ['signals', 'router', 'services', 'channels', 'i18n'].forEach(t => {
+      ['ok', 'signals', 'router', 'services', 'channels', 'i18n'].forEach(t => {
         const btn = document.getElementById(`tab-btn-${t}`);
+        btn.setAttribute('aria-pressed', String(t === tabName));
+        btn.setAttribute('aria-controls', `sim-${t}`);
         if (t === tabName) {
           btn.classList.add('border-brand-purple', 'ring-2', 'ring-brand-purple/20');
         } else {
@@ -1263,18 +1316,6 @@ export class MainApp extends AppMixin(Okalit) {
     const playgroundTabFileTitle = document.getElementById('playground-tab-file-title');
 
     const playgroundCodes = {
-      main: `import { AppMixin, defineElement, html, Okalit } from '@okalit/core';
-import routes from './app.routes.js';
-
-@defineElement({ tag: 'main-app' })
-export class MainApp extends AppMixin(Okalit) {
-  static config = {
-    routes,
-    obfuscateChannels: true,
-    i18n: { locales: ['en', 'es'], default: 'en' },
-    template: (content) => html\`<app-shell>\${content}</app-shell>\`,
-  };
-}`,
       routes: `import HomeRoutes from './modules/home/home.routes.js';
 import AuthRoutes from './modules/auth/auth.routes.js';
 
@@ -1282,13 +1323,13 @@ export default [
   {
     path: '/',
     component: 'home-module',
-    import: () => import('./modules/home/home.module.js'),
+    import: () => import('./modules/home/home.module.ok'),
     children: HomeRoutes,
   },
   {
     path: '/auth',
     component: 'auth-module',
-    import: () => import('./modules/auth/auth.module.js'),
+    import: () => import('./modules/auth/auth.module.ok'),
     cache: true,
     children: AuthRoutes,
     guards: [guestOnly],
@@ -1297,82 +1338,6 @@ export default [
 
 function guestOnly() {
   return localStorage.getItem('token') ? '/home' : true;
-}`,
-      module: `import { defineElement, ModuleMixin, Okalit } from '@okalit/core';
-
-@defineElement({ tag: 'home-module' })
-export class HomeModule extends ModuleMixin(Okalit) {}
-
-// home.routes.js
-export default [
-  {
-    path: '',
-    component: 'home-page',
-    import: () => import('./pages/home.page.js'),
-  },
-  {
-    path: '/settings',
-    component: 'settings-page',
-    import: () => import('./pages/settings.page.js'),
-  },
-];`,
-      page: `import { defineElement, html, Okalit, PageMixin } from '@okalit/core';
-import { createForm, required, isEmail } from '@okalit/core/form';
-import { inject } from '@okalit/core';
-
-@defineElement({ tag: 'login-page', styles: [styles] })
-export class LoginPage extends PageMixin(Okalit) {
-  form = createForm({
-    fields: {
-      email:    { value: '', validators: [required(), isEmail()] },
-      password: { value: '', validators: [required()] },
-    },
-  });
-
-  handleLogin() {
-    if (!this.form.validate()) return;
-
-    inject('auth').login(this.form.values()).fire({
-      onSuccess: () => this.navigate('/home'),
-      onError: (err) => this.form.setErrors(err.body),
-    });
-  }
-
-  render() {
-    const { email, password } = this.form.fields;
-    return html\`
-      <input-atom name="email" .value=\${email.value.value}
-        @on:change=\${this.form.handleInput}
-        @on:blur=\${this.form.handleBlur}></input-atom>
-
-      <input-atom name="password" type="password"
-        .value=\${password.value.value}
-        @on:change=\${this.form.handleInput}
-        @on:blur=\${this.form.handleBlur}></input-atom>
-
-      <button-atom @on:click=\${this.handleLogin}>Sign In</button-atom>
-    \`;
-  }
-}`,
-      component: `import { defineElement, html, Okalit } from '@okalit/core';
-import styles from './badge-atom.scss?inline';
-
-@defineElement({
-  tag: 'badge-atom',
-  styles: [styles],
-  props: [
-    { label: { type: String, value: '' } },
-    { variant: { type: String, value: 'default' } },
-  ],
-})
-export class BadgeAtom extends Okalit {
-  render() {
-    return html\`
-      <span class="badge \${this.variant.value}">
-        \${this.label.value}
-      </span>
-    \`;
-  }
 }`,
       rest: `import { OkalitService, service, inject } from '@okalit/core';
 
@@ -1475,44 +1440,57 @@ onDisconnected() {
 }`
     };
 
-    hljs.highlightElement(playgroundCodePre);
-
     const playgroundFileTitles = {
-      main: 'src/main-app.js',
+      main: 'src/main-app.ok',
       routes: 'src/app.routes.js',
-      module: 'src/modules/home/home.module.js',
-      page: 'src/modules/auth/pages/login.page.js',
-      component: 'src/components/atoms/badge-atom.js',
+      module: 'src/modules/home/home.module.ok',
+      page: 'src/modules/auth/pages/login.page.ok',
+      component: 'src/components/atoms/badge-atom.ok',
       rest: 'src/services/posts.service.js',
       graphql: 'src/services/users.graphql.js',
       websocket: 'src/services/chat.socket.js',
     };
 
+    let activePlaygroundTab = 'main';
     function switchPlaygroundTab(tabName) {
-      playgroundCodePre.textContent = playgroundCodes[tabName];
-      playgroundCodePre.removeAttribute('data-highlighted');
-      hljs.highlightElement(playgroundCodePre);
+      activePlaygroundTab = tabName;
+      playgroundCodePre.textContent = window.okalitSyntax?.playground[tabName]
+        ? window.okalitSyntax.playground[tabName]
+        : playgroundCodes[tabName];
+      playgroundCodePre.className = ['main', 'module', 'page', 'component'].includes(tabName)
+        ? 'language-okalit' : 'language-javascript';
+      if (window.okalitHighlight) {
+        window.okalitHighlight(playgroundCodePre,
+          ['main', 'module', 'page', 'component'].includes(tabName) ? 'okalit' : 'javascript');
+      }
       playgroundTabFileTitle.innerText = playgroundFileTitles[tabName];
 
       ['main', 'routes', 'module', 'page', 'component', 'rest', 'graphql', 'websocket'].forEach(t => {
         const btn = document.getElementById(`p-tab-${t}`);
+        btn.setAttribute('aria-pressed', String(t === tabName));
+        btn.setAttribute('aria-controls', 'playground-code-pre');
         if (t === tabName) {
           btn.className = "w-full text-left p-3.5 rounded-lg border border-brand-purple bg-brand-purple/5 text-white flex items-center justify-between text-sm transition";
         } else {
           btn.className = "w-full text-left p-3.5 rounded-lg border border-white/5 hover:bg-white/5 text-slate-300 flex items-center justify-between text-sm transition";
         }
-
       });
     }
+    window.addEventListener('okalit-syntax-change', () => switchPlaygroundTab(activePlaygroundTab));
 
     // 3. MOCK DEL GENERADOR CLI - EXACTO CON LA CAPTURA DE PANTALLA
     const terminalScreen = document.getElementById('cli-terminal-screen');
+    let cliInterval;
     
     function runCliGenerator() {
+      clearInterval(cliInterval);
       // Entrada inicial con el nombre "app-name" igual al screenshot
       terminalScreen.innerHTML = '<div><span class="text-emerald-500">user@okalit-local:~$</span> npx @okalit/cli new app-name</div>';
 
       const logLines = [
+        '<span class="text-slate-100 font-bold">[✓] Which component syntax?</span> <span class="text-cyan-400">.ok (recommended) | JavaScript (.js)</span>',
+        '<span class="text-slate-100 font-bold">[✓] Add unit tests?</span> <span class="text-cyan-400">Yes</span>',
+        '<span class="text-slate-100 font-bold">[✓] Add end-to-end tests?</span> <span class="text-cyan-400">No</span>',
         '<span class="text-slate-100 font-bold">[<span class="text-emerald-400">✓</span>] Empty Project:</span> <span class="text-cyan-400 font-semibold">Yes</span>',
         '',
         '🚀 Creating project <span class="text-slate-100 font-bold">"app-name"</span> using <span class="text-slate-100 font-medium">structure-example...</span>',
@@ -1522,11 +1500,13 @@ onDisconnected() {
         '<span class="text-amber-300 font-bold">Next steps:</span>',
         '  <span class="text-cyan-400">cd</span> app-name',
         '  <span class="text-cyan-400">npm</span> install',
+        '  <span class="text-cyan-400">npm</span> run test:install',
+        '  <span class="text-cyan-400">npm</span> test',
         '  <span class="text-cyan-400">npm</span> run dev'
       ];
 
       let lineIdx = 0;
-      const interval = setInterval(() => {
+      cliInterval = setInterval(() => {
         if (lineIdx < logLines.length) {
           const div = document.createElement('div');
           div.innerHTML = logLines[lineIdx];
@@ -1534,14 +1514,14 @@ onDisconnected() {
           terminalScreen.scrollTop = terminalScreen.scrollHeight;
           lineIdx++;
         } else {
-          clearInterval(interval);
+          clearInterval(cliInterval);
         }
       }, 500);
     }
 
 
-    // Inicializar el Sandbox en pestaña Signals
-    switchArchTab('signals');
+    switchArchTab('ok');
   </script>
+  <script src="./syntax-switcher.js"></script>
 </body>
 </html>

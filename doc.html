@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="okalit.png">
   <title>Okalit — Documentation</title>
+  <meta name="description" content="Learn Okalit .ok and JavaScript components, the CLI, routing, Signals and the Okalit Language Support extension for Visual Studio Code.">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -13,12 +14,13 @@
         extend: {
           colors: {
             brand: {
-              pale: '#fce7f3',
-              pastel: '#d8b4fe',
-              violet: '#b18af5',
-              purple: '#e879b9',
-              darkbg: '#0a0814',
-              darkcard: '#120f24',
+              pale: '#eef2ff',
+              pastel: '#c4b5fd',
+              violet: '#a78bfa',
+              purple: '#8b5cf6',
+              blue: '#60a5fa',
+              darkbg: '#080c18',
+              darkcard: '#111a2e',
               lightbg: '#f8fafc'
             }
           },
@@ -43,20 +45,20 @@
     ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
 
     .bg-dot-grid {
-      background-image: radial-gradient(rgba(217, 70, 164, 0.08) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(96, 165, 250, 0.07) 1px, transparent 1px);
       background-size: 24px 24px;
     }
 
     /* Sidebar active link */
     .nav-link.active {
-      background: rgba(217, 70, 164, 0.1);
-      border-left-color: #b18af5;
-      color: #d8b4fe;
+      background: rgba(139, 92, 246, 0.12);
+      border-left-color: #60a5fa;
+      color: #eef2ff;
     }
 
     /* Code blocks */
     .code-block {
-      background: #0c091e;
+      background: #0c1425;
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 12px;
       overflow: hidden;
@@ -68,7 +70,7 @@
       line-height: 1.7;
     }
     .code-block-header {
-      background: #080516;
+      background: #101b30;
       padding: 0.5rem 1rem;
       border-bottom: 1px solid rgba(255,255,255,0.05);
       font-size: 0.7rem;
@@ -87,7 +89,7 @@
     .doc-prose table { width: 100%; margin-bottom: 1.5rem; }
     .doc-prose th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
     .doc-prose td { padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
-    .doc-prose code:not(pre code) { background: rgba(217,70,164,0.1); color: #fbcfe8; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.8em; }
+    .doc-prose code:not(pre code) { background: rgba(96,165,250,0.1); color: #bfdbfe; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.8em; }
 
     /* Smooth scroll offset for fixed header */
     [id] { scroll-margin-top: 80px; }
@@ -98,27 +100,33 @@
       .sidebar.open { transform: translateX(0); }
     }
   </style>
+  <link rel="stylesheet" href="./site.css">
 </head>
-<body class="bg-brand-darkbg text-slate-200 antialiased bg-dot-grid">
+<body class="documentation-page bg-brand-darkbg text-slate-200 antialiased bg-dot-grid">
+  <a class="skip-link" href="#documentation-content">Skip to documentation</a>
 
   <!-- Top Navigation Bar -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-brand-darkbg/80 backdrop-blur-xl border-b border-white/5">
+  <header class="documentation-header fixed top-0 left-0 right-0 z-50 bg-brand-darkbg/80 backdrop-blur-xl border-b border-white/5">
     <div class="flex items-center justify-between px-4 lg:px-8 h-16">
       <div class="flex items-center gap-4">
         <!-- Mobile menu toggle -->
-        <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-white/5 text-slate-400">
+        <button id="sidebar-toggle" onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-white/5 text-slate-400" aria-label="Open documentation navigation" aria-expanded="false" aria-controls="sidebar">
           <i class="fa-solid fa-bars text-lg"></i>
         </button>
         <!-- Logo -->
         <a href="index.html" class="flex items-center gap-2.5">
           <img class="w-10 h-10" src="./okalit.png" alt="">
-          <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-brand-violet to-brand-purple bg-clip-text text-transparent">Okalit</span>
+          <span class="text-lg font-bold tracking-tight text-white">Okalit<span class="logo-dot">.</span></span>
         </a>
         <span class="hidden sm:inline text-xs text-slate-500 border-l border-white/10 pl-4 ml-2">Documentation</span>
       </div>
       <div class="flex items-center gap-3">
-        <span class="text-[10px] bg-brand-purple/10 text-brand-purple px-2 py-1 rounded font-semibold">Core v0.3.0</span>
-        <a href="#" class="text-slate-400 hover:text-white transition"><i class="fa-brands fa-github text-lg"></i></a>
+        <div data-syntax-switcher class="flex gap-1 rounded-lg border border-white/10 p-1" role="group" aria-label="Example syntax">
+          <button type="button" data-syntax="ok" class="px-2 py-1 text-xs rounded" aria-pressed="true" aria-label=".ok (recommended)">.ok<span class="hidden sm:inline"> (recommended)</span></button>
+          <button type="button" data-syntax="js" class="px-2 py-1 text-xs rounded" aria-pressed="false">.js</button>
+        </div>
+        <span class="hidden sm:inline text-[10px] bg-brand-purple/10 text-brand-purple px-2 py-1 rounded font-semibold">Core v0.3.1</span>
+        <a href="https://marketplace.visualstudio.com/items?itemName=Okalit.okalit-language-support" class="hidden md:inline-flex text-link text-xs" target="_blank" rel="noopener noreferrer">VS Code <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </header>
@@ -126,16 +134,25 @@
   <div class="flex pt-16">
 
     <!-- Sidebar Navigation -->
+    <button id="sidebar-backdrop" class="sidebar-backdrop" aria-label="Close documentation navigation" onclick="closeSidebar()" hidden></button>
     <aside id="sidebar" class="sidebar fixed lg:sticky top-16 left-0 w-72 h-[calc(100vh-4rem)] bg-brand-darkbg/95 lg:bg-transparent border-r border-white/5 overflow-y-auto z-40 px-4 py-6 space-y-6 shrink-0">
+      <div class="sidebar-start">
+        <span class="section-kicker">Your building guide</span>
+        <a href="#ok-files" class="sidebar-feature-link"><span class="format-icon">.ok</span><span>Meet the format<small>Less setup. Clearer components.</small></span></a>
+      </div>
 
       <!-- Getting Started -->
       <div>
         <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-3">Getting Started</h4>
         <nav class="space-y-0.5">
           <a href="#introduction" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Introduction</a>
+          <a href="#ok-files" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Why .ok files?</a>
+          <a href="#vscode" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">VS Code Extension</a>
           <a href="#installation" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Installation</a>
-          <a href="#migration" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Migrating to 0.3.0</a>
+          <a href="#migration" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Migrating to 0.3.1</a>
           <a href="#cli" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">CLI</a>
+          <a href="#testing" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Unit &amp; E2E Testing</a>
+          <a href="#biome" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Code Quality · Biome</a>
           <a href="#project-structure" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Project Structure</a>
         </nav>
       </div>
@@ -189,16 +206,17 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 min-w-0 px-6 lg:px-12 xl:px-20 py-10 max-w-4xl">
+    <main id="documentation-content" class="flex-1 min-w-0 px-6 lg:px-12 xl:px-20 py-10 max-w-4xl">
       <div class="doc-prose">
 
         <!-- ═══════════════════════════════════════ -->
         <!-- INTRODUCTION -->
         <!-- ═══════════════════════════════════════ -->
         <section id="introduction">
+          <span class="section-kicker">Documentation / Get started</span>
           <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Okalit Framework</h1>
           <p class="text-lg text-slate-400 mb-8">
-            A progressive Web Components framework built on <strong class="text-slate-200">Lit 3</strong>, with TC39-proposal Signals via <strong class="text-slate-200">@lit-labs/signals</strong>, modern TC39 decorators, and modular architecture.
+            Native components. Clear architecture. Build with <strong class="text-white">.ok or JavaScript</strong>, <strong class="text-white">Lit 3</strong> and reactive Signals, from a single component to a modular application.
           </p>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
@@ -222,7 +240,74 @@
             <li><strong class="text-slate-200">Standards-first</strong> — Built on native Custom Elements (Lit). Works in any HTML page, alongside any framework.</li>
             <li><strong class="text-slate-200">TC39 Decorators</strong> — Clean, declarative component definitions using Stage-3 decorators.</li>
             <li><strong class="text-slate-200">Enterprise Architecture</strong> — Opinionated App → Module → Page hierarchy with dependency injection, routing, and global state channels.</li>
+            <li><strong class="text-slate-200">Optional .ok format</strong> — Declare the component role and keep script, class logic and render together without repeating framework setup. JavaScript remains supported.</li>
           </ul>
+          <div class="doc-start-links">
+            <a class="button-primary" href="#installation">Create your first app <span aria-hidden="true">→</span></a>
+            <a class="button-secondary" href="#vscode">Set up VS Code</a>
+          </div>
+        </section>
+
+        <section id="ok-files">
+          <span class="section-kicker">The component format</span>
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Why .ok files?</h2>
+          <p class="text-sm text-slate-400">.ok is an optional component format, not a replacement for JavaScript or a new general-purpose language. It removes repeated registration, class and mixin setup while making a component's architectural role immediately visible.</p>
+          <div class="doc-feature-grid">
+            <article class="feature-surface"><span class="feature-number">01</span><h3>Read the role first</h3><p><code>@component</code>, <code>@page</code>, <code>@module</code> or <code>@main</code> tells you what the file does before you read its implementation.</p></article>
+            <article class="feature-surface"><span class="feature-number">02</span><h3>Keep JavaScript familiar</h3><p>Use normal imports and helpers in <code>@script</code>, class members in <code>@logic</code>, and HTML with Lit expressions in <code>@render</code>.</p></article>
+            <article class="feature-surface"><span class="feature-number">03</span><h3>Adopt it gradually</h3><p>Import .js from .ok and .ok from .js. Routes, services, guards and channels remain JavaScript. No whole-project rewrite is required.</p></article>
+          </div>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>my-counter.js</span><span>One file. One responsibility.</span></div>
+            <pre class="code-font text-slate-300">import { Okalit, html, defineElement } from '@okalit/core';
+import styles from './my-counter.scss?inline';
+
+@defineElement({
+  tag: 'my-counter',
+  styles: [styles],
+  props: { count: { type: Number, value: 0 } }
+})
+export class MyCounter extends Okalit {
+  render() {
+    return html`
+      &lt;p&gt;Count: ${this.count.value}&lt;/p&gt;
+      &lt;button @click=${() =&gt; this.count.value++}&gt;+1&lt;/button&gt;
+    `;
+  }
+}</pre>
+          </div>
+          <div class="info-callout"><strong>Same runtime, less ceremony.</strong><p><code>@okalit/engine</code> compiles this source to JavaScript using Okalit's classes, mixins and Lit rendering. The browser runs the compiled module; it cannot interpret .ok on its own. New CLI projects include the engine and loader in both syntax modes.</p></div>
+          <p class="text-sm text-slate-400">Every .ok file has exactly one role block. The other blocks are optional; omitting <code>@render</code> keeps the inherited render. Put its closing <code>}</code> on a separate line. The engine is still experimental and does not yet generate source maps. Use the example switcher for equivalent .ok and JavaScript component examples in this guide.</p>
+          <a href="#cli" class="text-link">Project setup and mixed imports <span aria-hidden="true">→</span></a>
+        </section>
+
+        <section id="vscode">
+          <span class="section-kicker">Made for your editor</span>
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Okalit Language Support for VS Code</h2>
+          <div class="extension-card">
+            <img src="./okalit.png" width="64" height="64" alt="" loading="lazy">
+            <div><h3>Recognize .ok at a glance.</h3><p>Highlight the structure, complete the next block and navigate your JavaScript without leaving the component.</p>
+              <a class="button-primary" href="https://marketplace.visualstudio.com/items?itemName=Okalit.okalit-language-support" target="_blank" rel="noopener noreferrer">Install from Marketplace <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-white">Install</h3>
+          <ol class="doc-steps">
+            <li>Open Extensions in VS Code and search for <strong>Okalit Language Support</strong>, published by <strong>Okalit</strong>.</li>
+            <li>Install the extension and open a <code>.ok</code> file. VS Code recognizes the language and uses your active theme for syntax colors.</li>
+            <li>Type <code>@</code> to complete an unused top-level block, or <code>./</code> and <code>../</code> inside imports to complete relative paths.</li>
+          </ol>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Install from your terminal</span></div>
+            <pre class="code-font text-slate-300">code --install-extension Okalit.okalit-language-support</pre>
+          </div>
+          <h3 class="text-lg font-bold text-white">What the extension provides</h3>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li><strong class="text-white">Syntax highlighting:</strong> role blocks, optional blocks, HTML, Lit expressions, event bindings and property bindings, plus basic editor behavior and a .ok language icon.</li>
+            <li><strong class="text-white">Completions:</strong> available section names and relative import paths.</li>
+            <li><strong class="text-white">JavaScript IntelliSense in @script and @logic:</strong> symbol completion, hover, go to definition, references, signature help and mapped JavaScript diagnostics, powered by the TypeScript JavaScript language service.</li>
+          </ul>
+          <div class="info-callout"><strong>Editor support is not compilation.</strong><p>The extension is experimental and does not build .ok files. Your application still needs <code>@okalit/engine</code> and its bundler loader. HTML highlighting in <code>@render</code> is not full JavaScript IntelliSense for the template or role configuration. Engine source maps and editor-mapped diagnostics are separate capabilities.</p></div>
+          <a class="text-link" href="https://marketplace.visualstudio.com/items?itemName=Okalit.okalit-language-support" target="_blank" rel="noopener noreferrer">See the extension's current features <span aria-hidden="true">↗</span></a>
         </section>
 
         <!-- ═══════════════════════════════════════ -->
@@ -243,20 +328,20 @@ npm run dev</pre>
           <h3 class="text-lg font-bold text-white">Manual Setup</h3>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Terminal</span></div>
-            <pre class="code-font text-slate-300">npm install @okalit/core@^0.3.0 lit@^3.0.0</pre>
+            <pre class="code-font text-slate-300">npm install @okalit/core@^0.3.1 lit@^3.0.0</pre>
           </div>
 
           <p class="text-sm text-slate-400">Okalit requires a build tool that supports TC39 decorators (Stage 3). Recommended: <code>rsbuild</code>, <code>vite</code>, or <code>esbuild</code> with the decorators plugin.</p>
-          <p class="text-sm text-slate-400"><code>lit</code> is a peer dependency; <code>@lit-labs/signals</code> is installed by the core. Import <code>signal</code>, <code>computed</code>, <code>effect</code>, and <code>html</code> from <code>@okalit/core</code>. No uhtml dependency is required. These instructions target the 0.3.0 source line; registry installation requires that release to be published.</p>
+          <p class="text-sm text-slate-400"><code>lit</code> is a peer dependency; <code>@lit-labs/signals</code> is installed by the core. Import <code>signal</code>, <code>computed</code>, <code>effect</code>, and <code>html</code> from <code>@okalit/core</code>. No uhtml dependency is required. These instructions target the 0.3.1 source line; registry installation requires that release to be published.</p>
         </section>
 
         <section id="migration">
-          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Migrating to Core 0.3.0</h2>
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Migrating to Core 0.3.1</h2>
           <p class="text-sm text-slate-400">This is a breaking change from the 0.2.x line. Version numbers here refer to <code>@okalit/core</code>, not the independently versioned CLI or component library.</p>
           <div class="code-block mb-6">
-            <div class="code-block-header"><span>Existing application (after 0.3.0 is published)</span></div>
+            <div class="code-block-header"><span>Existing application (after 0.3.1 is published)</span></div>
             <pre class="code-font text-slate-300">npm uninstall uhtml
-npm install @okalit/core@^0.3.0 lit@^3.0.0</pre>
+npm install @okalit/core@^0.3.1 lit@^3.0.0</pre>
           </div>
           <ul class="list-disc text-slate-400 text-sm">
             <li>Remove uhtml only if no other code in your application uses it. Regenerate and commit your package manager's lockfile; changing a manifest alone does not replace an older resolved core.</li>
@@ -295,11 +380,42 @@ npm install @okalit/core@^0.3.0 lit@^3.0.0</pre>
             <pre class="code-font text-slate-300">npx @okalit/cli new my-app</pre>
           </div>
           <p class="text-sm text-slate-400 mb-6">The CLI will prompt you interactively. It copies the template, renames the project in <code>package.json</code> and <code>index.html</code>, and outputs the next steps.</p>
+          <p class="text-sm text-slate-400">Choose <code>.ok (recommended)</code> or <code>JavaScript (.js)</code>, then a full or empty project. Components and catalogs also offer both syntaxes. For non-interactive projects use <code>okalit new my-app --ok</code> or <code>okalit new my-app --js</code>; add <code>--empty</code> if needed. <code>--experimental-ok</code> remains an alias for <code>--ok</code>.</p>
+          <p class="text-sm text-slate-400">Both formats use the same dependencies, aliases and build tooling, including <code>@okalit/engine</code>. Import <code>.js</code> from <code>@script</code> in a <code>.ok</code> file, or import <code>.ok</code> from JavaScript, including lazy <code>import()</code>. Explicit file extensions are required. Routes, services, channels, guards and interceptors remain JavaScript.</p>
+          <p class="text-sm text-slate-400">Nested imports can alternate freely: <code>.js → .ok → .js → .ok</code>, or the reverse. Each .ok module compiles to JavaScript; the build resolves its child imports normally. Parent and child formats do not need to match. Keep custom-element tags unique and remember that circular imports retain JavaScript's initialization constraints.</p>
+          <p class="text-sm text-slate-400">A JavaScript or .ok catalog can be installed into either project format. For mixed catalog entries, list all required local modules and styles in the registry's <code>files</code>, or declare other registered entries in <code>dependencies</code>. The installer downloads declared files, not an automatically discovered import graph; preserve relative paths.</p>
+          <p class="text-sm text-slate-400">The CLI saves <code>okalit.syntax</code> as <code>"ok"</code> or <code>"js"</code> in <code>package.json</code>. Generators follow that preference, even in mixed projects and when run from a subdirectory. Older projects are detected from their entry point; importing another format does not change the preference.</p>
+          <h3 class="text-lg font-bold text-white">One quality baseline</h3>
+          <p class="text-sm text-slate-400">Every template includes the same Biome configuration, whether you choose .ok or JavaScript. Testing is optional; the shared quality baseline is included in apps, standalone components and catalogs. See <a href="#biome" class="text-brand-violet hover:underline">Code Quality · Biome</a> for rules and commands.</p>
+          <h3 class="text-lg font-bold text-white">Catalogs you can preview</h3>
+          <p class="text-sm text-slate-400">Choosing Catalog generates a runnable demo with <code>@okalit/demo-components</code>, its default presentation, <code>index.html</code>, <code>demo.js</code> and Rsbuild tooling. After <code>npm install</code>, use <code>npm run dev</code> to preview the example button or <code>npm run build</code> to build the demo. Both .ok/.js and CSS/SCSS selections work. Add preview entries to <code>demo.js</code> and distributable component entries to <code>registry.json</code>; no custom viewer theme is injected.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>Mixing formats in an existing JavaScript app</span></div>
+            <pre class="code-font text-slate-300">npm install -D @okalit/engine
+
+// rsbuild.config.mjs: merge this rule into tools.rspack.module.rules.
+// Keep your existing Babel, Sass, aliases and entry configuration.
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+
+{
+  test: /\.ok$/,
+  type: 'javascript/auto',
+  use: [{ loader: require.resolve('@okalit/engine/loader') }],
+}
+
+// Any .js module:
+import './components/user-card/user-card.ok';</pre>
+          </div>
+          <p class="text-sm text-slate-400">The switcher at the top changes component, page, module and entry examples. Shared JavaScript APIs stay unchanged. In <code>.ok</code>, use exactly one role (<code>@component</code>, <code>@page</code>, <code>@module</code> or <code>@main</code>). Optional <code>@script</code> contains module-level JavaScript; <code>@logic</code> contains class members; <code>@render</code> contains HTML with Lit expressions. Declare styles in the role and put the closing <code>}</code> of <code>@render</code> on its own line. Omitting render preserves the inherited render.</p>
 
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Interactive output</span></div>
             <pre class="code-font text-slate-300"><span class="text-emerald-400">user@local:~$</span> okalit new my-app
 
+<span class="text-slate-200">[✓] Which component syntax?</span> <span class="text-cyan-400">.ok (recommended) | JavaScript (.js)</span>
+<span class="text-slate-200">[✓] Add unit tests?</span> <span class="text-cyan-400">Yes</span>
+<span class="text-slate-200">[✓] Add end-to-end tests?</span> <span class="text-cyan-400">No</span>
 <span class="text-slate-200">[✓] Empty Project:</span> <span class="text-cyan-400">No</span>
 
 <span class="text-blue-400">🚀 Creating project "my-app" using structure-example...</span>
@@ -319,8 +435,8 @@ npm install @okalit/core@^0.3.0 lit@^3.0.0</pre>
           <table>
             <thead><tr><th>Flag</th><th>Alias</th><th>What it generates</th></tr></thead>
             <tbody class="text-slate-400">
-              <tr><td class="text-slate-200 font-medium"><code>-c</code></td><td><code>--component</code></td><td>Component (JS + stylesheet)</td></tr>
-              <tr><td class="text-slate-200 font-medium"><code>-p</code></td><td><code>--page</code></td><td>Page with PageMixin (JS + stylesheet)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>-c</code></td><td><code>--component</code></td><td>Component (.ok or .js + stylesheet)</td></tr>
+              <tr><td class="text-slate-200 font-medium"><code>-p</code></td><td><code>--page</code></td><td>Page (.ok or .js + stylesheet)</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>-s</code></td><td><code>--service</code></td><td>REST service (OkalitService)</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>--gqservice</code></td><td>—</td><td>GraphQL service (OkalitGraphqlService)</td></tr>
               <tr><td class="text-slate-200 font-medium"><code>-m</code></td><td><code>--module</code></td><td>Full module (module + routes + default page)</td></tr>
@@ -386,7 +502,7 @@ npm install @okalit/core@^0.3.0 lit@^3.0.0</pre>
 <span class="text-indigo-400">import</span> global <span class="text-indigo-400">from</span> <span class="text-emerald-400">"@styles/global.scss?inline"</span>;
 
 <span class="text-blue-400">@defineElement</span>({
-  tag: <span class="text-emerald-400">"settings"</span>,
+  tag: <span class="text-emerald-400">"settings-page"</span>,
   styles: [styles, global]
 })
 <span class="text-indigo-400">export class</span> <span class="text-purple-300">Settings</span> <span class="text-indigo-400">extends</span> PageMixin(<span class="text-purple-300">Okalit</span>) {
@@ -549,33 +665,137 @@ okalit update component-name</pre>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>okalit --help</span></div>
             <pre class="code-font text-slate-300"><span class="text-amber-300 font-bold">Usage:</span>
-  <span class="text-emerald-400">okalit</span> new &lt;app-name&gt;
-  <span class="text-emerald-400">okalit</span> generate &lt;type&gt; &lt;path&gt;
+  <span class="text-emerald-400">okalit</span> new &lt;name&gt;
+  <span class="text-emerald-400">okalit</span> -g &lt;resource-flag&gt; &lt;path&gt;
 
-<span class="text-amber-300 font-bold">Commands:</span>
-  <span class="text-cyan-400">new</span> &lt;name&gt;                Create a new app
+<span class="text-amber-300 font-bold">Scaffold:</span>
+  <span class="text-cyan-400">new</span> &lt;name&gt;                Choose Project, Component or Catalog
+  <span class="text-cyan-400">new</span> &lt;name&gt; --ok | --js     Create an app without prompts
+    --empty                 Use the empty app template
+    --unit-tests            Enable unit tests (default)
+    --no-unit-tests         Disable unit tests
+    --e2e                   Enable Playwright e2e
+    --no-e2e                Disable e2e (default)
+    --experimental-ok       Compatibility alias for --ok
+
+<span class="text-amber-300 font-bold">Catalogs:</span>
+  <span class="text-cyan-400">add</span> &lt;name&gt;                Install a component/page
+  <span class="text-cyan-400">add --all</span>                 Install every registry entry
+    --registry &lt;url&gt;        Catalog registry URL
+    --path &lt;dest&gt;           Custom destination (single entry)
+    --type component|page   Force type (single entry)
   <span class="text-cyan-400">update</span> [component-name]   Update project/catalogs, or one catalog component
 
-  <span class="text-cyan-400">generate</span>, <span class="text-cyan-400">-g</span>
+<span class="text-amber-300 font-bold">Generate · -g, --generate:</span>
     <span class="text-slate-500">-c, --component</span> &lt;path&gt; Create a component
     <span class="text-slate-500">-p, --page</span> &lt;path&gt;      Create a page
     <span class="text-slate-500">-s, --service</span> &lt;path&gt;   Create a service
     <span class="text-slate-500">    --gqservice</span> &lt;path&gt; Create a GraphQL service
     <span class="text-slate-500">-m, --module</span> &lt;path&gt;    Create a module
     <span class="text-slate-500">    --guard</span> &lt;path&gt;     Create a guard
+    <span class="text-slate-500">    --interceptor</span> &lt;path&gt; Create a request interceptor
+
+<span class="text-amber-300 font-bold">Help:</span>
+  --help, -h                Show commands and options
 
 <span class="text-amber-300 font-bold">Examples:</span>
   <span class="text-slate-500">okalit new my-app</span>
+  <span class="text-slate-500">okalit new my-app --ok --unit-tests --e2e</span>
+  <span class="text-slate-500">okalit new lean-app --js --empty --no-unit-tests --no-e2e</span>
+  <span class="text-slate-500">okalit add --all --registry github.com/org/catalog</span>
   <span class="text-slate-500">okalit -g -c ./src/components/user-card</span>
   <span class="text-slate-500">okalit -g -s ./src/modules/home/services/user</span>
   <span class="text-slate-500">okalit -g -m ./src/modules/billing</span>
-  <span class="text-slate-500">okalit -g --guard ./src/guards/auth</span></pre>
+  <span class="text-slate-500">okalit -g --guard ./src/guards/auth</span>
+  <span class="text-slate-500">okalit -g --interceptor ./src/interceptors/auth</span></pre>
           </div>
+          <p class="text-sm text-slate-400">Use one resource flag per generation command. Paths resolve from the nearest project root, even when you run the command from a subdirectory. The saved syntax selects component/page/module extensions, and the saved unit-test preference controls companion tests. Do not combine opposing flags such as <code>--unit-tests</code> and <code>--no-unit-tests</code>.</p>
         </section>
 
         <!-- ═══════════════════════════════════════ -->
         <!-- PROJECT STRUCTURE -->
         <!-- ═══════════════════════════════════════ -->
+        <section id="testing">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Unit &amp; End-to-End Testing</h2>
+          <p class="text-sm text-slate-400">Creation asks <strong class="text-white">Add unit tests?</strong> (Yes by default) and <strong class="text-white">Add end-to-end tests?</strong> (No by default). Unit tests use Web Test Runner + Open WC in Chromium; end-to-end tests use Playwright against the running application. Both are optional.</p>
+          <p class="text-sm text-slate-400">Projects, standalone component demos and catalogs offer both options. Catalogs now include a runnable demo using the default component viewer. Testing dependencies and configuration are installed only for your selections.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300">okalit new my-app --ok --unit-tests --e2e
+cd my-app
+npm install
+npm run test:install
+npm test
+npm run test:e2e</pre>
+          </div>
+          <p class="text-sm text-slate-400">Non-interactive projects default to unit tests on and e2e off. Use <code>--no-unit-tests</code> and <code>--no-e2e</code> to opt out. In Linux CI, run <code>npx playwright install --with-deps chromium</code> before testing.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span>package.json · saved project preferences</span></div>
+            <pre class="code-font text-slate-300">{
+  "okalit": {
+    "syntax": "ok",
+    "testing": { "unit": true, "e2e": false }
+  }
+}</pre>
+          </div>
+          <p class="text-sm text-slate-400">When <code>okalit.testing.unit</code> is true, generators add a companion <code>.test.js</code> for components, pages, modules and their initial page, REST/GraphQL services, guards and interceptors. Tests import the actual <code>.ok</code> or <code>.js</code> source. Legacy projects without this setting continue generating resources without tests; e2e alone does not enable unit generation.</p>
+          <div class="info-callout"><strong>Native components deserve a real browser.</strong><p>The generated <code>okalit-test-plugin.mjs</code> compiles .ok with the engine, transforms decorators, resolves template aliases and loads CSS/SCSS inline imports. Open WC fixtures exercise Shadow DOM and Lit updates. Mixed imports work in either syntax. Add custom aliases to the plugin when needed; .ok source maps remain an engine limitation.</p></div>
+          <p class="text-sm text-slate-400">Starter tests verify rendering, service requests/response parsing/caching with a restored fetch stub, the guard's initial allow behavior and the interceptor's token/no-token branches with storage cleanup. Catalog button tests also verify clicks and disabled state. Extend these tests with your business rules, errors and edge cases.</p>
+          <h3 class="text-lg font-bold text-white">Generated tests follow your project</h3>
+          <div class="code-block">
+            <div class="code-block-header"><span>Terminal · when unit tests are enabled</span></div>
+            <pre class="code-font text-slate-300">okalit -g -c src/components/user-card
+# .ok project: user-card.ok + user-card.scss + user-card.test.js
+# .js project: user-card.js + user-card.scss + user-card.test.js
+# The stylesheet extension follows the project's CSS/SCSS configuration.
+
+okalit -g -s src/services/auth
+# auth.service.js + auth.service.test.js
+
+okalit -g --guard src/guards/auth
+# auth.guard.js + auth.guard.test.js
+
+okalit -g --interceptor src/interceptors/auth
+# auth.interceptor.js + auth.interceptor.test.js</pre>
+          </div>
+          <table>
+            <thead><tr><th>Command</th><th>Purpose</th><th>Available when</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td><code>npm run test:install</code></td><td>Download Chromium once</td><td>Unit tests or e2e enabled</td></tr>
+              <tr><td><code>npm test</code></td><td>Run unit tests in a real browser</td><td>Unit tests enabled</td></tr>
+              <tr><td><code>npm run test:watch</code></td><td>Watch unit tests in an interactive terminal</td><td>Unit tests enabled</td></tr>
+              <tr><td><code>npm run test:e2e</code></td><td>Run Playwright against the app/demo</td><td>E2e enabled</td></tr>
+              <tr><td><code>npm run test:e2e:ui</code></td><td>Open Playwright's interactive UI</td><td>E2e enabled</td></tr>
+            </tbody>
+          </table>
+          <p class="text-sm text-slate-400">Unit setup adds <code>web-test-runner.config.mjs</code> and <code>okalit-test-plugin.mjs</code>. E2e setup adds <code>playwright.config.mjs</code> and an initial spec in <code>e2e/</code>, tailored to the application, component demo or catalog demo. Declining both options adds neither runner nor test scripts.</p>
+          <p class="text-sm text-slate-400">Use <code>npm run test:watch</code> in an interactive terminal or <code>npm run test:e2e:ui</code> for Playwright UI. E2e starts the Rsbuild server on port 4173, reuses a running server outside CI and retains traces on failure. Playwright consumes compiled browser code, so it needs no .ok parser.</p>
+          <p class="text-sm text-slate-400">Run different projects' e2e suites sequentially, or assign distinct ports and base URLs in their Playwright configurations. Otherwise server reuse may connect a test to another application's demo.</p>
+        </section>
+
+        <section id="biome">
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Code Quality · Biome</h2>
+          <p class="text-sm text-slate-400">Full and empty apps, standalone components and catalogs include <code>biome.json</code> and Biome 2.4.11, with identical rules in .ok and JavaScript projects. This configuration is included even when you decline testing.</p>
+          <table>
+            <thead><tr><th>Setting</th><th>Shared baseline</th></tr></thead>
+            <tbody class="text-slate-400">
+              <tr><td>Linting</td><td>Recommended rules enabled</td></tr>
+              <tr><td>Imports</td><td>Import organization enabled</td></tr>
+              <tr><td>Formatting</td><td>Two spaces, 100-character line width</td></tr>
+              <tr><td>JavaScript</td><td>Single quotes and semicolons</td></tr>
+              <tr><td>Scope</td><td>Supported source files, root demo/build configuration and tests</td></tr>
+              <tr><td>Excluded</td><td>node_modules, dist, coverage, test-results, playwright-report and package-lock.json</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header"><span>Terminal</span></div>
+            <pre class="code-font text-slate-300">npm run lint       # biome check .
+npm run lint:fix   # biome check --write .</pre>
+          </div>
+          <div class="info-callout"><strong>Same rules, not a custom .ok parser.</strong><p>Biome does not directly lint or format .ok blocks. <code>ignoreUnknown</code> skips formats it cannot recognize; JavaScript and other supported files use the same baseline in either project syntax. SCSS support depends on the pinned Biome version. Validate .ok compilation with <code>npm run build</code> and component behavior with browser tests.</p></div>
+          <p class="text-sm text-slate-400">Review reported diagnostics and changes from <code>lint:fix</code>. Sharing a configuration does not automatically make every generated or edited file free of lint findings.</p>
+        </section>
+
         <section id="project-structure">
           <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Project Structure</h2>
           <p class="text-sm text-slate-400">Okalit follows an opinionated modular architecture:</p>
@@ -625,7 +845,7 @@ okalit update component-name</pre>
 
           <div class="code-block mb-6">
             <div class="code-block-header"><span>my-component.js</span></div>
-            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { <span class="text-purple-300">Okalit</span>, <span class="text-pink-400">html</span>, <span class="text-pink-400">defineElement</span> } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
+            <pre class="code-font text-slate-300"><span class="text-indigo-400">import</span> { <span class="text-purple-300">Okalit</span>, <span class="text-blue-400">html</span>, <span class="text-blue-400">defineElement</span> } <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@okalit/core'</span>;
 <span class="text-indigo-400">import</span> styles <span class="text-indigo-400">from</span> <span class="text-emerald-400">'./my-component.scss?inline'</span>;
 
 <span class="text-blue-400">@defineElement</span>({
@@ -1343,7 +1563,7 @@ render() {
           <p class="text-sm text-slate-400">Reactive, dictionary-driven translations. Language switching updates all components automatically without page reload.</p>
 
           <h3 class="text-lg font-bold text-white">Setup</h3>
-          <p class="text-sm text-slate-400">Configure in your <code>AppMixin</code> static config:</p>
+          <p class="text-sm text-slate-400">Configure in <code>@main</code> for .ok, or your <code>AppMixin</code> static config for JavaScript:</p>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>main-app.js</span></div>
             <pre class="code-font text-slate-300"><span class="text-indigo-400">static</span> config = {
@@ -1874,7 +2094,7 @@ this.query(GET_USER, { id: <span class="text-emerald-400">'42'</span> });</pre>
 
         <section id="status">
           <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Status & Future Work</h2>
-          <p class="text-sm text-slate-400">This documentation describes the local Core 0.3.0 implementation, not a guarantee of registry publication or a completed stability/security audit. Lit is the current rendering foundation; a renderer-independent or vanilla implementation is not shipped.</p>
+          <p class="text-sm text-slate-400">This documentation describes the local Core 0.3.1 implementation, not a guarantee of registry publication or a completed stability/security audit. Lit is the current rendering foundation; a renderer-independent or vanilla implementation is not shipped.</p>
           <h3 class="text-lg font-bold text-white">Implemented in this line</h3>
           <ul class="list-disc text-slate-400 text-sm">
             <li>Lit 3 rendering with SignalWatcher; local signal wrappers preserving <code>.value</code>; no uhtml dependency or <code>batch</code> export.</li>
@@ -1904,10 +2124,35 @@ this.query(GET_USER, { id: <span class="text-emerald-400">'42'</span> });</pre>
 
   <!-- Scripts -->
   <script>
-    // Mobile sidebar toggle
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+    const desktopSidebar = window.matchMedia('(min-width: 1024px)');
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      sidebar.inert = !desktopSidebar.matches;
+      sidebarToggle.setAttribute('aria-expanded', 'false');
+      sidebarToggle.setAttribute('aria-label', 'Open documentation navigation');
+      sidebarBackdrop.hidden = true;
     }
+
+    function toggleSidebar() {
+      const open = !sidebar.classList.contains('open');
+      sidebar.classList.toggle('open', open);
+      sidebar.inert = !open && !desktopSidebar.matches;
+      sidebarToggle.setAttribute('aria-expanded', String(open));
+      sidebarToggle.setAttribute('aria-label', open ? 'Close documentation navigation' : 'Open documentation navigation');
+      sidebarBackdrop.hidden = !open;
+    }
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && sidebar.classList.contains('open')) {
+        closeSidebar();
+        sidebarToggle.focus();
+      }
+    });
+    desktopSidebar.addEventListener('change', closeSidebar);
+    closeSidebar();
 
     // Active link tracking
     const sections = document.querySelectorAll('section[id]');
@@ -1918,7 +2163,11 @@ this.query(GET_USER, { id: <span class="text-emerald-400">'42'</span> });</pre>
         if (entry.isIntersecting) {
           navLinks.forEach(link => link.classList.remove('active'));
           const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
-          if (activeLink) activeLink.classList.add('active');
+          navLinks.forEach(link => link.removeAttribute('aria-current'));
+          if (activeLink) {
+            activeLink.classList.add('active');
+            activeLink.setAttribute('aria-current', 'location');
+          }
         }
       });
     }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
@@ -1926,11 +2175,10 @@ this.query(GET_USER, { id: <span class="text-emerald-400">'42'</span> });</pre>
     sections.forEach(section => observer.observe(section));
 
     // Close sidebar on link click (mobile)
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        document.getElementById('sidebar').classList.remove('open');
-      });
-    });
+    sidebar.querySelectorAll('a').forEach(link => link.addEventListener('click', closeSidebar));
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="./code-highlight.js"></script>
+  <script src="./syntax-switcher.js"></script>
 </body>
 </html>
