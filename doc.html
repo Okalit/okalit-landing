@@ -147,6 +147,7 @@
         <nav class="space-y-0.5">
           <a href="#introduction" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Introduction</a>
           <a href="#ok-files" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Why .ok files?</a>
+          <a href="#templates" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Reusable Templates</a>
           <a href="#vscode" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">VS Code Extension</a>
           <a href="#installation" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Installation</a>
           <a href="#migration" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent transition">Migrating to 0.3.1</a>
@@ -282,6 +283,49 @@ export class MyCounter extends Okalit {
           <a href="#cli" class="text-link">Project setup and mixed imports <span aria-hidden="true">→</span></a>
         </section>
 
+        <section id="templates">
+          <span class="section-kicker">Compose your views</span>
+          <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Reusable templates</h2>
+          <p class="text-sm text-slate-400">Declare reusable HTML fragments with top-level <code>@template</code> blocks. Without parentheses, a template becomes a getter: read <code>this.content</code>. With parentheses, it becomes a method: call <code>this.greeting('Ada')</code>. Empty parentheses also declare a method, called as <code>this.content()</code>.</p>
+          <p class="text-sm text-slate-400">Templates work with <code>@component</code>, <code>@page</code>, <code>@module</code> and <code>@main</code>. You can declare several, before or after <code>@render</code>; declaration order does not affect references. Keep them outside <code>@logic</code> and put each HTML block's closing brace on its own line.</p>
+          <div class="code-block mb-6">
+            <div class="code-block-header"><span>template-example.js</span><span>Getter, method and conditional composition</span></div>
+            <pre class="code-font text-slate-300">import { Okalit, html, defineElement } from '@okalit/core';
+
+@defineElement({
+  tag: 'template-example',
+  props: { show: { type: Boolean, value: true } }
+})
+export class TemplateExample extends Okalit {
+  chooseContent(show) {
+    return show ? this.content : this.greeting('Ada');
+  }
+
+  render() {
+    return html`${this.chooseContent(this.show.value)}`;
+  }
+
+  get content() {
+    return html`&lt;h1&gt;Welcome&lt;/h1&gt;`;
+  }
+
+  greeting(name = 'World') {
+    return html`&lt;p&gt;Hello, ${name}&lt;/p&gt;`;
+  }
+}</pre>
+          </div>
+          <p class="text-sm text-slate-400">Use the syntax switcher above to compare the equivalent JavaScript and .ok versions. In .ok, the compiler supplies the Lit <code>html</code> wrapper for <code>@template</code> and <code>@render</code>; no manual <code>html</code> import is needed for those blocks. Parameters support normal JavaScript defaults, destructuring and rest parameters. Template getters are evaluated on access, not cached.</p>
+          <h3 class="text-lg font-bold text-white">Keep decisions in JavaScript</h3>
+          <p class="text-sm text-slate-400">Put <code>if</code>, <code>switch</code>, calculations and early returns in <code>@logic</code>. Return a template getter or call a template method from that logic, as in <code>chooseContent</code> above. HTML expressions still use Lit and JavaScript: <code>${condition ? this.content : nothing}</code> is valid when <code>nothing</code> is imported from <code>lit</code> in <code>@script</code>. Existing methods that return <code>html`...`</code> remain supported; templates are optional.</p>
+          <h3 class="text-lg font-bold text-white">Names and editor support</h3>
+          <ul class="list-disc text-slate-400 text-sm">
+            <li>Use unique JavaScript identifiers for template names. Duplicate names and conflicts with instance members in <code>@logic</code> are rejected. <code>render</code> and <code>constructor</code> are reserved.</li>
+            <li>Typing <code>@</code> suggests <code>@template</code>, even after another template declaration.</li>
+            <li>Template names, parameters and JavaScript expressions support completion, hover, definitions, references, signature help and mapped diagnostics. References from <code>@logic</code>, <code>@render</code> and other templates resolve to the declaration.</li>
+          </ul>
+          <div class="info-callout"><strong>Update both compiler and editor.</strong><p>This feature requires versions of <code>@okalit/engine</code> and Okalit Language Support that include <code>@template</code> support. Updating the extension alone does not update the project's compiler, and updating the compiler alone does not update IntelliSense. These editor capabilities are not full HTML component-API validation or engine source maps.</p></div>
+        </section>
+
         <section id="vscode">
           <span class="section-kicker">Made for your editor</span>
           <h2 class="text-2xl font-bold text-white border-b border-white/5 pb-3">Okalit Language Support for VS Code</h2>
@@ -295,7 +339,7 @@ export class MyCounter extends Okalit {
           <ol class="doc-steps">
             <li>Open Extensions in VS Code and search for <strong>Okalit Language Support</strong>, published by <strong>Okalit</strong>.</li>
             <li>Install the extension and open a <code>.ok</code> file. VS Code recognizes the language and uses your active theme for syntax colors.</li>
-            <li>Type <code>@</code> to complete an unused top-level block, or <code>./</code> and <code>../</code> inside imports to complete relative paths.</li>
+            <li>Type <code>@</code> to complete an unused top-level block or a repeatable <code>@template</code>, or <code>./</code> and <code>../</code> inside imports to complete relative paths.</li>
           </ol>
           <div class="code-block mb-6">
             <div class="code-block-header"><span>Install from your terminal</span></div>
@@ -305,9 +349,9 @@ export class MyCounter extends Okalit {
           <ul class="list-disc text-slate-400 text-sm">
             <li><strong class="text-white">Syntax highlighting:</strong> role blocks, optional blocks, HTML, Lit expressions, event bindings and property bindings, plus basic editor behavior and a .ok language icon.</li>
             <li><strong class="text-white">Completions:</strong> available section names and relative import paths.</li>
-            <li><strong class="text-white">JavaScript IntelliSense in @script and @logic:</strong> symbol completion, hover, go to definition, references, signature help and mapped JavaScript diagnostics, powered by the TypeScript JavaScript language service.</li>
+            <li><strong class="text-white">JavaScript IntelliSense:</strong> symbol completion, hover, go to definition, references, signature help and mapped diagnostics in <code>@script</code>, <code>@logic</code>, template parameters and expressions in <code>@template</code> and <code>@render</code>, powered by the TypeScript JavaScript language service.</li>
           </ul>
-          <div class="info-callout"><strong>Editor support is not compilation.</strong><p>The extension is experimental and does not build .ok files. Your application still needs <code>@okalit/engine</code> and its bundler loader. HTML highlighting in <code>@render</code> is not full JavaScript IntelliSense for the template or role configuration. Engine source maps and editor-mapped diagnostics are separate capabilities.</p></div>
+          <div class="info-callout"><strong>Editor support is not compilation.</strong><p>The extension is experimental and does not build .ok files. Your application still needs <code>@okalit/engine</code> and its bundler loader. JavaScript expression support in HTML blocks is not full HTML component-API validation or role-configuration IntelliSense. Engine source maps and editor-mapped diagnostics are separate capabilities.</p></div>
           <a class="text-link" href="https://marketplace.visualstudio.com/items?itemName=Okalit.okalit-language-support" target="_blank" rel="noopener noreferrer">See the extension's current features <span aria-hidden="true">↗</span></a>
         </section>
 

@@ -67,6 +67,28 @@
   });
 
   const docExamples = {
+    'template-example.js': `@component {
+  tag: 'template-example',
+  props: { show: { type: Boolean, value: true } }
+}
+
+@logic {
+  chooseContent(show) {
+    return show ? this.content : this.greeting('Ada');
+  }
+}
+
+@render {
+  \${this.chooseContent(this.show.value)}
+}
+
+@template content {
+  <h1>Welcome</h1>
+}
+
+@template greeting(name = 'World') {
+  <p>Hello, \${name}</p>
+}`,
     'my-counter.js': example('component', `  tag: 'my-counter',
   styles: ['./my-counter.scss'],
   props: {
